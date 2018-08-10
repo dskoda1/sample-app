@@ -1,5 +1,5 @@
 {
-  "root": "build/",
+  "root": "cmd/server/",
   "routes": {
     "/**": "index.html"
   },
