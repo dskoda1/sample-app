@@ -1,11 +1,20 @@
-language: go
-
-go:
-  - "1.10.x"
-
-before_install:
-  - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-  - dep ensure
-
-script: go build main.go
+matrix:
+    include:
+        - language: go
+          go: "1.10.x"
+          before_install:
+            - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            - dep ensure
+          script:
+            - go build main.go
+        - language: node_js
+          node_js: "stable"
+          before_script:
+            - cd client
+          cache:
+            directories:
+                - node_modules
+          script:
+              - npm install
+              - npm run build
 
