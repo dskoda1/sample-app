@@ -1,9 +1,20 @@
 package main
 
-import "github.com/dskoda1/sample_app/server"
+import (
+	"log"
+	"os"
+
+	"github.com/dskoda1/sample-app/server"
+)
 
 func main() {
 
 	router := server.GetRouter()
-	router.Logger.Fatal(router.Start(":8080"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+	router.File("/", "client/build/index.html")
+	router.Static("/static", "client/build/static")
+	router.Logger.Fatal(router.Start(":" + port))
 }

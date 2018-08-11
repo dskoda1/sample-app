@@ -13,7 +13,8 @@ func GetRouter() *echo.Echo {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.RequestID())
-	e.GET("/", func(c echo.Context) error {
+	api := e.Group("/api")
+	api.GET("/hello", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 	return e
