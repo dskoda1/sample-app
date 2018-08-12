@@ -1,8 +1,7 @@
 package server
 
 import (
-	"net/http"
-
+	"github.com/dskoda1/sample-app/server/db"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
 
@@ -10,14 +9,13 @@ import (
 )
 
 // GetRouter instantiates an echo router
-func GetRouter() *echo.Echo {
+func GetRouter(ur db.UserRepository) *echo.Echo {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Logger.SetLevel(log.INFO)
 	e.Use(middleware.RequestID())
 	api := e.Group("/api")
-	api.GET("/hello", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+
+	api.POST("/register", Register(ur))
 	return e
 }

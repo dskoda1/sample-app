@@ -8,17 +8,20 @@ const (
 	password = "toolzroolz"
 )
 
+// postgres://username:passwor@host:port/dbname
+
 // func Test_getDb(t *testing.T) {
-// 	_, err := getDb(&DbConnection{
+// 	_, err := GetDb(&DbConnection{
 // 		Host:     host,
 // 		Port:     port,
 // 		Username: user,
 // 		Db:       db,
 // 		Password: password,
+// 		SslMode:  "disable",
 // 	})
 
 // 	if err != nil {
-// 		t.Errorf("Expected to get database connection fine")
+// 		t.Errorf("Expected to get database connection: %s", err)
 // 	}
 // }
 

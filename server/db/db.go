@@ -8,22 +8,29 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// DbConnection wraps variables necessary for connecting to the database
-type DbConnection struct {
-	Host     string
-	Port     string
-	Username string
-	Db       string
-	Password string
+// Connection wraps variables necessary for connecting to the database
+type Connection struct {
+	Host      string
+	Port      string
+	Username  string
+	Db        string
+	Password  string
+	SslMode   string
+	URLString string
 }
 
-func (dbc *DbConnection) String() string {
+func (dbc *Connection) String() string {
 	// host=myhost port=myport user=gorm dbname=gorm passw
-	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", dbc.Host, dbc.Port, dbc.Username, dbc.Db, dbc.Password)
+	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", dbc.Host, dbc.Port, dbc.Username, dbc.Db, dbc.Password, dbc.SslMode)
 }
 
-func GetDb(dbc *DbConnection) (*gorm.DB, error) {
-	db, err := gorm.Open("postgres", dbc.String())
+// URL is
+func (dbc *Connection) URL() string {
+	return fmt.Sprintf("%s?sslmode=%s", dbc.URLString, dbc.SslMode)
+}
+
+func GetDb(dbc *Connection) (*gorm.DB, error) {
+	db, err := gorm.Open("postgres", dbc.URL())
 	if err != nil {
 		return nil, err
 	}
