@@ -9,6 +9,7 @@ const (
 )
 
 // postgres://username:passwor@host:port/dbname
+// postgres://dskoda:toolzroolz@0.0.0.0:5432/dskoda
 
 // func Test_getDb(t *testing.T) {
 // 	_, err := GetDb(&DbConnection{

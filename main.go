@@ -1,31 +1,28 @@
 package main
 
 import (
+	"flag"
 	"log"
-	"os"
 
 	"github.com/dskoda1/sample-app/server/db"
 
 	"github.com/dskoda1/sample-app/server"
 )
 
+var (
+	port        string
+	databaseURL string
+	sslMode     string
+)
+
+func init() {
+	flag.StringVar(&port, "port", "8080", "Port to run backend server on")
+	flag.StringVar(&databaseURL, "database_url", "postgres://dskoda:toolzroolz@0.0.0.0:5432/dskoda", "Connection string for access to DB")
+	flag.StringVar(&sslMode, "db_ssl_mode", "disable", "Whether to enable or disable ssl for DB connection")
+}
+
 func main() {
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
-
-	databaseURL := os.Getenv("DATABASE_URL")
-	if databaseURL == "" {
-		log.Fatal("$DATABASE_URL must be set")
-	}
-
-	sslMode := os.Getenv("SSL_MODE")
-	if sslMode == "" {
-		sslMode = "enable"
-	}
-
+	flag.Parse()
 	database, err := db.GetDb(&db.Connection{
 		URLString: databaseURL,
 		SslMode:   sslMode,
