@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/middleware"
+	"github.com/labstack/gommon/log"
 
 	"github.com/labstack/echo"
 )
@@ -12,6 +13,7 @@ import (
 func GetRouter() *echo.Echo {
 	e := echo.New()
 	e.Use(middleware.Logger())
+	e.Logger.SetLevel(log.INFO)
 	e.Use(middleware.RequestID())
 	api := e.Group("/api")
 	api.GET("/hello", func(c echo.Context) error {
