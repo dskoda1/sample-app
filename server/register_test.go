@@ -33,10 +33,13 @@ func Test_RegisterSuccess(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	userRepoMock := db.NewMockUserRepository(ctrl)
-	userRepoMock.EXPECT().Insert(&db.User{Username: "heisenberg", Password: "abc123"})
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
+
+	userRepoMock.EXPECT().Insert(&db.User{Username: "heisenberg"})
+	passwordHasherMock.EXPECT().Hash("abc123")
 
 	// WHEN
-	handler := Register(userRepoMock)
+	handler := Register(userRepoMock, passwordHasherMock)
 	handler(c)
 
 	// THEN
@@ -49,9 +52,28 @@ func Test_RegisterFailsToBindRequest(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	userRepoMock := db.NewMockUserRepository(ctrl)
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
 
 	// WHEN
-	handler := Register(userRepoMock)
+	handler := Register(userRepoMock, passwordHasherMock)
+	handler(c)
+
+	// THEN
+	assert.Equal(t, http.StatusBadRequest, rec.Code)
+}
+
+func Test_RegisterUserPasswordHashingError(t *testing.T) {
+	// GIVEN
+	c, rec := getTestSetup(`{"username":"heisenberg","password":""}`)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	userRepoMock := db.NewMockUserRepository(ctrl)
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
+
+	passwordHasherMock.EXPECT().Hash("").Return("", errors.New("ERROR"))
+
+	// WHEN
+	handler := Register(userRepoMock, passwordHasherMock)
 	handler(c)
 
 	// THEN
@@ -60,13 +82,17 @@ func Test_RegisterFailsToBindRequest(t *testing.T) {
 
 func Test_RegisterCallToInsertFails(t *testing.T) {
 	// GIVEN
-	c, rec := getTestSetup(`{"Username": "heisenberg"}`)
+	c, rec := getTestSetup(`{"username": "heisenberg", "password": "abc123"}`)
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 	userRepoMock := db.NewMockUserRepository(ctrl)
-	userRepoMock.EXPECT().Insert(&db.User{Username: "heisenberg"}).Return(errors.New("ERROR"))
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
+
+	passwordHasherMock.EXPECT().Hash("abc123").Return("hashed", nil)
+	userRepoMock.EXPECT().Insert(gomock.Any()).Return(errors.New("ERROR"))
+
 	// WHEN
-	handler := Register(userRepoMock)
+	handler := Register(userRepoMock, passwordHasherMock)
 	handler(c)
 
 	// THEN

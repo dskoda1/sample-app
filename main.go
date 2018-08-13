@@ -31,8 +31,12 @@ func main() {
 		log.Fatalf("Unable to connect to database: %s", err)
 	}
 
+	// Create dependencies
 	userRepo := db.CreateUserRepo(database)
-	router := server.GetRouter(userRepo)
+	hasher := &server.BcryptHasher{}
+
+	// Pass them into the router for routes to utilize
+	router := server.GetRouter(userRepo, hasher)
 
 	router.File("/", "client/build/index.html")
 	router.Static("/static", "client/build/static")
