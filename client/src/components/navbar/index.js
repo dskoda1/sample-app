@@ -23,7 +23,7 @@ const NavBar = (props: Props) => (
         </ListItem>
       }
       children={props.children}
-      appTitle="World Cup Basecamp"
+      appTitle="Sample App"
     />
 );
 

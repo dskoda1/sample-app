@@ -1,6 +1,9 @@
 // @flow
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
+
+
 import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,6 +11,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -32,6 +37,13 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
+  flex: {
+    flex: 1,
+  },
+  navLink: {
+    textDecoration: 'none',
+    
+  }
 });
 
 type Props = {
@@ -86,9 +98,20 @@ class TempDrawerNav extends React.Component<Props, State> {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography 
+              variant="title" 
+              color="inherit" 
+              className={classes.flex}
+              noWrap>
+              <Link to={`/`} style={{textDecoration: 'none', color: '#FFF'}}>
                 {appTitle}
+              </Link>
             </Typography>
+            <Button color="inherit">
+              <Link to={`/auth`} style={{ textDecoration: 'none', color: '#FFF'}}>
+                Login
+              </Link>
+            </Button>
           </Toolbar>
         </AppBar>
         <SwipeableDrawer

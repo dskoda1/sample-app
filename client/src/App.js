@@ -5,10 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import { Switch, Route } from 'react-router-dom';
 
 
-import NotFound from './components/NotFound';
 import HomePage from './containers/HomePage';
 import MatchPage from './containers/MatchPage';
+import Authentication from './containers/Authentication';
+
 import NavBar from './components/navbar';
+import NotFound from './components/NotFound';
+
 
 const styles = theme => ({
   root: {
@@ -21,6 +24,7 @@ const styles = theme => ({
 const Routes = (
   <Switch>
     <Route exact component={HomePage} path='/' />
+    <Route exact component={Authentication} path='/auth' />
     <Route exact component={MatchPage} path = '/matches/:fifa_id' />
     <Route path='*' component={NotFound} />
   </Switch>
