@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/gorilla/sessions"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,7 +22,7 @@ func newRequest() *http.Request {
 }
 
 func Test_get_new_session(t *testing.T) {
-	store := Store{tracker: store}
+	store := Store{tracker: sessions.NewCookieStore([]byte("super-secret-key"))}
 
 	req := newRequest()
 	session, err := store.getSession(req)
@@ -31,7 +32,7 @@ func Test_get_new_session(t *testing.T) {
 }
 
 func Test_set_and_get_user(t *testing.T) {
-	store := Store{tracker: store}
+	store := Store{tracker: sessions.NewCookieStore([]byte("super-secret-key"))}
 
 	// Round 1
 	req := newRequest()

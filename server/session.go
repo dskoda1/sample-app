@@ -9,7 +9,6 @@ import (
 )
 
 var (
-	store      = sessions.NewCookieStore([]byte("super-secret-key"))
 	sessionKey = "app-session"
 	userKey    = "user"
 )
@@ -24,7 +23,12 @@ var _ SessionStore = &Store{}
 
 // Store implements SessionStore using gorilla cookie based storage
 type Store struct {
-	tracker *sessions.CookieStore
+	tracker sessions.Store
+}
+
+// NewAuthStore creates and initializes a Store and returns it as its interface type
+func NewAuthStore() SessionStore {
+	return &Store{tracker: sessions.NewCookieStore([]byte("super-secret-key"))}
 }
 
 // SetUser saves a session user into an instance of a session

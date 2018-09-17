@@ -11,7 +11,7 @@ import (
 )
 
 // GetRouter instantiates an echo router
-func GetRouter(ur db.UserRepository, ph PasswordHasher) *echo.Echo {
+func GetRouter(ur db.UserRepository, ph PasswordHasher, store SessionStore) *echo.Echo {
 	e := echo.New()
 
 	// Set up some out of the box middlewares Echo provides
@@ -25,6 +25,6 @@ func GetRouter(ur db.UserRepository, ph PasswordHasher) *echo.Echo {
 	api := e.Group("/api")
 
 	api.POST("/register", Register(ur, ph))
-	api.POST("/login", Login(ur, ph))
+	api.POST("/login", Login(ur, ph, store))
 	return e
 }

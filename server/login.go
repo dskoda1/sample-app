@@ -8,11 +8,10 @@ import (
 )
 
 // Login is an echo handler which logs in a user
-func Login(ur db.UserRepository, ph PasswordHasher) func(echo.Context) error {
+func Login(ur db.UserRepository, ph PasswordHasher, store SessionStore) func(echo.Context) error {
 	return func(c echo.Context) error {
 		user := &db.User{}
 
-		// session, _ := store.Get(c.Request(), "cookie-name")
 		if err := c.Bind(user); err != nil {
 			c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
 			return err
@@ -24,13 +23,13 @@ func Login(ur db.UserRepository, ph PasswordHasher) func(echo.Context) error {
 			return c.JSON(http.StatusUnauthorized, nil)
 		}
 
-		c.JSON(http.StatusAccepted, nil)
+		sessionUser := SessionUser{
+			ID:       int(dbUser.ID),
+			Username: dbUser.Username,
+		}
+		store.SetUser(c.Request(), c.Response().Writer, sessionUser)
 
-		// TODO: Handle error getting session
-		// sess, err := session.Get("session", c)
-		// if err != nil {
-		// 	return c.JSON(http.StatusInternalServerError, nil)
-		// }
+		c.JSON(http.StatusAccepted, nil)
 
 		// sess.Options = &sessions.Options{
 		// 	Path:     "/",

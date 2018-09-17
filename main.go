@@ -34,9 +34,10 @@ func main() {
 	// Create dependencies
 	userRepo := db.CreateUserRepo(database)
 	hasher := &server.BcryptHasher{}
+	store := server.NewAuthStore()
 
 	// Pass them into the router for routes to utilize
-	router := server.GetRouter(userRepo, hasher)
+	router := server.GetRouter(userRepo, hasher, store)
 
 	router.File("/", "client/build/index.html")
 	router.Static("/static", "client/build/static")
