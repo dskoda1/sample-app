@@ -84,7 +84,7 @@ class MuiTabs extends React.Component<MuiTabsProps, MuiTabsState> {
                         fullWidth={fullWidth}
                         centered={centered}
                         scrollable={scrollable}
-                        scrollButtons={scrollable ? "auto" : ""}
+                        scrollButtons={scrollable ? "auto" : "off"}
                         >
                         {tabs.map(({title, key}) => <Tab label={title} key={key} />)}
                     </Tabs>

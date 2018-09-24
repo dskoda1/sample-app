@@ -1,6 +1,5 @@
 // @flow
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, {Component} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -12,36 +11,64 @@ type Props = {
         textField: any,
         button: any,
     },
+    handleSubmit: Function
 }
 
+type State = {
+    username: string,
+    password: string,
+}
 
-export default (props: Props) => (
-    <div>
-        <Grid style={{justifyContent: 'center'}}>
-        <Grid item xs={12} >
-        <TextField
-          id="username-input"
-          label="Username"
-          className={props.classes.textField}
-        //   onChange={this.handleChange('name')}
-        //   margin="normal"
-        />
-        </Grid>
-        <Grid item xs={12}>
-        <TextField
-          id="standard-password-input"
-          label="Password"
-          className={props.classes.textField}
-          type="password"
-        //   autoComplete="current-password"
-        //   margin="normal"
-        />
-        </Grid>
-        <Button variant="contained" color="primary" className={props.classes.button}>
-        Submit
-      </Button>
-      </Grid>
-    </div>
-);
+class Login extends Component<Props, State> {
 
+    state: State = {
+        username: '',
+        password: '',
+    }
 
+    updateField = (field) => (e) => {
+        this.setState({[field]: e.target.value})
+    }
+
+    render() {
+        const {
+            classes,
+            handleSubmit
+        } = this.props;
+        const {
+            username,
+            password
+        } = this.state;
+        return (
+            <Grid style={{justifyContent: 'center'}}>
+                <Grid item xs={12} >
+                    <TextField
+                        id="username-input"
+                        label="Username"
+                        className={classes.textField}
+                        onChange={this.updateField('username')}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        id="standard-password-input"
+                        label="Password"
+                        className={classes.textField}
+                        type="password"
+                        autoComplete="current-password"
+                        onChange={this.updateField('password')}
+                    />
+                </Grid>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.button} 
+                    onClick={() => handleSubmit(username, password)}>
+                    Submit
+                </Button>
+            </Grid>
+        );
+    }
+}
+
+export default Login;

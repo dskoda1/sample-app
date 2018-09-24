@@ -1,14 +1,19 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import { login } from '../redux/actions';
+
 import MuiTabs from '../components/MuiTabs';
 import { Login } from '../components/authentication';
 
-type Props = {};
+type Props = {
+    login: Function,
+};
 
 type State = {};
 
@@ -30,8 +35,13 @@ const styles = theme => ({
   });
 
 class Authentication extends Component<Props, State> {
-    constructor() {
-        super()
+    handleLogin = (username, password) => {
+        if (password.length < 6) {
+            console.log('PASSWORD MUST BE 6 CHARS');
+            return;
+        }
+
+        this.props.login(username, password);
     }
 
     render() {
@@ -46,7 +56,9 @@ class Authentication extends Component<Props, State> {
                                 {
                                     title: "Login",
                                     key: "login",
-                                    body: <Login classes={classes}
+                                    body: <Login
+                                        classes={classes}
+                                        handleSubmit={this.handleLogin}
                                     />
                                 },
                                 {
@@ -67,5 +79,13 @@ class Authentication extends Component<Props, State> {
     
 }
 
+const mapStateToProps = ( ) => {
+    return {
 
-export default withStyles(styles)(Authentication);
+    }
+};
+const mapDispatchToProps = {
+    login
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Authentication));
