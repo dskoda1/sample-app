@@ -48,6 +48,7 @@ func Test_login_password_does_not_match_hash(t *testing.T) {
 
 	// THEN
 	assert.Equal(t, http.StatusUnauthorized, rec.Code)
+	assert.Equal(t, `{"error":"Invalid username or password"}`, rec.Body.String())
 }
 
 func Test_login_matching_password(t *testing.T) {
@@ -77,6 +78,7 @@ func Test_login_matching_password(t *testing.T) {
 
 	// THEN
 	assert.Equal(t, http.StatusAccepted, rec.Code)
+	assert.Equal(t, `{"username":"mike"}`, rec.Body.String())
 }
 
 func Test_login_fails_to_set_user_session(t *testing.T) {

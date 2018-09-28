@@ -13,6 +13,11 @@ import { Login } from '../components/authentication';
 
 type Props = {
     login: Function,
+    auth: {
+        user: any,
+        error: string,
+        fetching: boolean,
+    },
 };
 
 type State = {};
@@ -79,9 +84,9 @@ class Authentication extends Component<Props, State> {
     
 }
 
-const mapStateToProps = ( ) => {
+const mapStateToProps = ({auth}) => {
     return {
-
+        auth
     }
 };
 const mapDispatchToProps = {

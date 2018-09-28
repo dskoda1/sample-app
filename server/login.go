@@ -20,7 +20,9 @@ func Login(ur db.UserRepository, ph PasswordHasher, store SessionStore) func(ech
 		dbUser := ur.Fetch(user.Username)
 
 		if ph.CompareHashAndPassword(user.Password, dbUser.Password) != true {
-			return c.JSON(http.StatusUnauthorized, nil)
+			return c.JSON(http.StatusUnauthorized, echo.Map{
+				"error": "Invalid username or password",
+			})
 		}
 
 		sessionUser := SessionUser{
@@ -29,15 +31,9 @@ func Login(ur db.UserRepository, ph PasswordHasher, store SessionStore) func(ech
 		}
 		store.SetUser(c.Request(), c.Response().Writer, sessionUser)
 
-		c.JSON(http.StatusAccepted, nil)
-
-		// sess.Options = &sessions.Options{
-		// 	Path:     "/",
-		// 	MaxAge:   86400 * 7,
-		// 	HttpOnly: true,
-		// }
-		// sess.Values["foo"] = "bar"
-		// sess.Save(c.Request(), c.Response())
+		c.JSON(http.StatusAccepted, echo.Map{
+			"username": dbUser.Username,
+		})
 
 		return nil
 	}

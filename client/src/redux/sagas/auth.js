@@ -10,10 +10,13 @@ const loginEndpoint = (username, password) => {
 }
 
 const loginSaga = function* ({username, password}) {
-    console.log(username, password);
+    yield put({type: LOGIN})
     try {
         const response = yield call(loginEndpoint, username, password);
-        console.log(response)
+        yield put({ 
+            type: LOGIN_SUCCESS, 
+            user: {username: response.data.username},
+        })
     } 
     catch (error) {
         yield put({ type: LOGIN_FAILURE, error})
