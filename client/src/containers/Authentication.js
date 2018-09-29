@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { login } from '../redux/actions';
+import { login, showNotification } from '../redux/actions';
 
 import MuiTabs from '../components/MuiTabs';
 import { Login } from '../components/authentication';
@@ -42,7 +42,7 @@ const styles = theme => ({
 class Authentication extends Component<Props, State> {
     handleLogin = (username, password) => {
         if (password.length < 6) {
-            console.log('PASSWORD MUST BE 6 CHARS');
+            this.props.showNotification('Password must be at least 6 characters', 'error')
             return;
         }
 
@@ -90,7 +90,8 @@ const mapStateToProps = ({auth}) => {
     }
 };
 const mapDispatchToProps = {
-    login
+    login,
+    showNotification,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Authentication));

@@ -8,6 +8,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from './containers/HomePage';
 import MatchPage from './containers/MatchPage';
 import Authentication from './containers/Authentication';
+import Snackbar from './containers/Snackbar';
 
 import NavBar from './components/navbar';
 import NotFound from './components/NotFound';
@@ -35,6 +36,7 @@ const App = ({classes}) => (
     <NavBar 
       children={
         <Grid container spacing={24} direction="column">
+          <Snackbar />
           {Routes}
         </Grid>
       }
