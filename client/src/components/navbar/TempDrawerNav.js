@@ -51,6 +51,7 @@ type Props = {
     children: React.Node,
     appTitle: string,
     classes: any,
+    user: string,
 };
 
 type State = {
@@ -73,9 +74,9 @@ class TempDrawerNav extends React.Component<Props, State> {
         classes, 
         drawerItems,
         children,
-        appTitle
+        appTitle,
+        user,
     } = this.props;
-
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -107,11 +108,21 @@ class TempDrawerNav extends React.Component<Props, State> {
                 {appTitle}
               </Link>
             </Typography>
-            <Button color="inherit">
-              <Link to={`/auth`} style={{ textDecoration: 'none', color: '#FFF'}}>
-                Login
-              </Link>
-            </Button>
+            {
+              user ? 
+              <Typography 
+                variant="subheading" 
+                color="inherit" 
+                noWrap>
+                {user}
+              </Typography> :
+              <Button color="inherit">
+                <Link to={`/auth`} style={{ textDecoration: 'none', color: '#FFF'}}>
+                  Login
+                </Link>
+              </Button>
+            }
+            
           </Toolbar>
         </AppBar>
         <SwipeableDrawer

@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
+
 import Grid from '@material-ui/core/Grid';
 import { Switch, Route } from 'react-router-dom';
-
 
 import HomePage from './containers/HomePage';
 import MatchPage from './containers/MatchPage';
@@ -12,7 +12,6 @@ import Snackbar from './containers/Snackbar';
 
 import NavBar from './components/navbar';
 import NotFound from './components/NotFound';
-
 
 const styles = theme => ({
   root: {
@@ -46,5 +45,6 @@ const App = ({classes}) => (
     {/* </div> */}
   </div>
 );
+
 
 export default withStyles(styles)(App);

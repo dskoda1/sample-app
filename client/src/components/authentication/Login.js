@@ -11,7 +11,8 @@ type Props = {
         textField: any,
         button: any,
     },
-    handleSubmit: Function
+    handleSubmit: Function,
+    fetching: boolean
 }
 
 type State = {
@@ -33,7 +34,8 @@ class Login extends Component<Props, State> {
     render() {
         const {
             classes,
-            handleSubmit
+            handleSubmit,
+            fetching
         } = this.props;
         const {
             username,
@@ -63,7 +65,9 @@ class Login extends Component<Props, State> {
                     variant="contained" 
                     color="primary" 
                     className={classes.button} 
-                    onClick={() => handleSubmit(username, password)}>
+                    onClick={() => handleSubmit(username, password)}
+                    disabled={fetching}
+                    >
                     Submit
                 </Button>
             </Grid>

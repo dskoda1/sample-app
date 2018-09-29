@@ -51,7 +51,8 @@ class Authentication extends Component<Props, State> {
 
     render() {
         const {
-            classes
+            classes,
+            auth: { fetching }
         } = this.props;
         return (
                 <Grid container spacing={16} className={classes.root}>
@@ -64,6 +65,7 @@ class Authentication extends Component<Props, State> {
                                     body: <Login
                                         classes={classes}
                                         handleSubmit={this.handleLogin}
+                                        fetching={fetching}
                                     />
                                 },
                                 {
