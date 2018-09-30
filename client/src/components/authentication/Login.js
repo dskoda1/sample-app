@@ -42,8 +42,8 @@ class Login extends Component<Props, State> {
             password
         } = this.state;
         return (
-            <Grid style={{justifyContent: 'center'}}>
-                <Grid item xs={12} >
+            <Grid container direction="column" alignItems="center">
+                <Grid item xs={12}>
                     <TextField
                         id="username-input"
                         label="Username"
@@ -61,15 +61,17 @@ class Login extends Component<Props, State> {
                         onChange={this.updateField('password')}
                     />
                 </Grid>
-                <Button 
-                    variant="contained" 
-                    color="primary" 
-                    className={classes.button} 
-                    onClick={() => handleSubmit(username, password)}
-                    disabled={fetching}
-                    >
-                    Submit
-                </Button>
+                <Grid item xs={3}>
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        className={classes.button} 
+                        onClick={() => handleSubmit(username, password)}
+                        disabled={fetching}
+                        >
+                        Submit
+                    </Button>
+                </Grid>
             </Grid>
         );
     }

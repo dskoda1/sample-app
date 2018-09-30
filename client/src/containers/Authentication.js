@@ -23,19 +23,11 @@ type Props = {
 type State = {};
 
 const styles = theme => ({
-    root: {
-      ...theme.mixins.gutters(),
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 2,
-      justifyContent: 'center',
-    },
     textField: {
-        marginLeft: "auto",
-        marginRight: 'auto',
         marginTop: theme.spacing.unit * 2,
     },
     button: {
-        marginTop: theme.spacing.unit * 2,
+        marginTop: theme.spacing.unit * 4,
     }
   });
 
@@ -55,8 +47,8 @@ class Authentication extends Component<Props, State> {
             auth: { fetching }
         } = this.props;
         return (
-                <Grid container spacing={16} className={classes.root}>
-                    <Grid item xs={12} sm={6} >
+                <Grid container spacing={16} justify="center">
+                    <Grid item xs={12} sm={8} md={6} lg={3} >
                         <Paper className={classes.paper}>
                             <MuiTabs tabs={[
                                 {
