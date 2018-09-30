@@ -20,11 +20,12 @@ type State = {
     password: string,
 }
 
-class Login extends Component<Props, State> {
+class Register extends Component<Props, State> {
 
     state: State = {
         username: '',
         password: '',
+        passwordConfirmation: '',
     }
 
     updateField = (field) => (e) => {
@@ -40,6 +41,7 @@ class Login extends Component<Props, State> {
         const {
             username,
             password,
+            passwordConfirmation
         } = this.state;
         return (
             <Grid container direction="column" alignItems="center">
@@ -55,8 +57,15 @@ class Login extends Component<Props, State> {
                         label="Password"
                         className={classes.textField}
                         type="password"
-                        autoComplete="current-password"
                         onChange={this.updateField('password')}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                        label="Confirm Password"
+                        className={classes.textField}
+                        type="password"
+                        onChange={this.updateField('passwordConfirmation')}
                     />
                 </Grid>
                 <Grid item xs={3}>
@@ -64,7 +73,7 @@ class Login extends Component<Props, State> {
                         variant="contained" 
                         color="primary" 
                         className={classes.button} 
-                        onClick={() => handleSubmit(username, password)}
+                        onClick={() => handleSubmit(username, password, passwordConfirmation)}
                         disabled={fetching}
                         >
                         Submit
@@ -75,4 +84,4 @@ class Login extends Component<Props, State> {
     }
 }
 
-export default Login;
+export default Register;

@@ -29,7 +29,7 @@ func Register(ur db.UserRepository, ph PasswordHasher) func(echo.Context) error 
 			return err
 		}
 
-		c.JSON(http.StatusCreated, echo.Map{})
+		c.JSON(http.StatusCreated, echo.Map{"username": user.Username})
 		return nil
 	}
 }

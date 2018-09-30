@@ -5,20 +5,20 @@ import { push } from 'react-router-redux';
 
 
 import { LOGIN_FAILURE, LOGIN_SUCCESS } from '../constants';
-import { showNotification } from '../actions';
+import { showNotification, registerSuccess, registerFailure } from '../actions';
 
-const loginEndpoint = (username, password) => {
-    return axios.post('/api/login', {username, password});
+const authEndpoint = (action, username, password) => {
+    return axios.post(`/api/${action}`, {username, password});
 }
 
 const loginSaga = function* ({username, password}) {
     try {
-        const response = yield call(loginEndpoint, username, password);
+        const response = yield call(authEndpoint, 'login', username, password);
         yield put({ 
             type: LOGIN_SUCCESS, 
             user: {username: response.data.username},
         })
-        yield put(showNotification(`Welcome back ${username}!`, 'success'));
+        yield put(showNotification(`Welcome back, ${username}!`, 'success'));
         yield put(push('/'));
     } 
     catch (error) {
@@ -27,6 +27,21 @@ const loginSaga = function* ({username, password}) {
     }
 }
 
+const registerSaga = function* ({username, password}) {
+    try {
+        const response = yield call(authEndpoint, 'register', username, password);
+        yield put(registerSuccess(response.data.username))
+        yield put(showNotification(`Welcome ${username}!`, 'success'));
+        yield put(push('/'));
+    } 
+    catch (error) {
+        yield put(showNotification('Invalid username or password', 'error'))
+        yield put(registerFailure(error))
+    }
+}
+
+
 export {
-    loginSaga
+    loginSaga,
+    registerSaga
 };

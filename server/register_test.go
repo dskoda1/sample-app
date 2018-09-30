@@ -31,6 +31,7 @@ func Test_RegisterSuccess(t *testing.T) {
 
 	// THEN
 	assert.Equal(t, http.StatusCreated, rec.Code)
+	assert.Equal(t, `{"username":"heisenberg"}`, rec.Body.String())
 }
 
 func Test_RegisterFailsToBindRequest(t *testing.T) {

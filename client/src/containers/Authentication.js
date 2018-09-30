@@ -6,13 +6,14 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { login, showNotification } from '../redux/actions';
+import { login, showNotification, register } from '../redux/actions';
 
 import MuiTabs from '../components/MuiTabs';
-import { Login } from '../components/authentication';
+import { Login, Register } from '../components/authentication';
 
 type Props = {
     login: Function,
+    register: Function,
     auth: {
         user: any,
         error: string,
@@ -41,6 +42,20 @@ class Authentication extends Component<Props, State> {
         this.props.login(username, password);
     }
 
+    handleRegister = (username, password, passwordConfirmation) => {
+        if (password !== passwordConfirmation) {
+            this.props.showNotification('Passwords do not match', 'error');
+            return;
+        }
+
+        if (username.length <= 3) {
+            this.props.showNotification('Username must be at least 3 characters', 'error');
+            return;
+        }
+
+        this.props.register(username, password)
+    }
+
     render() {
         const {
             classes,
@@ -63,11 +78,11 @@ class Authentication extends Component<Props, State> {
                                 {
                                     title: "Register",
                                     key: "register",
-                                    body: (
-                                        <div>
-                                            register component
-                                        </div>
-                                    )  
+                                    body: <Register
+                                        classes={classes}
+                                        handleSubmit={this.handleRegister}
+                                        fetching={fetching}
+                                    />
                                 },
                             ]} />
                         </Paper>
@@ -85,6 +100,7 @@ const mapStateToProps = ({auth}) => {
 };
 const mapDispatchToProps = {
     login,
+    register,
     showNotification,
 };
 
