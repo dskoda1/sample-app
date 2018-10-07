@@ -1,3 +1,4 @@
+// go:generate mockgen -source=./server/session.go -destination=./server/session_mock.go -package=server
 package server
 
 import (
@@ -58,6 +59,17 @@ func (s *Store) GetUser(r *http.Request) (*SessionUser, error) {
 
 func (s *Store) getSession(r *http.Request) (*sessions.Session, error) {
 	return s.tracker.Get(r, sessionKey)
+}
+
+// LogoutUser clears a users session to log them out
+func (s *Store) LogoutUser(r *http.Request, rw http.ResponseWriter) error {
+	session, err := s.getSession(r)
+	if err != nil {
+		return nil
+	}
+
+	delete(session.Values, userKey)
+	return nil
 }
 
 // SessionUser is a slimmed down db.User to be persisted in sessions
