@@ -9,6 +9,10 @@ export const login = (username: string, password: string) => ({ type: types.LOGI
 export const loginSuccess = (user) => ({ type: types.LOGIN_SUCCESS , user})
 export const loginFailure = (error) => ({ type: types.LOGIN_FAILURE, error })
 
+export const logout = () => ({ type: types.LOGOUT})
+export const logoutSuccess = () => ({ type: types.LOGOUT_SUCCESS })
+export const logoutFailure = (error) => ({ type: types.LOGOUT_FAILURE, error })
+
 export const register = (username: string, password: string) => ({ type: types.REGISTER, username, password})
 export const registerSuccess = (username) => ({ type: types.REGISTER_SUCCESS, user: { username } })
 export const registerFailure = (error) => ({ type: types.REGISTER_FAILURE, error })

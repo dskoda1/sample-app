@@ -1,10 +1,10 @@
 import { takeLatest } from "redux-saga/effects";
 
-import { GET_MATCHES, GET_TODAYS_MATCHES, LOGIN, REGISTER, FETCH_PROFILE } from '../constants';
+import { GET_MATCHES, GET_TODAYS_MATCHES, LOGIN, LOGOUT, REGISTER, FETCH_PROFILE } from '../constants';
 
 import matchesSaga from './matches';
 import todaysMatchesSaga from './todays_matches';
-import { loginSaga, registerSaga, profileSaga } from './auth';
+import { loginSaga, registerSaga, logoutSaga, profileSaga } from './auth';
 
 export default function* () {
   yield takeLatest(GET_MATCHES, matchesSaga);
@@ -12,4 +12,5 @@ export default function* () {
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(FETCH_PROFILE, profileSaga);
+  yield takeLatest(LOGOUT, logoutSaga);
 }

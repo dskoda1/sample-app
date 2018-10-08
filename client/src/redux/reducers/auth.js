@@ -3,6 +3,7 @@ import {
     LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,
     REGISTER, REGISTER_FAILURE, REGISTER_SUCCESS,
     FETCH_PROFILE, FETCH_PROFILE_SUCCESS, FETCH_PROFILE_FAILURE,
+    LOGOUT_SUCCESS
 } from '../constants';
 
 const initialState = {
@@ -45,6 +46,14 @@ export default (
                 user: null,
                 loggedIn: false,
             };
+        case LOGOUT_SUCCESS:
+        return {
+            ...state,
+            fetching: false,
+            error: null,
+            user: null,
+            loggedIn: false,
+        }
         default:
             return state;
     }

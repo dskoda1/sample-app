@@ -57,3 +57,15 @@ func (m *MockSessionStore) GetUser(arg0 *http.Request) (*SessionUser, error) {
 func (mr *MockSessionStoreMockRecorder) GetUser(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockSessionStore)(nil).GetUser), arg0)
 }
+
+// LogoutUser mocks base method
+func (m *MockSessionStore) LogoutUser(arg0 *http.Request, arg1 http.ResponseWriter) error {
+	ret := m.ctrl.Call(m, "LogoutUser", arg0, arg1)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// LogoutUser indicates an expected call of LogoutUser
+func (mr *MockSessionStoreMockRecorder) LogoutUser(arg0, arg1 interface{}) *gomock.Call {
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogoutUser", reflect.TypeOf((*MockSessionStore)(nil).LogoutUser), arg0, arg1)
+}

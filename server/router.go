@@ -27,5 +27,6 @@ func GetRouter(ur db.UserRepository, ph PasswordHasher, store SessionStore) *ech
 	api.POST("/register", Register(ur, ph))
 	api.POST("/login", Login(ur, ph, store))
 	api.GET("/profile", Profile(store))
+	api.POST("/logout", Logout(store))
 	return e
 }

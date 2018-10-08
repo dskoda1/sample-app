@@ -18,6 +18,7 @@ var (
 type SessionStore interface {
 	SetUser(*http.Request, http.ResponseWriter, SessionUser) error
 	GetUser(*http.Request) (*SessionUser, error)
+	LogoutUser(*http.Request, http.ResponseWriter) error
 }
 
 var _ SessionStore = &Store{}
@@ -69,7 +70,7 @@ func (s *Store) LogoutUser(r *http.Request, rw http.ResponseWriter) error {
 	}
 
 	delete(session.Values, userKey)
-	return nil
+	return session.Save(r, rw)
 }
 
 // SessionUser is a slimmed down db.User to be persisted in sessions

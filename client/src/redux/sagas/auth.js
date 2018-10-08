@@ -35,6 +35,17 @@ const registerSaga = function* ({username, password}) {
     }
 }
 
+const logoutSaga = function* () {
+    try {
+        yield call(axios.post, `api/logout`)
+        yield put(actions.logoutSuccess())
+        yield put(actions.showNotification('Logged out successfully'))
+    } 
+    catch (error) {
+        yield put(actions.logoutFailure(error))
+    }
+}
+
 const profileSaga = function* () {
     try {
         const response = yield call(axios.get, '/api/profile')
@@ -48,5 +59,6 @@ const profileSaga = function* () {
 export {
     loginSaga,
     registerSaga,
+    logoutSaga,
     profileSaga
 };
