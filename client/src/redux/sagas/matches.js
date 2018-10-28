@@ -10,10 +10,7 @@ const fetchMatches = () => {
 
 export default function* () {
     try {
-        const response = yield call(fetchMatches);
-        const matches = response.data;
-
-        yield put({ type: GET_MATCHES_SUCCESS, matches });
+        yield put({ type: GET_MATCHES_SUCCESS, matches: [] });
     }
     catch (error) {
         yield put({ type: GET_MATCHES_FAILURE, error });

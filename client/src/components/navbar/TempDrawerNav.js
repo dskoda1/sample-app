@@ -12,11 +12,14 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import TopLink from './TopLink';
+import ProfileMenu from './ProfileMenu';
 
 const drawerWidth = 240;
 
@@ -113,12 +116,7 @@ class TempDrawerNav extends React.Component<Props, State> {
             <TopLink />
             {
               user ? 
-              <Typography 
-                variant="subheading" 
-                color="inherit" 
-                noWrap>
-                {user}
-              </Typography> :
+              <ProfileMenu /> :
               <Button color="inherit">
                 <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF'}}>
                   Login
@@ -150,7 +148,5 @@ class TempDrawerNav extends React.Component<Props, State> {
     );
   }
 }
-
-
 
 export default withStyles(styles, { withTheme: true })(TempDrawerNav);

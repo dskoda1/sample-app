@@ -10,10 +10,7 @@ const fetchTodaysMatches = () => {
 
 export default function* () {
     try {
-        const response = yield call(fetchTodaysMatches);
-        const matches = response.data;
-        
-        yield put({ type: GET_TODAYS_MATCHES_SUCCESS, matches });
+        yield put({ type: GET_TODAYS_MATCHES_SUCCESS, matches: [] });
     } catch (error) {
         yield put({ type: GET_TODAYS_MATCHES_FAILURE, error });
     }
