@@ -38,8 +38,8 @@ class App extends Component {
         <Snackbar />
         <Grid container spacing={24} direction="column">
           <Switch>
-            <Route exact component={HomePage} path='/home' />
-            <Route exact component={Authentication} path='/auth' />
+            <Route path="/" exact component={HomePage} />
+            <Route path="/" component={Authentication} />
             <Route component={NotFound} />
           </Switch>
         </Grid>
