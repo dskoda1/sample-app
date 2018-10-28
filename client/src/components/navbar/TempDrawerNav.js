@@ -16,6 +16,8 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import TopLink from './TopLink';
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -73,7 +75,6 @@ class TempDrawerNav extends React.Component<Props, State> {
     const { 
         classes, 
         drawerItems,
-        children,
         appTitle,
         user,
     } = this.props;
@@ -104,10 +105,11 @@ class TempDrawerNav extends React.Component<Props, State> {
               color="inherit" 
               className={classes.flex}
               noWrap>
-              <Link to={`/`} style={{textDecoration: 'none', color: '#FFF'}}>
+              <Link to={"/"} style={{textDecoration: 'none', color: '#FFF'}}>
                 {appTitle}
               </Link>
             </Typography>
+            <TopLink />
             {
               user ? 
               <Typography 
@@ -117,7 +119,7 @@ class TempDrawerNav extends React.Component<Props, State> {
                 {user}
               </Typography> :
               <Button color="inherit">
-                <Link to={`/auth`} style={{ textDecoration: 'none', color: '#FFF'}}>
+                <Link to={"/auth"} style={{ textDecoration: 'none', color: '#FFF'}}>
                   Login
                 </Link>
               </Button>
@@ -139,13 +141,15 @@ class TempDrawerNav extends React.Component<Props, State> {
             {drawer}
           </div>
         </SwipeableDrawer>
-        <main className={classes.content}>
+        {/* <main className={classes.content}>
           <div className={classes.toolbar} />
           {children}
-        </main>
+        </main> */}
       </div>
     );
   }
 }
+
+
 
 export default withStyles(styles, { withTheme: true })(TempDrawerNav);
