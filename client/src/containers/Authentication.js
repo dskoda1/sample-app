@@ -68,7 +68,7 @@ class Authentication extends Component<Props, State> {
             auth: { fetching, loggedIn }
         } = this.props;
         if (loggedIn) {
-            return <Redirect to='/' />
+            return <Redirect to="/" />
         }
 
         return (

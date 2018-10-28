@@ -75,6 +75,7 @@ class TempDrawerNav extends React.Component<Props, State> {
     const { 
         classes, 
         drawerItems,
+        children,
         appTitle,
         user,
     } = this.props;
@@ -105,7 +106,7 @@ class TempDrawerNav extends React.Component<Props, State> {
               color="inherit" 
               className={classes.flex}
               noWrap>
-              <Link to={"/"} style={{textDecoration: 'none', color: '#FFF'}}>
+              <Link to="/" style={{textDecoration: 'none', color: '#FFF'}}>
                 {appTitle}
               </Link>
             </Typography>
@@ -119,7 +120,7 @@ class TempDrawerNav extends React.Component<Props, State> {
                 {user}
               </Typography> :
               <Button color="inherit">
-                <Link to={"/auth"} style={{ textDecoration: 'none', color: '#FFF'}}>
+                <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF'}}>
                   Login
                 </Link>
               </Button>
@@ -141,10 +142,10 @@ class TempDrawerNav extends React.Component<Props, State> {
             {drawer}
           </div>
         </SwipeableDrawer>
-        {/* <main className={classes.content}>
+        <main className={classes.content}>
           <div className={classes.toolbar} />
           {children}
-        </main> */}
+        </main>
       </div>
     );
   }
