@@ -4,14 +4,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import { fetchProfile } from '../redux/actions';
 
 import HomePage from './HomePage';
 import Authentication from './Authentication';
 import Snackbar from './Snackbar';
-// import AuthenticatedRoute from './AuthenticatedRoute';
 
 import NavBar from '../components/navbar';
 import NotFound from '../components/NotFound';
@@ -39,7 +38,7 @@ class App extends Component {
         <Grid container spacing={24} direction="column">
           <Switch>
             <Route path="/" exact component={HomePage} />
-            <Route path="/" component={Authentication} />
+            <Route path="/auth" component={Authentication} />
             <Route component={NotFound} />
           </Switch>
         </Grid>
@@ -56,4 +55,5 @@ const mapDispatchToProps = {
   fetchProfile
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+// Need to use withRouter because of https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));
