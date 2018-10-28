@@ -1,20 +1,18 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { 
-    ConnectedRouter,
-} from 'react-router-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from "react-redux";
 import './index.css';
 
 import App from './containers/App';
-import { store, history } from './redux/store';
+import { store } from './redux/store';
 
 render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <Router>
             <App />
-        </ConnectedRouter>
+        </Router>
     </Provider>,
     document.getElementById('root')
 );

@@ -24,14 +24,6 @@ const styles = theme => ({
   },
 });
 
-const Routes = (
-  <Switch>
-    <Route exact component={HomePage} path='/' />
-    <Route exact component={Authentication} path='/auth' />
-    <Route component={NotFound} />
-  </Switch>
-);
-
 class App extends Component {
 
   componentWillMount() {
@@ -41,18 +33,17 @@ class App extends Component {
   }
 
   render() {
-    // const {classes, user} = this.props;
     return (
-      <div>
-      <NavBar 
-        children={
-          <Grid container spacing={24} direction="column">
-            <Snackbar />
-            {Routes}
-          </Grid>
-        }
-      />
-    </div>
+      <NavBar>
+        <Snackbar />
+        <Grid container spacing={24} direction="column">
+          <Switch>
+            <Route exact component={HomePage} path='/home' />
+            <Route exact component={Authentication} path='/auth' />
+            <Route component={NotFound} />
+          </Switch>
+        </Grid>
+      </NavBar>
     );
   }
 }

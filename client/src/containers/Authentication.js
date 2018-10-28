@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import { Redirect } from 'react-router-dom'
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -21,7 +22,8 @@ type Props = {
     },
 };
 
-type State = {};
+type State = {
+};
 
 const styles = theme => ({
     textField: {
@@ -33,6 +35,10 @@ const styles = theme => ({
   });
 
 class Authentication extends Component<Props, State> {
+    initialState = {
+        loggedIn: false
+    }
+
     handleLogin = (username, password) => {
         if (password.length < 6) {
             this.props.showNotification('Password must be at least 6 characters', 'error')
@@ -59,8 +65,12 @@ class Authentication extends Component<Props, State> {
     render() {
         const {
             classes,
-            auth: { fetching }
+            auth: { fetching, loggedIn }
         } = this.props;
+        if (loggedIn) {
+            return <Redirect to='/' />
+        }
+
         return (
                 <Grid container spacing={16} justify="center">
                     <Grid item xs={12} sm={8} md={6} lg={3} >
