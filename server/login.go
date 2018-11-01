@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/dskoda1/sample-app/server/db"
 	"github.com/labstack/echo"
@@ -17,7 +18,7 @@ func Login(ur db.UserRepository, ph PasswordHasher, store SessionStore) func(ech
 			return err
 		}
 
-		dbUser := ur.Fetch(user.Username)
+		dbUser := ur.Fetch(strings.ToLower(user.Username))
 
 		if ph.CompareHashAndPassword(user.Password, dbUser.Password) != true {
 			return c.JSON(http.StatusUnauthorized, echo.Map{

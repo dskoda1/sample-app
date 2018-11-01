@@ -2,6 +2,7 @@ package server
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/dskoda1/sample-app/server/db"
 	"github.com/labstack/echo"
@@ -23,6 +24,8 @@ func Register(ur db.UserRepository, ph PasswordHasher) func(echo.Context) error 
 			return err
 		}
 		user.Password = password
+		// Lowercase username
+		user.Username = strings.ToLower(user.Username)
 
 		if err := ur.Insert(user); err != nil {
 			c.JSON(http.StatusConflict, echo.Map{})

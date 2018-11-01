@@ -34,6 +34,26 @@ func Test_RegisterSuccess(t *testing.T) {
 	assert.Equal(t, `{"username":"heisenberg"}`, rec.Body.String())
 }
 
+func Test_RegisterLowercasesUsername(t *testing.T) {
+	// GIVEN
+	c, rec := getTestSetup(`{"username":"HeISENberG","password":"abc123"}`)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	userRepoMock := db.NewMockUserRepository(ctrl)
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
+
+	userRepoMock.EXPECT().Insert(&db.User{Username: "heisenberg"})
+	passwordHasherMock.EXPECT().Hash("abc123")
+
+	// WHEN
+	handler := Register(userRepoMock, passwordHasherMock)
+	handler(c)
+
+	// THEN
+	assert.Equal(t, http.StatusCreated, rec.Code)
+	assert.Equal(t, `{"username":"heisenberg"}`, rec.Body.String())
+}
+
 func Test_RegisterFailsToBindRequest(t *testing.T) {
 	// GIVEN
 	c, rec := getTestSetup(``)

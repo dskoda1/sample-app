@@ -81,6 +81,36 @@ func Test_login_matching_password(t *testing.T) {
 	assert.Equal(t, `{"username":"mike"}`, rec.Body.String())
 }
 
+func Test_login_case_insensitive_username(t *testing.T) {
+	// GIVEN
+	c, rec := getTestSetup(`{"username": "MiKe", "password": "password"}`)
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	userRepoMock := db.NewMockUserRepository(ctrl)
+	userRepoMock.EXPECT().Fetch("mike").Return(&db.User{
+		Username: "mike",
+		Password: "hash",
+		Model: gorm.Model{
+			ID: 5,
+		},
+	})
+	passwordHasherMock := NewMockPasswordHasher(ctrl)
+	passwordHasherMock.EXPECT().CompareHashAndPassword("password", "hash").Return(true)
+	storeMock := NewMockSessionStore(ctrl)
+	storeMock.EXPECT().SetUser(c.Request(), rec, SessionUser{
+		ID:       5,
+		Username: "mike",
+	})
+
+	// WHEN
+	handler := Login(userRepoMock, passwordHasherMock, storeMock)
+	handler(c)
+
+	// THEN
+	assert.Equal(t, http.StatusAccepted, rec.Code)
+	assert.Equal(t, `{"username":"mike"}`, rec.Body.String())
+}
+
 func Test_login_fails_to_set_user_session(t *testing.T) {
 	// GIVEN
 	c, rec := getTestSetup(`{"username": "mike", "password": "password"}`)

@@ -59,6 +59,10 @@ class Authentication extends Component<Props, State> {
             return;
         }
 
+        if (password.length < 6) {
+            this.props.showNotification('Password must be at least 6 characters', 'error');
+        }
+
         this.props.register(username, password)
     }
 

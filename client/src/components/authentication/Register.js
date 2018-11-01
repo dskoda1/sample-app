@@ -32,6 +32,12 @@ class Register extends Component<Props, State> {
         this.setState({[field]: e.target.value})
     }
 
+    handleEnterKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.props.handleSubmit(this.state.username, this.state.password);
+        }
+    }
+
     render() {
         const {
             classes,
@@ -66,6 +72,7 @@ class Register extends Component<Props, State> {
                         className={classes.textField}
                         type="password"
                         onChange={this.updateField('passwordConfirmation')}
+                        onKeyPress={this.handleEnterKeyPress}
                     />
                 </Grid>
                 <Grid item xs={3}>

@@ -31,6 +31,12 @@ class Login extends Component<Props, State> {
         this.setState({[field]: e.target.value})
     }
 
+    handleEnterKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.props.handleSubmit(this.state.username, this.state.password);
+        }
+    }
+
     render() {
         const {
             classes,
@@ -43,6 +49,7 @@ class Login extends Component<Props, State> {
         } = this.state;
         return (
             <Grid container direction="column" alignItems="center">
+                <form onSubmit={() => handleSubmit(username, password)}>
                 <Grid item xs={12}>
                     <TextField
                         label="Username"
@@ -57,6 +64,7 @@ class Login extends Component<Props, State> {
                         type="password"
                         autoComplete="current-password"
                         onChange={this.updateField('password')}
+                        onKeyPress={this.handleEnterKeyPress}
                     />
                 </Grid>
                 <Grid item xs={3}>
@@ -70,6 +78,7 @@ class Login extends Component<Props, State> {
                         Submit
                     </Button>
                 </Grid>
+                </form>
             </Grid>
         );
     }
