@@ -12,7 +12,7 @@ import HomePage from './HomePage';
 import Authentication from './Authentication';
 import Snackbar from './Snackbar';
 
-import NavBar from '../components/navbar';
+import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
 
 const styles = theme => ({

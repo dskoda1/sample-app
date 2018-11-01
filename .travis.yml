@@ -4,9 +4,9 @@ matrix:
           go: "1.10.x"
           before_install:
             - curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            - dep ensure
+            - dep ensure -v
           script:
-            - go test ./...
+            - go test ./... -v
             - go build main.go
         - language: node_js
           node_js: "stable"
