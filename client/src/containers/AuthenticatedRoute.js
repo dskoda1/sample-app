@@ -2,19 +2,22 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const AuthenticatedRoute = ({ component, fallback, isAuthenticated, ...rest }) => {
-  return (
-      <Route
-        {...rest}
-        render={ isAuthenticated ? component : fallback}
-        />
-  );
+const AuthenticatedRoute = ({
+  component,
+  fallback,
+  isAuthenticated,
+  ...rest
+}) => {
+  return <Route {...rest} render={isAuthenticated ? component : fallback} />;
 };
 
-const mapStateToProps = ( {auth: {user}} ) => {
+const mapStateToProps = ({ auth: { user } }) => {
   return {
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
   };
 };
 
-export default connect(mapStateToProps, {})(AuthenticatedRoute);
+export default connect(
+  mapStateToProps,
+  {}
+)(AuthenticatedRoute);

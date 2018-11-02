@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -24,7 +24,6 @@ const styles = theme => ({
 });
 
 class App extends Component {
-
   componentWillMount() {
     if (!this.props.user && !this.props.fetching) {
       this.props.fetchProfile();
@@ -46,14 +45,19 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = ( {auth: {user, fetching, error}} ) => {
+const mapStateToProps = ({ auth: { user, fetching, error } }) => {
   return {
-    user
+    user,
   };
 };
 const mapDispatchToProps = {
-  fetchProfile
+  fetchProfile,
 };
 
 // Need to use withRouter because of https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(withStyles(styles)(App))
+);

@@ -32,41 +32,34 @@ const styles = theme => ({
   },
   navLink: {
     textDecoration: 'none',
-    
-  }
+  },
 });
 
 type Props = {
-    user: string,
-    logout: func,
-    children: React.node,
-    appTitle: string,
-    classes: any,
+  user: string,
+  logout: func,
+  children: React.node,
+  appTitle: string,
+  classes: any,
 };
 
 type State = {
-    open: boolean,
+  open: boolean,
 };
 
 class AppNavigation extends React.Component<Props, State> {
   state = {
-    open: false
+    open: false,
   };
   // Toggle drawer offers both the AppToolbar and the AppDrawer
   // to have a say in whether the toolbar is open.
-  toggleDrawer = (open) => () => {
-      this.setState({
-          open
-      });
-  }
+  toggleDrawer = open => () => {
+    this.setState({
+      open,
+    });
+  };
   render() {
-    const { 
-        classes, 
-        children,
-        appTitle,
-        user,
-        logout,
-    } = this.props;
+    const { classes, children, appTitle, user, logout } = this.props;
 
     return (
       <div className={classes.root}>
@@ -77,10 +70,10 @@ class AppNavigation extends React.Component<Props, State> {
             classes={classes}
             user={user}
             logout={logout}
-            />
+          />
         </AppBar>
-        <AppDrawer 
-          classes={classes} 
+        <AppDrawer
+          classes={classes}
           onClose={this.toggleDrawer(false)}
           onOpen={this.toggleDrawer(true)}
           isOpen={this.state.open}

@@ -10,45 +10,35 @@ import Button from '@material-ui/core/Button';
 import ProfileMenu from './ProfileMenu';
 
 const AppToolbar = ({
-    appTitle,
-    toggleDrawer,
-    classes: {
-        flex,
-    },
-    logout,
-    user
+  appTitle,
+  toggleDrawer,
+  classes: { flex },
+  logout,
+  user,
 }) => (
-    <Toolbar>
-        {/* Hamburger icon */}
-        <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer}
-        >
-            <MenuIcon />
-        </IconButton>
-        {/* App title home page link */}
-        <Typography 
-            variant="title" 
-            color="inherit" 
-            className={flex}
-            noWrap>
-            <Link to="/" style={{textDecoration: 'none', color: '#FFF'}}>
-            {appTitle}
-            </Link>
-        </Typography>
-        {/* By not putting flex className, these go to the right */}
-        {
-            // Show the profile menu if the user is logged in otherwise send them to auth
-            user ? 
-            <ProfileMenu logout={logout} /> :
-            <Button color="inherit">
-            <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF'}}>
-                Login
-            </Link>
-            </Button>
-        }
-    </Toolbar>
+  <Toolbar>
+    {/* Hamburger icon */}
+    <IconButton color="inherit" aria-label="open drawer" onClick={toggleDrawer}>
+      <MenuIcon />
+    </IconButton>
+    {/* App title home page link */}
+    <Typography variant="title" color="inherit" className={flex} noWrap>
+      <Link to="/" style={{ textDecoration: 'none', color: '#FFF' }}>
+        {appTitle}
+      </Link>
+    </Typography>
+    {/* By not putting flex className, these go to the right */}
+    {// Show the profile menu if the user is logged in otherwise send them to auth
+    user ? (
+      <ProfileMenu logout={logout} />
+    ) : (
+      <Button color="inherit">
+        <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF' }}>
+          Login
+        </Link>
+      </Button>
+    )}
+  </Toolbar>
 );
 
 export default AppToolbar;

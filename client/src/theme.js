@@ -26,14 +26,9 @@ const theme = createMuiTheme({
   },
   typography: {
     // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '"Helvetica Neue"',
-      'Roboto',
-      'Arial',
-      'sans-serif',
-    ].join(','),
+    fontFamily: ['"Helvetica Neue"', 'Roboto', 'Arial', 'sans-serif'].join(','),
     // Could inject this value to enable toggling it
-    fontSize: 12
+    fontSize: 12,
   },
 });
 
