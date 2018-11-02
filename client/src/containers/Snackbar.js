@@ -32,11 +32,9 @@ class AppSnackbar extends Component {
 
   componentWillReceiveProps(nextProps) {
       if (this.props.notification === null && nextProps.notification !== null) {
-        console.log('Setting state to open')
         this.setState({open: true})
       }
       else if(this.props.notification !== null && nextProps.notification === null) {
-        console.log('Setting state to closed')
         this.setState({open: false})
       }
   }

@@ -1,4 +1,3 @@
-//@flow
 import { SHOW_NOTIFICATION, HIDE_NOTIFICATION } from '../constants';
 
 const initialState = {

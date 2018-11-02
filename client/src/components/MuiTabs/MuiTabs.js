@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -17,31 +15,7 @@ const styles = theme => ({
     },
 });
 
-type TabContent = {
-    title: string,
-    body: React.Node,
-    key: string,
-};
-
-type MuiTabsProps = {
-    classes: {
-        root: string,
-    },
-    theme: {
-        direction: string,
-    },
-    tabs: Array<TabContent>,
-    fullWidth: boolean,
-    scrollable: boolean,
-    centered: boolean,
-    index?: number,
-};
-
-type MuiTabsState = {
-    value: number
-};
-
-class MuiTabs extends React.Component<MuiTabsProps, MuiTabsState> {
+class MuiTabs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

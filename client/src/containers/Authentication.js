@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,19 +11,6 @@ import { login, showNotification, register } from '../redux/actions';
 import MuiTabs from '../components/MuiTabs';
 import { Login, Register } from '../components/authentication';
 
-type Props = {
-    login: Function,
-    register: Function,
-    auth: {
-        user: any,
-        error: string,
-        fetching: boolean,
-    },
-};
-
-type State = {
-};
-
 const styles = theme => ({
     textField: {
         marginTop: theme.spacing.unit * 2,
@@ -34,7 +20,7 @@ const styles = theme => ({
     }
   });
 
-class Authentication extends Component<Props, State> {
+class Authentication extends Component {
     initialState = {
         loggedIn: false
     }

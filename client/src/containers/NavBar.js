@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -7,13 +5,7 @@ import { logout } from '../redux/actions';
 
 import AppNavigation from '../components/navbar';
 
-type Props = {
-  children: React.Node,
-  user: string,
-  logout: Function,
-};
-
-const NavBar = (props: Props) => (
+const NavBar = (props) => (
   <AppNavigation 
       user={props.user}
       logout={props.logout}

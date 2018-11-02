@@ -11,10 +11,10 @@ const theme = createMuiTheme({
       contrastText: '#000000',
     },
     secondary: {
-      light: '#484848',
-      main: '#212121',
-      dark: '#000000',
-      contrastText: '#ffffff',
+      light: '#c1d5e0',
+      main: '#90a4ae',
+      dark: '#62757f',
+      contrastText: '#000000',
     },
     // Used by `getContrastText()` to maximize the contrast between the background and
     // the text.

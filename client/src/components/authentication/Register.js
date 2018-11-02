@@ -1,4 +1,3 @@
-// @flow
 import React, {Component} from 'react';
 
 import TextField from '@material-ui/core/TextField';
@@ -6,21 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 
-type Props = {
-    classes: {
-        textField: any,
-        button: any,
-    },
-    handleSubmit: Function,
-    fetching: boolean
-}
-
-type State = {
-    username: string,
-    password: string,
-}
-
-class Register extends Component<Props, State> {
+class Register extends Component {
 
     state: State = {
         username: '',

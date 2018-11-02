@@ -1,26 +1,14 @@
-// @flow
-
 import React, { Component } from 'react'
 
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-type Props = {
-    onRefresh: Function
-};
-
-type State = {
-    shouldRefresh: bool,
-    seconds: number,
-    interval?: any,
-}
-
-const initialState : State = {
+const initialState = {
     shouldRefresh: false,
     seconds: 0,
 };
 
-class AutoRefresh extends Component<Props, State> {
+class AutoRefresh extends Component {
     constructor() {
         super();
         this.state = initialState;
