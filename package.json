@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/dskoda1/sample-app#readme",
   "dependencies": {
+    "bcrypt": "^3.0.4",
+    "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
     "pg": "^7.8.0",
