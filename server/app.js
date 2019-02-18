@@ -63,6 +63,7 @@ app.post('/api/login', (req, res) => {
   });
 });
 
+
 app.get('/api/profile', (req, res) => {
   if (req.session.username) {
     console.log(req.session.username);
@@ -82,9 +83,4 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
-const port = process.env.PORT || 5000;
-
-models.sequelize.sync({'alter': true}).then(function () {
-  app.listen(port);
-  console.log(`Listening on ${port}`)
-});
+module.exports = app;

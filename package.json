@@ -4,8 +4,10 @@
   "description": "[![Build Status](https://travis-ci.org/dskoda1/sample-app.svg?branch=master)](https://travis-ci.org/dskoda1/sample-app)",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "watch": "nodemon index.js"
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "test": "jest --rootDir server",
+    "test:watch": "jest --rootDir server --watchAll"
   },
   "repository": {
     "type": "git",
@@ -18,12 +20,18 @@
   },
   "homepage": "https://github.com/dskoda1/sample-app#readme",
   "dependencies": {
+    "@babel/preset-env": "^7.3.1",
     "bcrypt": "^3.0.4",
     "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.4",
     "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
     "pg": "^7.8.0",
     "sequelize": "^4.42.0",
     "sequelize-cli": "^5.4.0"
+  },
+  "devDependencies": {
+    "jest": "^24.1.0",
+    "supertest": "^3.4.2"
   }
 }
