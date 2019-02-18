@@ -1,3 +1,5 @@
+const Op = require('sequelize').Op;
+
 module.exports = {
   development: {
     username: 'dskoda',
@@ -6,14 +8,34 @@ module.exports = {
     host: '0.0.0.0',
     dialect: 'postgres',
     migrationStorage: 'sequelize',
+    logging: false,
+    operatorsAliases: {
+      $and: Op.and,
+      $or: Op.or,
+      $eq: Op.eq,
+      $gt: Op.gt,
+      $lt: Op.lt,
+      $lte: Op.lte,
+      $like: Op.like
+    }
   },
   test: {
     username: 'dskoda',
     password: 'toolzroolz',
-    database: 'dskoda',
+    database: 'workouts-local-test',
     host: '0.0.0.0',
     dialect: 'postgres',
     migrationStorage: 'sequelize',
+    logging: false,
+    operatorsAliases: {
+      $and: Op.and,
+      $or: Op.or,
+      $eq: Op.eq,
+      $gt: Op.gt,
+      $lt: Op.lt,
+      $lte: Op.lte,
+      $like: Op.like
+    }
   },
   // test: {
   //   username: process.env.CI_DB_USERNAME,

@@ -1,9 +1,14 @@
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const app = express();
 const cookieSession = require('cookie-session');
 const models = require('./db/models');
+
+const workoutRoutes = require('./routes/workouts');
+
+// Create our app
+const app = express();
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -16,6 +21,10 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 
+
+app.use('/api/workouts', workoutRoutes);
+
+
 // Put all API endpoints under '/api'
 app.get('/api/passwords', (req, res) => {
   // Return them as json
@@ -23,7 +32,7 @@ app.get('/api/passwords', (req, res) => {
 });
 
 app.post(`/api/users`, (req, res) => {
-  models.User.create({
+  models.Users.create({
     username: req.body.data.username
   }).then(user => res.json(user))
 })
@@ -37,18 +46,21 @@ app.post('/api/register', (req, res) => {
       return res.status(424).json({err});
     }
     // Create new user
-    models.User.create({
+    models.Users.create({
       username: req.body.username,
       password: hash
     }).then(user => {
       req.session.username = user.username;
-      res.json({'username': req.body.username})
+      req.session.userId = user.id;
+      res.json({
+        username: user.username,
+      })
     });
   })
 });
 
 app.post('/api/login', (req, res) => {
-  models.User.findOne({ where: {username: req.body.username}}).then(user => {
+  models.Users.findOne({ where: {username: req.body.username}}).then(user => {
     if (!user) {
       return res.status(401).json({'error': `Username ${req.body.username} not found`})
     }
@@ -56,6 +68,7 @@ app.post('/api/login', (req, res) => {
     bcrypt.compare(req.body.password, user.password, (err, match) => {
       if (match) {
         req.session.username = user.username;
+        req.session.userId = user.id;
         return res.status(200).json({username: user.username});
       }
       res.status(401).end();
