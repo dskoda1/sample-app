@@ -1,13 +1,19 @@
 matrix:
-    include:
-        - language: node_js
-          node_js: "stable"
-          before_script:
-            - cd client
-          cache:
-            directories:
-                - node_modules
-          script:
-              - npm install
-              - npm run build
+  include:
+    - language: node_js
+      node_js: "stable"
+      before_script:
+        - cd client
+      script:
+          - npm install
+          - npm run build
+
+    - language: node_js
+      services: postgresql
+      node_js: "stable"
+      before_script:
+          - npm install
+          - psql -c 'create database travis_ci_test;' -U postgres
+      script:
+          - npm run ci:test
 

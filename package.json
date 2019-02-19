@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "watch": "nodemon server.js",
-    "test": "jest --rootDir server",
-    "test:watch": "jest --rootDir server --watchAll --runInBand"
+    "ci:test": "jest --rootDir server --runInBand --forceExit",
+    "test": "NODE_ENV=local_test jest --rootDir server --watchAll --runInBand",
+    "test:once": "NODE_ENV=local_test jest --rootDir server --runInBand --detectOpenHandles"
   },
   "repository": {
     "type": "git",
