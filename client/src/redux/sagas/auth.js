@@ -4,7 +4,7 @@ import { call, put } from 'redux-saga/effects';
 import * as actions from '../actions';
 
 const authEndpoint = (action, username, password) => {
-  return axios.post(`/api/${action}`, { username, password });
+  return axios.post(`/api/auth/${action}`, { username, password });
 };
 
 const loginSaga = function*({ username, password }) {
@@ -37,7 +37,7 @@ const registerSaga = function*({ username, password }) {
 
 const logoutSaga = function*() {
   try {
-    yield call(axios.post, `api/logout`);
+    yield call(axios.post, `/api/auth/logout`);
     yield put(actions.logoutSuccess());
     yield put(actions.showNotification('Logged out successfully'));
   } catch (error) {
@@ -47,7 +47,7 @@ const logoutSaga = function*() {
 
 const profileSaga = function*() {
   try {
-    const response = yield call(axios.get, '/api/profile');
+    const response = yield call(axios.get, '/api/auth/profile');
     yield put(
       actions.fetchProfileSuccess({ username: response.data.username })
     );
