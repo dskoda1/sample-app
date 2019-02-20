@@ -90,4 +90,27 @@ describe ('Test workout endpoints', () => {
                 .expect(401, done);
         })
     })
+    describe('PUT /:id', () => {
+        test('when finished=true', async (done) => {
+            let workout = await testUtils.createWorkout(user.id, 'legs');
+            expect(workout.finishedAt).toBeNull();
+            await testSession
+                .put(`/api/workouts/${workout.id}`)
+                .send({finished: true})
+                .expect(202);
+            await workout.reload()
+            expect(workout.finishedAt).toBeDefined()
+            done();
+        })
+        test('when name is defined', async (done) => {
+            let workout = await testUtils.createWorkout(user.id, 'legs');
+            await testSession
+                .put(`/api/workouts/${workout.id}`)
+                .send({name: 'legs and abs'})
+                .expect(202);
+            await workout.reload()
+            expect(workout.name).toBe('legs and abs')
+            done();
+        })
+    })
 })
