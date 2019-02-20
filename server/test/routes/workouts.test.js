@@ -11,7 +11,7 @@ describe ('Test workout endpoints', () => {
     beforeEach(async (done) => {
         await testUtils.truncateDatabase();
         testSession = session(app);
-        await testSession.post('/api/register')
+        await testSession.post('/api/auth/register')
             .send({username: 'dwight', password: 'ilovebeets'})
             .expect(200, {username: 'dwight'})
         user = await models.Users.findOne({where: {username: 'dwight'}})
