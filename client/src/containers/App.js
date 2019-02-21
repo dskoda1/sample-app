@@ -11,6 +11,7 @@ import { fetchProfile } from '../redux/actions';
 import HomePage from './HomePage';
 import Authentication from './Authentication';
 import Snackbar from './Snackbar';
+import Workouts from '../apps/workouts';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
@@ -38,6 +39,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/auth" component={Authentication} />
+            <Route path="/workouts" component={Workouts} />
             <Route component={NotFound} />
           </Switch>
         </Grid>

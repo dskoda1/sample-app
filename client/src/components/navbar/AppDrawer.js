@@ -1,13 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 
 import ListItem from '@material-ui/core/ListItem';
+
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import StarIcon from '@material-ui/icons/Star';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 
 const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
   <SwipeableDrawer open={isOpen} onClose={onClose} onOpen={onOpen}>
@@ -15,12 +18,15 @@ const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
       <div className={toolbar} />
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <StarIcon />
-          </ListItemIcon>
-          <ListItemText primary="Matches" />
-        </ListItem>
+
+        <Link to="/workouts" style={{ textDecoration: 'none', color: '#FFF' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <DirectionsRunIcon />
+            </ListItemIcon>
+            <ListItemText primary="Workouts" />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
     </div>

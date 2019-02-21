@@ -53,6 +53,10 @@ router.get('/', async (req, res) => {
 })
 router.post('/', async (req, res) => {
     if (req.session.userId) {
+        if (!req.body.name || req.body.name.length < 3) {
+            return res.status(400).json({error: "Name must be at least 3 characters"}).end()
+        }
+
         const workout = await models.Workouts.create({
             name: req.body.name,
             UserId: req.session.userId,

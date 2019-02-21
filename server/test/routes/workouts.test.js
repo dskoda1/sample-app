@@ -24,6 +24,12 @@ describe ('Test workout endpoints', () => {
                 .post('/api/workouts')
                 .expect(401, done);
         })
+        test('name less than 3 characters', (done) => {
+            return testSession
+                .post('/api/workouts')
+                .send({name: 'ab'})
+                .expect(400, done);
+        })
         test('success 202', async (done) => {
             await testSession
                 .post('/api/workouts')
@@ -55,6 +61,12 @@ describe ('Test workout endpoints', () => {
                 .get('/api/workouts')
                 .expect(200);
             expect(res.body.workouts.length).toBe(3)
+            workout = res.body.workouts[0];
+            expect(workout).toHaveProperty('id');
+            expect(workout).toHaveProperty('name');
+            expect(workout).toHaveProperty('createdAt');
+            expect(workout).toHaveProperty('updatedAt');
+            expect(workout).toHaveProperty('finishedAt');
             done();
         })
     })

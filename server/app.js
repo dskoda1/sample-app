@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
+const morgan = require('morgan');
 const models = require('./db/models');
 
 const workoutRoutes = require('./routes/workouts');
@@ -10,6 +11,11 @@ const authRoutes = require('./routes/auth');
 // Create our app
 const app = express();
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+} else if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
