@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
 class Register extends Component {
-  state: State = {
+  state = {
     username: '',
     password: '',
     passwordConfirmation: '',
@@ -15,9 +15,10 @@ class Register extends Component {
     this.setState({ [field]: e.target.value });
   };
 
-  handleEnterKeyPress = e => {
+  handleKeyDown =  e => {
     if (e.key === 'Enter') {
-      this.props.handleSubmit(this.state.username, this.state.password);
+      e.preventDefault();
+      this.props.handleSubmit(this.state.username, this.state.password, this.state.passwordConfirmation);
     }
   };
 
@@ -31,6 +32,7 @@ class Register extends Component {
             label="Username"
             className={classes.textField}
             onChange={this.updateField('username')}
+            onKeyDown={this.handleKeyDown}
           />
         </Grid>
         <Grid item xs={12}>
@@ -39,6 +41,7 @@ class Register extends Component {
             className={classes.textField}
             type="password"
             onChange={this.updateField('password')}
+            onKeyDown={this.handleKeyDown}
           />
         </Grid>
         <Grid item xs={12}>
@@ -47,7 +50,7 @@ class Register extends Component {
             className={classes.textField}
             type="password"
             onChange={this.updateField('passwordConfirmation')}
-            onKeyPress={this.handleEnterKeyPress}
+            onKeyDown={this.handleKeyDown}
           />
         </Grid>
         <Grid item xs={3}>

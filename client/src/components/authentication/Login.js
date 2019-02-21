@@ -14,8 +14,9 @@ class Login extends Component {
     this.setState({ [field]: e.target.value });
   };
 
-  handleEnterKeyPress = e => {
+  handleKeyDown = e => {
     if (e.key === 'Enter') {
+      e.preventDefault()
       this.props.handleSubmit(this.state.username, this.state.password);
     }
   };
@@ -31,6 +32,7 @@ class Login extends Component {
               label="Username"
               className={classes.textField}
               onChange={this.updateField('username')}
+              onKeyDown={this.handleKeyDown}
             />
           </Grid>
           <Grid item xs={12}>
@@ -40,7 +42,7 @@ class Login extends Component {
               type="password"
               autoComplete="current-password"
               onChange={this.updateField('password')}
-              onKeyPress={this.handleEnterKeyPress}
+              onKeyDown={this.handleKeyDown}
             />
           </Grid>
           <Grid item xs={3}>
