@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 router.post('/register', (req, res) => {
     // Verify username and password exist
-
     // Hash password
     bcrypt.hash(req.body.password, 10, (err, hash) => {
         if (err) {
@@ -24,8 +23,8 @@ router.post('/register', (req, res) => {
     })
 });
 
-router.post('/api/login', (req, res) => {
-    models.Users.findOne({ where: {username: req.body.username}}).then(user => {
+router.post('/login', (req, res) => {
+  models.Users.findOne({ where: {username: req.body.username}}).then(user => {
       if (!user) {
         return res.status(401).json({'error': `Username ${req.body.username} not found`})
       }
@@ -36,20 +35,19 @@ router.post('/api/login', (req, res) => {
           req.session.userId = user.id;
           return res.status(200).json({username: user.username});
         }
-        res.status(401).end();
+        return res.status(401).json({"error": "username or password incorrect"}).end();
       });
     });
   });
   
-  router.get('/api/profile', (req, res) => {
+  router.get('/profile', (req, res) => {
     if (req.session.username) {
-      console.log(req.session.username);
       return res.json({'username': req.session.username})
     }
     res.status(401).end();
   })
   
-  router.post('/api/logout', (req, res) => {
+  router.post('/logout', (req, res) => {
     req.session = null;
     res.status(200).end();
   })
