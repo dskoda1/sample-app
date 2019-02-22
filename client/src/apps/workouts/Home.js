@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import { showNotification } from '../../redux/actions';
+import { showNotification, fetchWorkouts, fetchWorkout } from '../../redux/actions';
 
 const styles = theme => ({
     textField: {
@@ -29,113 +29,105 @@ const makePostRequest = (url, body) => {
     })
 }
 
-class Workouts extends Component {
 
+/**** Begin workout container which controls http requests and overall state ****/
+class Workouts extends Component {
     state = {
         workouts: [],
-        workoutId: null,
         fetching: false,
         loadedOnce: false,
-    }
-
-    reload = () => {
-        this.setState({fetching: true}, () => {
-            fetch('/api/workouts')
-            .then(res => res.json())
-            .then(data => this.setState({
-                workouts: data.workouts, 
-                fetching: false, 
-                loadedOnce: true
-            }))
-            .catch(error => console.error(error));
-        })
+        creating: false,
     }
 
     componentDidUpdate() {
-        if (this.props.loggedIn && !this.state.fetching && !this.state.loadedOnce) {
-            this.reload();
-        }
+        this.props.fetchWorkouts();
     }
 
-    startNewWorkout = ( name ) => {
+    startNew = ( name ) => {
         if (!name || name.length < 3) {
             this.props.showNotification('not a valid name', 'error');
             return;
         }
-        makePostRequest('/api/workouts', {name})
+        // TODO: Redux-ify this
+        this.setState({creating: true}, () => {
+            makePostRequest('/api/workouts', {name})
             .then(res => res.json())
             .then(workout => this.props.pushHistory(`/workouts/${workout.id}`))
             .then(() => this.props.showNotification('Workout created successfully!', 'success'))
+            .then(() => this.setState({creatingWorkout: false}))
             .then(() => this.reload())
             .catch(error => console.error(error));
+        })
     }
-
 
     render() {
         return (
             <div>
                 <h2>Workouts</h2>
-                <WorkoutController classes={this.props.classes} startNewWorkout={this.startNewWorkout}/>
-                <WorkoutList workouts={this.state.workouts} />
+                <CreateNewWorkoutForm
+                    classes={this.props.classes}
+                    startNew={this.startNew}
+                    creating={this.state.creating} />
+                <WorkoutList workouts={this.props.workouts} />
             </div>
         );
     }
 };
 
-Workouts.propTypes = {
-    classes: PropTypes.object.isRequired,
-    workoutId: PropTypes.number,
-    pushHistory: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-}
-
 const mapStateToProps = (state, router) => {
-// const mapStateToProps = (state, { match: { params: { workoutId }}}) => {
+    const id = router.match.params.workoutId;
     return {
-        workoutId: router.match.params.workoutId,
+        activeWorkoutId: id !== undefined ? parseInt(id, 10) : null,
         pushHistory: router.history.push,
         loggedIn: state.auth.loggedIn,
+        workouts: state.workouts.list,
+        fetching: state.workouts.fetching,
+        error: state.workouts.error,
     }
 }
 const mapDispatchToProps = {
-    showNotification
+    showNotification,
+    fetchWorkouts
 };
 
+Workouts.propTypes = {
+    // redux state props
+    activeWorkoutId: PropTypes.number,
+    pushHistory: PropTypes.func.isRequired,
+    loggedIn: PropTypes.bool.isRequired,
+    workouts: PropTypes.array,
+    fetching: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    // actions
+    showNotification: PropTypes.func.isRequired,
+    fetchWorkouts: PropTypes.func.isRequired,
+    // material
+    classes: PropTypes.object.isRequired,
+};
 
-class WorkoutController extends Component {
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Workouts));
+/*************************** End container *************************/
 
+
+class CreateNewWorkoutForm extends Component {
     state = {
         newWorkoutName: "",
     }
-
     updateField = field => e => {
         this.setState({ [field]: e.target.value })
     }
-
     handleKeyDown = e => {
         if (e.key === 'Enter') {
           e.preventDefault()
           this.props.startNewWorkout(this.state.newWorkoutName);
-          console.log('Submitted')
         }
     }
 
     render() {
-        const {
-            classes
-        } = this.props
-
-        if (this.props.workout) {
-            return (
-                <div>Workout: {this.props.workout.name}</div> 
-            );
-        } 
-
-        const fetching = false;
+        const { startNew, creating, classes } = this.props;
         return (
             <Grid container direction="column" alignItems="center">
-                <form onSubmit={() => this.props.startNewWorkout(this.state.newWorkoutName)}>
+                <form onSubmit={() => startNew(this.state.newWorkoutName)}>
                 <Grid item xs={12}>
                     <TextField
                     label="Name"
@@ -149,24 +141,28 @@ class WorkoutController extends Component {
                     variant="contained"
                     color="primary"
                     className={classes.button}
-                    onClick={() => this.props.startNewWorkout(this.state.newWorkoutName)}
-                    disabled={fetching}
+                    onClick={() => startNew(this.state.newWorkoutName)}
+                    disabled={creating}
                     >
                     Submit
                     </Button>
                 </Grid>
                 </form>
             </Grid>
-        )
+        );
     }
-}
+};
 
-WorkoutController.propTypes = {
-    classes: PropTypes.object.isRequired
-}
+CreateNewWorkoutForm.propTypes = {
+    startNew: PropTypes.func.isRequired,
+    creating: PropTypes.bool.isRequired,
+};
 
 class WorkoutList extends Component {
     render() {
+        if (!this.props.workouts) {
+            return <div>loading...</div>
+        }
         return (
             <div>
                 <h4>Your workouts</h4>
@@ -200,4 +196,3 @@ WorkoutListItem.propTypes = {
     finishedAt: PropTypes.string,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Workouts));
