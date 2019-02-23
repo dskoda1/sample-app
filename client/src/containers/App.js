@@ -12,6 +12,7 @@ import HomePage from './HomePage';
 import Authentication from './Authentication';
 import Snackbar from './Snackbar';
 import WorkoutsHome from '../apps/workouts/Home';
+import WorkoutDetails from '../apps/workouts/Details';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
@@ -40,7 +41,11 @@ class App extends Component {
             <Route path="/" exact component={HomePage} />
             <Route path="/auth" component={Authentication} />
             <Route exact path="/workouts" component={WorkoutsHome} />
-            {/* <Route child path="/workouts/:workoutId" component={Workouts} /> */}
+            <Route
+              child
+              path="/workouts/:workoutId"
+              component={WorkoutDetails}
+            />
             <Route component={NotFound} />
           </Switch>
         </Grid>

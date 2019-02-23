@@ -28,3 +28,5 @@ const fetchWorkoutSaga = function*({ id }) {
 };
 
 export { fetchWorkoutsSaga, fetchWorkoutSaga };
+
+// const createNewWorkoutSaga = function*({ name }) {};

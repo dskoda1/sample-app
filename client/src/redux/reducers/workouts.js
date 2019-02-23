@@ -1,7 +1,7 @@
 import * as types from '../constants';
 
 const initialState = {
-  list: [],
+  list: null,
   fetching: false,
   error: null,
 };
