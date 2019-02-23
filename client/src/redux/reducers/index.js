@@ -7,5 +7,5 @@ import workouts from './workouts';
 export default combineReducers({
   auth,
   notification,
-  workouts
+  workouts,
 });

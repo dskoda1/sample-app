@@ -16,15 +16,15 @@ const fetchWorkoutsSaga = function*() {
 };
 
 const fetchWorkoutSaga = function*({ id }) {
-    try {
-      const response = yield call(axios.get, `/api/workouts/${id}`);
-      yield put(actions.fetchWorkoutSuccess({ workout: response.data.workout }));
-    } catch (error) {
-      yield put(
-        actions.showNotification('Failed to fetch your workout, sorry!', 'error')
-      );
-      yield put(actions.fetchWorkoutFailure(error));
-    }
-  };
-  
+  try {
+    const response = yield call(axios.get, `/api/workouts/${id}`);
+    yield put(actions.fetchWorkoutSuccess({ workout: response.data.workout }));
+  } catch (error) {
+    yield put(
+      actions.showNotification('Failed to fetch your workout, sorry!', 'error')
+    );
+    yield put(actions.fetchWorkoutFailure(error));
+  }
+};
+
 export { fetchWorkoutsSaga, fetchWorkoutSaga };

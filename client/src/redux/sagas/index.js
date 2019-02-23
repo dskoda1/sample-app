@@ -1,8 +1,12 @@
 import { takeLatest } from 'redux-saga/effects';
 
-import { 
-  LOGIN, LOGOUT, REGISTER, FETCH_PROFILE,
-  FETCH_WORKOUTS, FETCH_WORKOUT,
+import {
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  FETCH_PROFILE,
+  FETCH_WORKOUTS,
+  FETCH_WORKOUT,
 } from '../constants';
 
 import { loginSaga, registerSaga, logoutSaga, profileSaga } from './auth';

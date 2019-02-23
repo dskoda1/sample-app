@@ -74,7 +74,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "prettier": "prettier --config .prettierrc --write \"src/**/*.{js,jsx,scss,css}\""
+    "prettier": "prettier --config ../.prettierrc --write \"src/**/*.{js,jsx,scss,css}\""
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {

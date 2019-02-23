@@ -15,10 +15,14 @@ class Register extends Component {
     this.setState({ [field]: e.target.value });
   };
 
-  handleKeyDown =  e => {
+  handleKeyDown = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this.props.handleSubmit(this.state.username, this.state.password, this.state.passwordConfirmation);
+      this.props.handleSubmit(
+        this.state.username,
+        this.state.password,
+        this.state.passwordConfirmation
+      );
     }
   };
 

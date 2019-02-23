@@ -16,8 +16,8 @@ module.exports = {
       $gt: Op.gt,
       $lt: Op.lt,
       $lte: Op.lte,
-      $like: Op.like
-    }
+      $like: Op.like,
+    },
   },
   local_test: {
     username: 'dskoda',
@@ -34,8 +34,8 @@ module.exports = {
       $gt: Op.gt,
       $lt: Op.lt,
       $lte: Op.lte,
-      $like: Op.like
-    }
+      $like: Op.like,
+    },
   },
   test: {
     username: 'postgres',
@@ -50,14 +50,14 @@ module.exports = {
       $gt: Op.gt,
       $lt: Op.lt,
       $lte: Op.lte,
-      $like: Op.like
-    }
+      $like: Op.like,
+    },
   },
   production: {
     username: process.env.PROD_DB_USERNAME,
     password: process.env.PROD_DB_PASSWORD,
     database: process.env.PROD_DB_NAME,
     host: process.env.PROD_DB_HOSTNAME,
-    dialect: 'mysql'
+    dialect: 'mysql',
   },
 };

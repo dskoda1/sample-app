@@ -16,7 +16,7 @@ class Login extends Component {
 
   handleKeyDown = e => {
     if (e.key === 'Enter') {
-      e.preventDefault()
+      e.preventDefault();
       this.props.handleSubmit(this.state.username, this.state.password);
     }
   };
