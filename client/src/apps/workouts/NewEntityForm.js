@@ -21,7 +21,7 @@ export default class NewEntityForm extends Component {
   render() {
     const { onCreate, creating, classes, entityName } = this.props;
     return (
-      <Grid container direction="column" alignItems="center">
+      <Grid container justify="space-around">
         <form onSubmit={() => onCreate(this.state.name)}>
           <Grid item xs={12}>
             <TextField
@@ -31,7 +31,7 @@ export default class NewEntityForm extends Component {
               onKeyDown={this.handleKeyDown}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={12}>
             <Button
               variant="contained"
               color="primary"
