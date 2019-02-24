@@ -39,7 +39,6 @@ class WorkoutListItem extends Component {
       // updatedAt,
       finishedAt,
     } = this.props;
-    console.log(finishedAt);
 
     let FinishedComponent = <div>In Progress</div>;
     if (finishedAt) {

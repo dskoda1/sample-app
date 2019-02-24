@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import NewEntityForm from './NewEntityForm';
+import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutList from './WorkoutList';
 
 import { showNotification, fetchWorkouts } from '../../redux/actions';
@@ -15,6 +17,10 @@ const styles = theme => ({
   },
   button: {
     marginTop: theme.spacing.unit * 4,
+  },
+  root: {
+    flexGrow: 1,
+    textAlign: 'center',
   },
 });
 
@@ -67,17 +73,22 @@ class Workouts extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Workouts</h2>
-        <NewEntityForm
-          classes={this.props.classes}
-          onCreate={this.startNew}
-          creating={this.state.creating}
-          entityName={'Workout Name'}
-        />
-        <WorkoutList
-          workouts={this.props.workouts ? this.props.workouts : []}
-        />
+      <div className={this.props.classes.root}>
+        <Typography variant="display3">Workouts</Typography>
+        <Grid container justify="space-around">
+          <Grid item xs={12} md={6}>
+            <NewWorkoutForm
+              classes={this.props.classes}
+              startNew={this.startNew}
+              creating={this.state.creating}
+            />
+          </Grid>
+          <Grid item xs={12} md={9}>
+            <WorkoutList
+              workouts={this.props.workouts ? this.props.workouts : []}
+            />
+          </Grid>
+        </Grid>
       </div>
     );
   }
