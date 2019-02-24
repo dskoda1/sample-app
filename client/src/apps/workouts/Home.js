@@ -12,12 +12,6 @@ import WorkoutList from './WorkoutList';
 import { showNotification, fetchWorkouts } from '../../redux/actions';
 
 const styles = theme => ({
-  textField: {
-    marginTop: theme.spacing.unit * 2,
-  },
-  button: {
-    marginTop: theme.spacing.unit * 4,
-  },
   root: {
     flexGrow: 1,
     textAlign: 'center',
@@ -76,14 +70,13 @@ class Workouts extends Component {
       <div className={this.props.classes.root}>
         <Typography variant="display3">Workouts</Typography>
         <Grid container justify="space-around">
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={6}>
             <NewWorkoutForm
-              classes={this.props.classes}
               startNew={this.startNew}
               creating={this.state.creating}
             />
           </Grid>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} sm={9}>
             <WorkoutList
               workouts={this.props.workouts ? this.props.workouts : []}
             />

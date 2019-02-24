@@ -7,6 +7,7 @@ import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 export default class WorkoutList extends Component {
   render() {
@@ -40,7 +41,7 @@ class WorkoutListItem extends Component {
       finishedAt,
     } = this.props;
 
-    let FinishedComponent = <div>In Progress</div>;
+    let FinishedComponent = <span>- In Progress</span>;
     if (finishedAt) {
       FinishedComponent = <Moment format="hh:m">{finishedAt}</Moment>;
     }
