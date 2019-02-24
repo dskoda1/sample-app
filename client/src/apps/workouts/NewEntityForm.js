@@ -1,47 +1,33 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-class Login extends Component {
-  state: State = {
-    username: '',
-    password: '',
+export default class NewEntityForm extends Component {
+  state = {
+    name: '',
   };
-
   updateField = field => e => {
     this.setState({ [field]: e.target.value });
   };
-
   handleKeyDown = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      this.props.handleSubmit(this.state.username, this.state.password);
+      this.props.onCreate(this.state.name);
     }
   };
 
   render() {
-    const { classes, handleSubmit, fetching } = this.props;
-    const { username, password } = this.state;
+    const { onCreate, creating, classes, entityName } = this.props;
     return (
       <Grid container direction="column" alignItems="center">
-        <form onSubmit={() => handleSubmit(username, password)}>
+        <form onSubmit={() => onCreate(this.state.name)}>
           <Grid item xs={12}>
             <TextField
-              label="Username"
+              label={entityName}
               className={classes.textField}
-              onChange={this.updateField('username')}
-              onKeyDown={this.handleKeyDown}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Password"
-              className={classes.textField}
-              type="password"
-              autoComplete="current-password"
-              onChange={this.updateField('password')}
+              onChange={this.updateField('name')}
               onKeyDown={this.handleKeyDown}
             />
           </Grid>
@@ -50,8 +36,8 @@ class Login extends Component {
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick={() => handleSubmit(username, password)}
-              disabled={fetching}
+              onClick={() => onCreate(this.state.name)}
+              disabled={creating}
             >
               Submit
             </Button>
@@ -62,4 +48,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+NewEntityForm.propTypes = {
+  onCreate: PropTypes.func.isRequired,
+  creating: PropTypes.bool.isRequired,
+  entityName: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};

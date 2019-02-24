@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -18,7 +17,6 @@ const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
       <div className={toolbar} />
       <Divider />
       <List>
-
         <Link to="/workouts" style={{ textDecoration: 'none', color: '#FFF' }}>
           <ListItem button>
             <ListItemIcon>

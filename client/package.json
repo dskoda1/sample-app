@@ -42,7 +42,6 @@
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
     "mini-css-extract-plugin": "0.4.3",
-    "moment": "^2.22.2",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.1.0",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -74,7 +73,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "prettier": "prettier --config .prettierrc --write \"src/**/*.{js,jsx,scss,css}\""
+    "prettier": "prettier --config ../.prettierrc --write \"src/**/*.{js,jsx,scss,css}\""
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {

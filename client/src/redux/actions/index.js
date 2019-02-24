@@ -1,8 +1,5 @@
 import * as types from '../constants';
 
-export const getMatches = () => ({ type: types.GET_MATCHES });
-export const getTodaysMatches = () => ({ type: types.GET_TODAYS_MATCHES });
-
 export const login = (username, password) => ({
   type: types.LOGIN,
   username,
@@ -45,3 +42,25 @@ export const showNotification = (notification, variant) => ({
   variant,
 });
 export const hideNotification = () => ({ type: types.HIDE_NOTIFICATION });
+
+/** Workout actions */
+export const fetchWorkouts = () => ({ type: types.FETCH_WORKOUTS });
+export const fetchWorkoutsSuccess = workouts => ({
+  type: types.FETCH_WORKOUTS_SUCCESS,
+  workouts,
+});
+export const fetchWorkoutsFailure = error => ({
+  type: types.FETCH_WORKOUTS_FAILURE,
+  error,
+});
+
+export const fetchWorkout = id => ({ type: types.FETCH_WORKOUT, id });
+export const fetchWorkoutSuccess = workout => ({
+  type: types.FETCH_WORKOUT_SUCCESS,
+  workout,
+});
+export const fetchWorkoutFailure = error => ({
+  type: types.FETCH_WORKOUT_FAILURE,
+  error,
+});
+/** End workout actions */
