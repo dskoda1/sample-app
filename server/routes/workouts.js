@@ -45,6 +45,7 @@ router.get('/', async (req, res) => {
       where: {
         UserId: req.session.userId,
       },
+      order: [['createdAt', 'DESC']],
     });
     return res
       .status(200)
