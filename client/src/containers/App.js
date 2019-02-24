@@ -11,8 +11,10 @@ import { fetchProfile } from '../redux/actions';
 import HomePage from './HomePage';
 import Authentication from './Authentication';
 import Snackbar from './Snackbar';
+import AuthenticatedRoute from './AuthenticatedRoute';
 import WorkoutsHome from '../apps/workouts/Home';
 import WorkoutDetails from '../apps/workouts/Details';
+import WorkoutsLoggedOutView from '../apps/workouts/LoggedOutView';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
@@ -40,11 +42,17 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/auth" component={Authentication} />
-            <Route exact path="/workouts" component={WorkoutsHome} />
-            <Route
+            <AuthenticatedRoute
+              exact
+              component={WorkoutsHome}
+              fallback={WorkoutsLoggedOutView}
+              path="/workouts"
+            />
+            <AuthenticatedRoute
               child
               path="/workouts/:workoutId"
               component={WorkoutDetails}
+              fallback={WorkoutsLoggedOutView}
             />
             <Route component={NotFound} />
           </Switch>

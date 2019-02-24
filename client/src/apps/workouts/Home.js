@@ -39,6 +39,10 @@ class Workouts extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchWorkouts();
+  }
+
   startNew = name => {
     if (!name || name.length < 3) {
       this.props.showNotification('not a valid name', 'error');

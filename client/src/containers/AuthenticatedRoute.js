@@ -1,14 +1,30 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const AuthenticatedRoute = ({
-  component,
-  fallback,
+const PrivateRoute = ({
+  component: Comp,
+  fallback: Fallback,
   isAuthenticated,
   ...rest
-}) => {
-  return <Route {...rest} render={isAuthenticated ? component : fallback} />;
+}) => (
+  <Route
+    {...rest}
+    render={props => {
+      if (isAuthenticated) {
+        return <Comp {...props} />;
+      }
+      return <Fallback />;
+    }}
+  />
+);
+
+PrivateRoute.propTypes = {
+  component: PropTypes.func.isRequired,
+  fallback: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ auth: { user } }) => {
@@ -20,4 +36,4 @@ const mapStateToProps = ({ auth: { user } }) => {
 export default connect(
   mapStateToProps,
   {}
-)(AuthenticatedRoute);
+)(PrivateRoute);
