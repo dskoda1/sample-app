@@ -8,50 +8,51 @@ import Grid from '@material-ui/core/Grid';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Moment from 'react-moment';
 
-
 import IconMenu from '../../components/IconMenu';
 
-class DetailsHeader 
+class DetailsHeader extends Component {
+  handleSettingsSelection = choice => {
+    if (choice === 'complete') {
+      this.props.completeWorkout();
+    }
+  };
 
-const DetailsHeader = ({ classes, workout, onFinish, updating }) => {
-
-
-  return (
-    <Paper className={classes.root}>
-      <Grid container justify="">
-        <Grid item xs={9}>
-          <Typography variant="display2">
-            {workout.name}
-          </Typography>
+  render() {
+    const { classes, workout } = this.props;
+    return (
+      <Paper className={classes.root}>
+        <Grid container justify="">
+          <Grid item xs={9}>
+            <Typography variant="display2">{workout.name}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <IconMenu
+              iconClass={SettingsIcon}
+              choices={[
+                { choice: 'edit', text: 'Edit' },
+                { choice: 'complete', text: 'Complete' },
+              ]}
+              onSelect={this.handleSettingsSelection}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="headline">
+              <Moment
+                durationFromNow
+                date={workout.createdAt}
+                interval={1000}
+              />{' '}
+              {workout.finishedAt ? 'complete' : ''}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="title"># of exercises</Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <IconMenu
-            iconClass={SettingsIcon}
-            choices={[
-              { choice: 'edit', text: 'Edit' },
-              { choice: 'complete', text: 'Complete' },
-            ]}
-            onSelect=
-          />
-        </Grid>
-        <Grid item xs={6}>
-        <Typography variant="headline">
-        <Moment 
-          durationFromNow
-          date={workout.createdAt}
-          interval={1000}
-        />
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-        <Typography variant="title">
-        # of exercises
-          </Typography>
-        </Grid>
-      </Grid>
-    </Paper>
-  );
-};
+      </Paper>
+    );
+  }
+}
 
 DetailsHeader.propTypes = {
   workout: PropTypes.shape({
@@ -62,8 +63,8 @@ DetailsHeader.propTypes = {
     finishedAt: PropTypes.string,
   }),
   updating: PropTypes.bool.isRequired,
-  onFinish: PropTypes.func.isRequired,
-}
+  completeWorkout: PropTypes.func.isRequired,
+};
 
 const styles = theme => ({
   root: {

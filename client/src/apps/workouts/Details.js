@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 
-import { showNotification, fetchWorkout, updateWorkout } from '../../redux/actions';
+import {
+  showNotification,
+  fetchWorkout,
+  updateWorkout,
+} from '../../redux/actions';
 import DetailsHeader from './DetailsHeader';
 
 class Details extends Component {
@@ -13,13 +17,12 @@ class Details extends Component {
     this.props.fetchWorkout(this.props.id);
   }
 
-
-  onFinish = () => {
-    this.props.updateWorkout(this.props.id, {finished: true})
-  }
+  completeWorkout = () => {
+    this.props.updateWorkout(this.props.id, { finished: true });
+  };
 
   render() {
-    const { workout, updating, updateWorkout } = this.props;
+    const { workout, updating } = this.props;
     if (!workout) {
       return <span>Loading..</span>;
     }
@@ -27,10 +30,11 @@ class Details extends Component {
     return (
       <Grid container justify="center">
         <Grid item sm={6} xs={12}>
-          <DetailsHeader 
-          workout={this.props.workout} 
-          updating={updating} 
-          onFinish={this.onFinish} />
+          <DetailsHeader
+            workout={this.props.workout}
+            updating={updating}
+            completeWorkout={this.completeWorkout}
+          />
         </Grid>
       </Grid>
     );
@@ -66,7 +70,7 @@ const mapStateToProps = (
 const mapDispatchToProps = {
   showNotification,
   fetchWorkout,
-  updateWorkout
+  updateWorkout,
 };
 
 export default connect(

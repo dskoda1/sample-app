@@ -29,17 +29,15 @@ const fetchWorkoutSaga = function*({ id }) {
 
 const updateWorkoutSaga = function*({ id, body }) {
   try {
-    const response = yield call(axios.put, `/api/workouts/${id}`, body);
+    yield call(axios.put, `/api/workouts/${id}`, body);
     yield put(actions.updateWorkoutSuccess());
     yield put(actions.fetchWorkout(id));
   } catch (error) {
-    yield put(
-      actions.showNotification('Failed to update workout', 'error')
-    );
+    yield put(actions.showNotification('Failed to update workout', 'error'));
     yield put(actions.updateWorkoutFailure(error));
   }
-}
+};
 
-export { fetchWorkoutsSaga, fetchWorkoutSaga };
+export { fetchWorkoutsSaga, fetchWorkoutSaga, updateWorkoutSaga };
 
 // const createNewWorkoutSaga = function*({ name }) {};

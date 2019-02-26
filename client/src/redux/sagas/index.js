@@ -7,10 +7,15 @@ import {
   FETCH_PROFILE,
   FETCH_WORKOUTS,
   FETCH_WORKOUT,
+  UPDATE_WORKOUT,
 } from '../constants';
 
 import { loginSaga, registerSaga, logoutSaga, profileSaga } from './auth';
-import { fetchWorkoutsSaga, fetchWorkoutSaga } from './workouts';
+import {
+  fetchWorkoutsSaga,
+  fetchWorkoutSaga,
+  updateWorkoutSaga,
+} from './workouts';
 
 export default function*() {
   yield takeLatest(LOGIN, loginSaga);
@@ -19,4 +24,5 @@ export default function*() {
   yield takeLatest(LOGOUT, logoutSaga);
   yield takeLatest(FETCH_WORKOUT, fetchWorkoutSaga);
   yield takeLatest(FETCH_WORKOUTS, fetchWorkoutsSaga);
+  yield takeLatest(UPDATE_WORKOUT, updateWorkoutSaga);
 }

@@ -53,8 +53,8 @@ export default (
       return {
         ...state,
         updating: false,
-        error
-      }
+        error,
+      };
     default:
       return state;
   }
