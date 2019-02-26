@@ -76,7 +76,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id', singleWorkoutMiddleware, (req, res) => {
-  return res.json({ workout: req.workout }).end();
+  let workout = req.workout;
+  return res.json({ workout }).end();
 });
 
 router.put('/:id', singleWorkoutMiddleware, async (req, res) => {

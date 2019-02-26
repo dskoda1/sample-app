@@ -7,7 +7,6 @@ import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 
 export default class WorkoutList extends Component {
   render() {

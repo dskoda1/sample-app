@@ -63,4 +63,15 @@ export const fetchWorkoutFailure = error => ({
   type: types.FETCH_WORKOUT_FAILURE,
   error,
 });
+
+export const updateWorkout = (id, body) => ({ type: types.UPDATE_WORKOUT, id, body });
+export const updateWorkoutSuccess = () => ({
+  type: types.UPDATE_WORKOUT_SUCCESS,
+});
+export const updateWorkoutFailure = error => ({
+  type: types.UPDATE_WORKOUT_FAILURE,
+  error,
+});
+
+
 /** End workout actions */

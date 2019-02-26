@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
@@ -10,13 +9,6 @@ import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutList from './WorkoutList';
 
 import { showNotification, fetchWorkouts } from '../../redux/actions';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    textAlign: 'center',
-  },
-});
 
 const makePostRequest = (url, body) => {
   return fetch(url, {
@@ -67,7 +59,7 @@ class Workouts extends Component {
 
   render() {
     return (
-      <div className={this.props.classes.root}>
+      <div>
         <Typography variant="display3">Workouts</Typography>
         <Grid container justify="space-around">
           <Grid item xs={12} sm={6}>
@@ -111,11 +103,9 @@ Workouts.propTypes = {
   // actions
   showNotification: PropTypes.func.isRequired,
   fetchWorkouts: PropTypes.func.isRequired,
-  // material
-  classes: PropTypes.object.isRequired,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Workouts));
+)(Workouts);

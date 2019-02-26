@@ -20,18 +20,19 @@ const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     padding: theme.spacing.unit * 2,
+    textAlign: 'center',
   },
   textField: {
     marginTop: theme.spacing.unit * 2,
   },
   button: {
     marginTop: theme.spacing.unit * 4,
-  },  
+  },
 });
 NewWorkoutForm.propTypes = {
   startNew: PropTypes.func.isRequired,
   creating: PropTypes.bool.isRequired,
-  classes: PropTypes.object.isRequired
-}
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(NewWorkoutForm);

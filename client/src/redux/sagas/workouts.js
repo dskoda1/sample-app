@@ -18,7 +18,7 @@ const fetchWorkoutsSaga = function*() {
 const fetchWorkoutSaga = function*({ id }) {
   try {
     const response = yield call(axios.get, `/api/workouts/${id}`);
-    yield put(actions.fetchWorkoutSuccess({ workout: response.data.workout }));
+    yield put(actions.fetchWorkoutSuccess(response.data.workout));
   } catch (error) {
     yield put(
       actions.showNotification('Failed to fetch your workout, sorry!', 'error')
@@ -26,6 +26,19 @@ const fetchWorkoutSaga = function*({ id }) {
     yield put(actions.fetchWorkoutFailure(error));
   }
 };
+
+const updateWorkoutSaga = function*({ id, body }) {
+  try {
+    const response = yield call(axios.put, `/api/workouts/${id}`, body);
+    yield put(actions.updateWorkoutSuccess());
+    yield put(actions.fetchWorkout(id));
+  } catch (error) {
+    yield put(
+      actions.showNotification('Failed to update workout', 'error')
+    );
+    yield put(actions.updateWorkoutFailure(error));
+  }
+}
 
 export { fetchWorkoutsSaga, fetchWorkoutSaga };
 
