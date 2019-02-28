@@ -21,20 +21,26 @@ class Details extends Component {
     this.props.updateWorkout(this.props.id, { finished: true });
   };
 
+  updateWorkoutName = (name) => {
+    this.props.updateWorkout(this.props.id, { name });
+  };
+
   render() {
     const { workout, updating } = this.props;
-    if (!workout) {
-      return <span>Loading..</span>;
+    let contents = <div>Loading..</div>
+    if (workout) {
+      contents =  <DetailsHeader
+                    workout={this.props.workout}
+                    updating={updating}
+                    completeWorkout={this.completeWorkout}
+                    updateWorkoutName={this.updateWorkoutName}
+                  />
     }
 
     return (
       <Grid container justify="center">
         <Grid item sm={6} xs={12}>
-          <DetailsHeader
-            workout={this.props.workout}
-            updating={updating}
-            completeWorkout={this.completeWorkout}
-          />
+          {contents}
         </Grid>
       </Grid>
     );
@@ -65,6 +71,7 @@ const mapStateToProps = (
     fetching: state.workouts.fetching,
     error: state.workouts.error,
     workout: state.workouts.map[workoutId],
+    updating: state.workouts.updating,
   };
 };
 const mapDispatchToProps = {
