@@ -7,7 +7,7 @@
     "start": "node server.js",
     "watch": "NODE_ENV=development nodemon  -w server server.js",
     "ci:test": "jest --rootDir server --runInBand --forceExit",
-    "test": "NODE_ENV=local_test jest --rNODE_ENV=development --rootDir server --watchAll --runInBand",
+    "test": "NODE_ENV=local_test jest --rootDir server --watchAll --runInBand",
     "test:once": "NODE_ENV=local_test jest --rootDir server --runInBand --detectOpenHandles",
     "prettier": "prettier --config .prettierrc --write \"server/**/*.{js,jsx,scss,css}\""
   },

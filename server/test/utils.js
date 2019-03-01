@@ -1,9 +1,11 @@
 const models = require('../db/models');
 
 const truncateDatabase = async () => {
+  await models.Exercises.drop();
   await models.Workouts.drop();
   await models.Users.sync({ force: true });
   await models.Workouts.sync();
+  await models.Exercises.sync();
 };
 
 const createUser = async (username, password) => {
