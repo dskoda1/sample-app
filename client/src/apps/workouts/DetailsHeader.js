@@ -13,50 +13,47 @@ import IconMenu from '../../components/IconMenu';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-
 class DetailsHeader extends Component {
-
   state = {
     isEditing: false,
-    editedName: "",
-  }
+    editedName: '',
+  };
 
   handleSettingsSelection = choice => {
     if (choice === 'complete') {
       this.props.completeWorkout();
-    } 
-    else if (choice === 'edit') {
-      this.setState({isEditing: true})
+    } else if (choice === 'edit') {
+      this.setState({ isEditing: true });
     }
   };
 
-  onEdit = (editedName) => {
-    this.setState({editedName})
-  }
+  onEdit = editedName => {
+    this.setState({ editedName });
+  };
 
   submitEdit = () => {
-    this.props.updateWorkoutName(this.state.editedName)
-    this.setState({isEditing: false})
-  }
+    this.props.updateWorkoutName(this.state.editedName);
+    this.setState({ isEditing: false });
+  };
 
   render() {
     const { classes, workout } = this.props;
-    let actions = [{ choice: 'edit', text: 'Edit' }]
+    let actions = [{ choice: 'edit', text: 'Edit' }];
     if (!workout.finishedAt) {
-      actions.push({ choice: 'complete', text: 'Complete' })
+      actions.push({ choice: 'complete', text: 'Complete' });
     }
 
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
           <Grid item xs={9}>
-            <EditableField 
+            <EditableField
               isEditing={this.state.isEditing}
               label="name"
               value={workout.name}
               onEdit={this.onEdit /* not needed*/}
               typogrophyVariant="display2"
-              />
+            />
           </Grid>
           <Grid item xs={3}>
             <EditOrConfirm
@@ -64,7 +61,7 @@ class DetailsHeader extends Component {
               editChoices={actions}
               handleSettingsSelection={this.handleSettingsSelection}
               submitChange={this.submitEdit}
-              />
+            />
           </Grid>
           <Grid item xs={6}>
             <Typography variant="headline">
@@ -84,28 +81,44 @@ class DetailsHeader extends Component {
     );
   }
 }
-let EditOrConfirm = ({isEditing, editChoices, handleSettingsSelection, submitChange, disabled}) => {
-  return isEditing ? <Button
+let EditOrConfirm = ({
+  isEditing,
+  editChoices,
+  handleSettingsSelection,
+  submitChange,
+  disabled,
+}) => {
+  return isEditing ? (
+    <Button
       variant="contained"
       color="primary"
       onClick={submitChange}
       disabled={disabled}
     >
-    Save
-  </Button> : <IconMenu
-              iconClass={SettingsIcon}
-              choices={editChoices}
-              onSelect={handleSettingsSelection}
-            />
-}
+      Save
+    </Button>
+  ) : (
+    <IconMenu
+      iconClass={SettingsIcon}
+      choices={editChoices}
+      onSelect={handleSettingsSelection}
+    />
+  );
+};
 
-let EditableField = ({isEditing, label, typogrophyVariant, value, onEdit}) => {
-  return isEditing ? <TextField
-      label={label}
-      onChange={(e) => onEdit(e.target.value)} 
-    /> : <Typography variant={typogrophyVariant}>{value}</Typography>;
-
-}
+let EditableField = ({
+  isEditing,
+  label,
+  typogrophyVariant,
+  value,
+  onEdit,
+}) => {
+  return isEditing ? (
+    <TextField label={label} onChange={e => onEdit(e.target.value)} />
+  ) : (
+    <Typography variant={typogrophyVariant}>{value}</Typography>
+  );
+};
 DetailsHeader.propTypes = {
   workout: PropTypes.shape({
     id: PropTypes.number.isRequired,

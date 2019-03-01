@@ -21,20 +21,22 @@ class Details extends Component {
     this.props.updateWorkout(this.props.id, { finished: true });
   };
 
-  updateWorkoutName = (name) => {
+  updateWorkoutName = name => {
     this.props.updateWorkout(this.props.id, { name });
   };
 
   render() {
     const { workout, updating } = this.props;
-    let contents = <div>Loading..</div>
+    let contents = <div>Loading..</div>;
     if (workout) {
-      contents =  <DetailsHeader
-                    workout={this.props.workout}
-                    updating={updating}
-                    completeWorkout={this.completeWorkout}
-                    updateWorkoutName={this.updateWorkoutName}
-                  />
+      contents = (
+        <DetailsHeader
+          workout={this.props.workout}
+          updating={updating}
+          completeWorkout={this.completeWorkout}
+          updateWorkoutName={this.updateWorkoutName}
+        />
+      );
     }
 
     return (

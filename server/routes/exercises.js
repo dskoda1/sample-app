@@ -15,19 +15,19 @@ router.post('/', async (req, res) => {
   }
   const name = (req.body.name || '').toLowerCase();
   if (name.length < 3) {
-      return res
-        .status(400)
-        .json({error: `name must be at least 3 characters long: ${name}`})
+    return res
+      .status(400)
+      .json({ error: `name must be at least 3 characters long: ${name}` });
   }
 
   // TODO: Validate that workout is owned by user
   const exercise = await models.Exercises.create({
-      name,
-      type,
-      WorkoutId: req.params.workoutId,
-  })
+    name,
+    type,
+    WorkoutId: req.params.workoutId,
+  });
 
-  return res.status(201).json({name: exercise.name, id: exercise.id});
+  return res.status(201).json({ name: exercise.name, id: exercise.id });
 });
 
 module.exports = router;
