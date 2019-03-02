@@ -10,12 +10,11 @@ const fetchWorkout = async (req, res, next) => {
       UserId: req.session.UserId,
       id: req.params.workoutId,
     },
+    include: { model: models.Exercises, as: 'exercises' },
   });
-
   if (!workout) {
     return res.status(404).end();
   }
-
   req.workout = workout;
   next();
 };
