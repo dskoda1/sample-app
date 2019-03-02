@@ -4,8 +4,8 @@ const truncateDatabase = async () => {
   await models.Exercises.drop();
   await models.Workouts.drop();
   await models.Users.sync({ force: true });
-  await models.Workouts.sync();
-  await models.Exercises.sync();
+  await models.Workouts.sync({ force: true });
+  await models.Exercises.sync({ force: true });
 };
 
 const createUser = async (username, password) => {

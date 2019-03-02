@@ -16,9 +16,11 @@ describe('Test exercise endpoints', () => {
     await testSession
       .post('/api/auth/register')
       .send({ username: 'dwight', password: 'ilovebeets' })
-      .expect(200, { username: 'dwight' });
+      .expect(201, { username: 'dwight' });
     user = await models.Users.findOne({ where: { username: 'dwight' } });
-
+    if (!user) {
+      throw Error('Failed to get user');
+    }
     let workoutId;
     await testSession
       .post('/api/workouts')

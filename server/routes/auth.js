@@ -2,49 +2,59 @@ const router = require('express').Router();
 const models = require('../db/models');
 const bcrypt = require('bcrypt');
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   // Verify username and password exist
+  const username = (req.body.username || '').toLowerCase();
+  if (username.length < 3) {
+    return res
+      .status(400)
+      .json({ error: 'Username must be at least 3 characters' });
+  }
+
+  const password = req.body.password;
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ error: 'Password must be at least 6 characters' });
+  }
+
   // Hash password
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
-    if (err) {
-      return res.status(424).json({ err });
-    }
-    // Create new user
-    models.Users.create({
-      username: req.body.username,
-      password: hash,
-    }).then(user => {
-      req.session.username = user.username;
-      req.session.UserId = user.id;
-      res.json({
-        username: user.username,
-      });
-    });
+  const hash = await bcrypt.hash(req.body.password, 10);
+  if (!hash) {
+    return res.status(424).json({ err });
+  }
+
+  // Create new user
+  const user = await models.Users.create({
+    username,
+    password: hash,
+  });
+
+  req.session.username = user.username;
+  req.session.UserId = user.id;
+  res.status(201).json({
+    username: user.username,
   });
 });
 
-router.post('/login', (req, res) => {
-  models.Users.findOne({ where: { username: req.body.username } }).then(
-    user => {
-      if (!user) {
-        return res
-          .status(401)
-          .json({ error: `Username ${req.body.username} not found` });
-      }
-      // compare the password with hash in db
-      bcrypt.compare(req.body.password, user.password, (err, match) => {
-        if (match) {
-          req.session.username = user.username;
-          req.session.UserId = user.id;
-          return res.status(200).json({ username: user.username });
-        }
-        return res
-          .status(401)
-          .json({ error: 'username or password incorrect' })
-          .end();
-      });
-    }
-  );
+router.post('/login', async (req, res) => {
+  const username = (req.body.username || '').toLowerCase();
+
+  const user = await models.Users.findOne({ where: { username } });
+
+  if (!user) {
+    return res.status(401).end();
+  }
+
+  const match = await bcrypt.compare(req.body.password, user.password);
+  if (!match) {
+    return res.status(401).end();
+  }
+
+  req.session.username = user.username;
+  req.session.UserId = user.id;
+
+  return res.status(202).json({ username: user.username });
 });
 
 router.get('/profile', (req, res) => {
@@ -55,8 +65,12 @@ router.get('/profile', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
+  if (!req.session.username) {
+    return res.status(401).end();
+  }
+
   req.session = null;
-  res.status(200).end();
+  return res.status(200).end();
 });
 
 module.exports = router;
