@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
       password: hash,
     }).then(user => {
       req.session.username = user.username;
-      req.session.userId = user.id;
+      req.session.UserId = user.id;
       res.json({
         username: user.username,
       });
@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
       bcrypt.compare(req.body.password, user.password, (err, match) => {
         if (match) {
           req.session.username = user.username;
-          req.session.userId = user.id;
+          req.session.UserId = user.id;
           return res.status(200).json({ username: user.username });
         }
         return res

@@ -24,8 +24,18 @@ const createWorkout = async (UserId, name) => {
   return workout;
 };
 
+const createExercise = async (WorkoutId, name, type) => {
+  const exercise = await models.Exercises.create({
+    WorkoutId,
+    name,
+    type,
+  });
+  return exercise;
+};
+
 module.exports = {
   truncateDatabase,
   createUser,
   createWorkout,
+  createExercise,
 };
