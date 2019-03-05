@@ -43,38 +43,55 @@ class DetailsHeader extends Component {
       actions.push({ choice: 'complete', text: 'Complete' });
     }
 
+    let duration = (
+      <div>
+        <Moment durationFromNow date={workout.createdAt} interval={1000} />{' '}
+        {workout.finishedAt ? 'complete' : ''}
+      </div>
+    );
+    if (workout.finishedAt) {
+      duration = (
+        <div>
+          <Moment diff={workout.createdAt} unit="minutes">
+            {workout.finishedAt}
+          </Moment>{' '}
+          Minutes
+        </div>
+      );
+    }
+
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
-          <Grid item xs={9}>
+          <Grid item xs={8}>
             <EditableField
               isEditing={this.state.isEditing}
-              label="name"
+              label="Name"
               value={workout.name}
               onEdit={this.onEdit /* not needed*/}
               typogrophyVariant="display2"
+              classes={classes}
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <EditOrConfirm
               isEditing={this.state.isEditing}
               editChoices={actions}
               handleSettingsSelection={this.handleSettingsSelection}
               submitChange={this.submitEdit}
+              classes={classes}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="headline">
-              <Moment
-                durationFromNow
-                date={workout.createdAt}
-                interval={1000}
-              />{' '}
-              {workout.finishedAt ? 'complete' : ''}
+          <Grid item xs={4}>
+            <Typography variant="subheading">{duration}</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography variant="subheading">
+              {(workout.exercises || []).length} exercises
             </Typography>
           </Grid>
-          <Grid item xs={6}>
-            <Typography variant="title"># of exercises</Typography>
+          <Grid item xs={4}>
+            <Typography variant="subheading"># sets</Typography>
           </Grid>
         </Grid>
       </Paper>
@@ -112,9 +129,14 @@ let EditableField = ({
   typogrophyVariant,
   value,
   onEdit,
+  classes,
 }) => {
   return isEditing ? (
-    <TextField label={label} onChange={e => onEdit(e.target.value)} />
+    <TextField
+      label={label}
+      className={classes.textField}
+      onChange={e => onEdit(e.target.value)}
+    />
   ) : (
     <Typography variant={typogrophyVariant}>{value}</Typography>
   );
@@ -126,17 +148,23 @@ DetailsHeader.propTypes = {
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,
     finishedAt: PropTypes.string,
+    exercises: PropTypes.array.isRequired,
   }),
   updating: PropTypes.bool.isRequired,
   completeWorkout: PropTypes.func.isRequired,
   updateWorkoutName: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
     padding: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit,
     textAlign: 'center',
+  },
+  textField: {
+    marginBottom: theme.spacing.unit * 2,
   },
 });
 

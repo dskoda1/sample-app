@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 
+import DetailsHeader from './DetailsHeader';
+import { showNotification } from '../../redux/actions';
 import {
-  showNotification,
   fetchWorkout,
   updateWorkout,
-} from '../../redux/actions';
-import DetailsHeader from './DetailsHeader';
+  createExercise,
+} from '../../redux/actions/workouts';
+import NewExerciseForm from './NewExerciseForm';
+import ExerciseList from './ExerciseList';
 
 class Details extends Component {
   componentDidMount() {
@@ -25,23 +28,45 @@ class Details extends Component {
     this.props.updateWorkout(this.props.id, { name });
   };
 
+  createExercise = (name, type) => {
+    this.props.createExercise(
+      this.props.id,
+      name,
+      type,
+      this.props.pushHistory
+    );
+  };
+
   render() {
-    const { workout, updating } = this.props;
+    const { workout, updating, creatingExercise, pushHistory } = this.props;
     let contents = <div>Loading..</div>;
     if (workout) {
       contents = (
-        <DetailsHeader
-          workout={this.props.workout}
-          updating={updating}
-          completeWorkout={this.completeWorkout}
-          updateWorkoutName={this.updateWorkoutName}
-        />
+        <div>
+          <DetailsHeader
+            workout={this.props.workout}
+            updating={updating}
+            completeWorkout={this.completeWorkout}
+            updateWorkoutName={this.updateWorkoutName}
+          />
+          {workout.finishedAt ? null : (
+            <NewExerciseForm
+              creating={creatingExercise}
+              onCreate={this.createExercise}
+            />
+          )}
+          <ExerciseList
+            exercises={workout.exercises}
+            workoutId={workout.id}
+            pushHistory={pushHistory}
+          />
+        </div>
       );
     }
 
     return (
-      <Grid container justify="center">
-        <Grid item sm={6} xs={12}>
+      <Grid container justify="space-around">
+        <Grid item sm={9} xs={12}>
           {contents}
         </Grid>
       </Grid>
@@ -50,7 +75,12 @@ class Details extends Component {
 }
 
 Details.propTypes = {
-  workout: PropTypes.shape({}),
+  workout: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    finishedAt: PropTypes.string,
+    exercises: PropTypes.array.isRequired,
+  }),
   fetching: PropTypes.bool.isRequired,
   updating: PropTypes.bool.isRequired,
   error: PropTypes.string,
@@ -58,28 +88,27 @@ Details.propTypes = {
   showNotification: PropTypes.func.isRequired,
   fetchWorkout: PropTypes.func.isRequired,
   updateWorkout: PropTypes.func.isRequired,
+  createExercise: PropTypes.func.isRequired,
+  creatingExercise: PropTypes.bool.isRequired,
+  pushHistory: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (
-  state,
-  {
-    match: {
-      params: { workoutId },
-    },
-  }
-) => {
+const mapStateToProps = (state, router) => {
   return {
-    id: workoutId,
+    id: router.match.params.workoutId,
     fetching: state.workouts.fetching,
     error: state.workouts.error,
-    workout: state.workouts.map[workoutId],
+    workout: state.workouts.map[router.match.params.workoutId],
     updating: state.workouts.updating,
+    creatingExercise: state.exercises.creating,
+    pushHistory: router.history.push,
   };
 };
 const mapDispatchToProps = {
   showNotification,
   fetchWorkout,
   updateWorkout,
+  createExercise,
 };
 
 export default connect(

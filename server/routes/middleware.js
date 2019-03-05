@@ -11,6 +11,9 @@ const fetchWorkout = async (req, res, next) => {
       id: req.params.workoutId,
     },
     include: { model: models.Exercises, as: 'exercises' },
+    order: [
+      [{ model: models.Exercises, as: 'exercises'}, 'createdAt', 'DESC']
+    ]
   });
   if (!workout) {
     return res.status(404).end();

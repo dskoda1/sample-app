@@ -6,6 +6,7 @@ const initialState = {
   fetching: false,
   error: null,
   updating: false,
+  creating: false,
 };
 
 export default (
@@ -36,6 +37,24 @@ export default (
           ...state.map,
           [workout.id]: workout,
         },
+      };
+    case types.CREATE_WORKOUT:
+      return {
+        ...state,
+        creating: true,
+        error: null,
+      };
+    case types.CREATE_WORKOUT_SUCCESS:
+      return {
+        ...state,
+        creating: false,
+        error: null,
+      };
+    case types.CREATE_WORKOUT_FAILURE:
+      return {
+        ...state,
+        creating: false,
+        error,
       };
     case types.UPDATE_WORKOUT:
       return {

@@ -8,23 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutList from './WorkoutList';
 
-import { showNotification, fetchWorkouts } from '../../redux/actions';
-
-const makePostRequest = (url, body) => {
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-};
+import { showNotification } from '../../redux/actions';
+import { fetchWorkouts, createWorkout } from '../../redux/actions/workouts';
 
 class Workouts extends Component {
-  state = {
-    creating: false,
-  };
-
   componentDidUpdate() {
     if (!this.props.fetching && !this.props.workouts) {
       this.props.fetchWorkouts();
@@ -40,21 +27,7 @@ class Workouts extends Component {
       this.props.showNotification('not a valid name', 'error');
       return;
     }
-    // TODO: Redux-ify this
-    this.setState({ creating: true }, () => {
-      makePostRequest('/api/workouts', { name })
-        .then(res => res.json())
-        .then(workout => this.props.pushHistory(`/workouts/${workout.id}`))
-        // .then(() => this.setState({ creatingWorkout: false }))
-        .then(() =>
-          this.props.showNotification(
-            'Workout created successfully!',
-            'success'
-          )
-        )
-        .then(() => this.props.fetchWorkouts())
-        .catch(error => console.error(error));
-    });
+    this.props.createWorkout(name, this.props.pushHistory);
   };
 
   render() {
@@ -65,7 +38,7 @@ class Workouts extends Component {
           <Grid item xs={12} sm={6}>
             <NewWorkoutForm
               startNew={this.startNew}
-              creating={this.state.creating}
+              creating={this.props.creating}
             />
           </Grid>
           <Grid item xs={12} sm={9}>
@@ -86,11 +59,13 @@ const mapStateToProps = (state, router) => {
     workouts: state.workouts.list,
     fetching: state.workouts.fetching,
     error: state.workouts.error,
+    creating: state.workouts.creating,
   };
 };
 const mapDispatchToProps = {
   showNotification,
   fetchWorkouts,
+  createWorkout,
 };
 
 Workouts.propTypes = {
@@ -100,9 +75,11 @@ Workouts.propTypes = {
   workouts: PropTypes.array,
   fetching: PropTypes.bool.isRequired,
   error: PropTypes.string,
+  creating: PropTypes.bool.isRequired,
   // actions
   showNotification: PropTypes.func.isRequired,
   fetchWorkouts: PropTypes.func.isRequired,
+  createWorkout: PropTypes.func.isRequired,
 };
 
 export default connect(

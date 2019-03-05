@@ -12,7 +12,10 @@ const loginSaga = function*({ username, password }) {
     const response = yield call(authEndpoint, 'login', username, password);
     yield put(actions.loginSuccess({ username: response.data.username }));
     yield put(
-      actions.showNotification(`Welcome back, ${response.data.username}!`, 'success')
+      actions.showNotification(
+        `Welcome back, ${response.data.username}!`,
+        'success'
+      )
     );
   } catch (error) {
     yield put(
