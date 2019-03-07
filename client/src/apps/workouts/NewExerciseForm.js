@@ -14,11 +14,13 @@ import {
   Typography,
 } from '@material-ui/core';
 
+const initialState = {
+  name: '',
+  type: '',
+}
+
 class NewExerciseForm extends Component {
-  state = {
-    name: '',
-    type: '',
-  };
+  state = initialState;
   updateField = field => e => {
     this.setState({ [field]: e.target.value });
   };
@@ -32,6 +34,8 @@ class NewExerciseForm extends Component {
 
   submitCreate = () => {
     this.props.onCreate(this.state.name, this.state.type);
+    this.setState(initialState);
+
   };
   handleTypeChange = e => {
     this.setState({ type: e.target.value });
@@ -53,6 +57,7 @@ class NewExerciseForm extends Component {
               className={classes.textField}
               onChange={this.updateField('name')}
               onKeyDown={this.handleKeyDown}
+              value={this.state.name}
             />
           </Grid>
 
