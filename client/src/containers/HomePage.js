@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 
 const initialState = {};
 
@@ -17,7 +18,7 @@ class HomePage extends Component {
   };
 
   render() {
-    return <h3>Hello!</h3>;
+    return <Typography variant="display1">Hello!</Typography>;
   }
 }
 

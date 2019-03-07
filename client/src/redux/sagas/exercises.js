@@ -25,4 +25,18 @@ const createExerciseSaga = function*({
   }
 };
 
-export { createExerciseSaga };
+const deleteExerciseSaga = function*({ workoutId, exerciseId }) {
+  try {
+    yield call(
+      axios.delete,
+      `/api/workouts/${workoutId}/exercises/${exerciseId}`
+    );
+    yield put(workoutActions.fetchWorkout(workoutId));
+    yield put(workoutActions.deleteExerciseSuccess());
+    yield put(actions.showNotification('Exercise deleted successfully'));
+  } catch (error) {
+    yield put(actions.showNotification('Failed to delete exercise', 'error'));
+    yield put(workoutActions.deleteExerciseFailure(error));
+  }
+};
+export { createExerciseSaga, deleteExerciseSaga };

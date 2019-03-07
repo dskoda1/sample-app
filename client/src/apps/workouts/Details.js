@@ -11,6 +11,7 @@ import {
   fetchWorkout,
   updateWorkout,
   createExercise,
+  deleteExercise,
 } from '../../redux/actions/workouts';
 import NewExerciseForm from './NewExerciseForm';
 import ExerciseList from './ExerciseList';
@@ -38,7 +39,14 @@ class Details extends Component {
   };
 
   render() {
-    const { workout, updating, creatingExercise, pushHistory } = this.props;
+    const {
+      workout,
+      updating,
+      creatingExercise,
+      pushHistory,
+      deleteExercise,
+      deletingExercise,
+    } = this.props;
     let contents = <div>Loading..</div>;
     if (workout) {
       contents = (
@@ -59,6 +67,8 @@ class Details extends Component {
             exercises={workout.exercises}
             workoutId={workout.id}
             pushHistory={pushHistory}
+            deleteExercise={deleteExercise}
+            deletingExercise={deletingExercise}
           />
         </div>
       );
@@ -89,7 +99,9 @@ Details.propTypes = {
   fetchWorkout: PropTypes.func.isRequired,
   updateWorkout: PropTypes.func.isRequired,
   createExercise: PropTypes.func.isRequired,
+  deleteExercise: PropTypes.func.isRequired,
   creatingExercise: PropTypes.bool.isRequired,
+  deletingExercise: PropTypes.bool.isRequired,
   pushHistory: PropTypes.func.isRequired,
 };
 
@@ -101,6 +113,7 @@ const mapStateToProps = (state, router) => {
     workout: state.workouts.map[router.match.params.workoutId],
     updating: state.workouts.updating,
     creatingExercise: state.exercises.creating,
+    deletingExercise: state.exercises.deleting,
     pushHistory: router.history.push,
   };
 };
@@ -109,6 +122,7 @@ const mapDispatchToProps = {
   fetchWorkout,
   updateWorkout,
   createExercise,
+  deleteExercise,
 };
 
 export default connect(

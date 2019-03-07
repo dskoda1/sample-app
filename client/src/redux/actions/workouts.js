@@ -69,4 +69,20 @@ export const createExerciseFailure = error => ({
   error,
 });
 
+/** Delete Exercise */
+export const deleteExercise = (workoutId, exerciseId) => ({
+  type: types.DELETE_EXERCISE,
+  workoutId,
+  exerciseId,
+});
+
+export const deleteExerciseSuccess = () => ({
+  type: types.DELETE_EXERCISE_SUCCESS,
+});
+
+export const deleteExerciseFailure = error => ({
+  type: types.DELETE_EXERCISE_FAILURE,
+  error,
+});
+
 /** End exercise actions */

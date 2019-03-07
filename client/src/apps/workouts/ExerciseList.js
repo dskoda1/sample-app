@@ -7,13 +7,29 @@ import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FastForwardIcon from '@material-ui/icons/FastForward';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import CheckCircleIcon from '@material-ui/icons/IndeterminateCheckBox';
 
+import green from '@material-ui/core/colors/green';
+
 export default class ExerciseList extends Component {
+  state = {
+    deleting: null,
+  };
+
+  startDelete = id => {
+    this.setState({
+      deleting: id,
+    });
+  };
+
+  confirmDelete = () => {
+    this.props.deleteExercise(this.props.workoutId, this.state.deleting);
+  };
+
   render() {
     if (!this.props.exercises) {
       return <div>loading...</div>;
@@ -27,6 +43,10 @@ export default class ExerciseList extends Component {
               {...exercise}
               workoutId={this.props.workoutId}
               pushHistory={this.props.pushHistory}
+              deleting={exercise.id === this.state.deleting}
+              deleteDisabled={this.props.deletingExercise}
+              startDelete={this.startDelete}
+              confirmDelete={this.confirmDelete}
             />
           );
         })}
@@ -39,13 +59,10 @@ ExerciseList.propTypes = {
   exercises: PropTypes.array.isRequired,
   workoutId: PropTypes.number.isRequired,
   pushHistory: PropTypes.func.isRequired,
+  deletingExercise: PropTypes.bool.isRequired,
 };
 
 class ExerciseListItem extends Component {
-  state = {
-    isDeleting: false,
-  };
-
   render() {
     const {
       classes,
@@ -55,17 +72,25 @@ class ExerciseListItem extends Component {
       type,
       createdAt,
       pushHistory,
+      deleting,
+      startDelete,
+      confirmDelete,
+      deleteDisabled,
     } = this.props;
 
     let deletingComponent = (
-      <IconButton onClick={() => this.setState({ isDeleting: true })}>
+      <IconButton onClick={() => startDelete(id)}>
         <DeleteIcon />
       </IconButton>
     );
 
-    if (this.state.isDeleting) {
+    if (deleting) {
       deletingComponent = (
-        <IconButton className={classes.error}>
+        <IconButton
+          className={classes.error}
+          onClick={() => confirmDelete()}
+          disabled={deleteDisabled}
+        >
           <CheckCircleIcon />
         </IconButton>
       );
@@ -98,11 +123,11 @@ class ExerciseListItem extends Component {
               onClick={() =>
                 pushHistory(`/workouts/${workoutId}/exercises/${id}`)
               }
-              color="primary"
               aria-label="Add"
-              className={classes.fab}
+              className={classes.button}
+              color="primary"
             >
-              <FastForwardIcon />
+              <ArrowForwardIcon />
             </IconButton>
           </Grid>
         </Grid>
@@ -117,11 +142,11 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit,
   },
-  fab: {
+  button: {
     margin: theme.spacing.unit,
   },
   error: {
-    backgroundColor: theme.palette.error.dark,
+    color: theme.palette.error.dark,
   },
 });
 
@@ -132,5 +157,8 @@ ExerciseListItem.propTypes = {
   createdAt: PropTypes.string.isRequired,
   finishedAt: PropTypes.string,
   pushHistory: PropTypes.func.isRequired,
+  deleting: PropTypes.bool.isRequired,
+  startDelete: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
 };
 let StyledExerciseListItem = withRouter(withStyles(styles)(ExerciseListItem));
