@@ -10,7 +10,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid, Button } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ClearIcon from '@material-ui/icons/Clear';
 import CheckCircleIcon from '@material-ui/icons/IndeterminateCheckBox';
 
 import green from '@material-ui/core/colors/green';
@@ -30,6 +31,12 @@ export default class ExerciseList extends Component {
     this.props.deleteExercise(this.props.workoutId, this.state.deleting);
   };
 
+  cancelDelete = () => {
+    this.setState({
+      deleting: null,
+    });
+  };
+
   render() {
     if (!this.props.exercises) {
       return <div>loading...</div>;
@@ -47,6 +54,7 @@ export default class ExerciseList extends Component {
               deleteDisabled={this.props.deletingExercise}
               startDelete={this.startDelete}
               confirmDelete={this.confirmDelete}
+              cancelDelete={this.cancelDelete}
             />
           );
         })}
@@ -75,31 +83,37 @@ class ExerciseListItem extends Component {
       deleting,
       startDelete,
       confirmDelete,
+      cancelDelete,
       deleteDisabled,
     } = this.props;
 
     let deletingComponent = (
-      <IconButton onClick={() => startDelete(id)}>
+      <IconButton className={classes.button} onClick={() => startDelete(id)}>
         <DeleteIcon />
       </IconButton>
     );
 
     if (deleting) {
       deletingComponent = (
-        <IconButton
-          className={classes.error}
-          onClick={() => confirmDelete()}
-          disabled={deleteDisabled}
-        >
-          <CheckCircleIcon />
-        </IconButton>
+        <div>
+          <IconButton
+            className={classes.error}
+            onClick={() => confirmDelete()}
+            disabled={deleteDisabled}
+          >
+            <CheckCircleIcon />
+          </IconButton>
+          <IconButton onClick={() => cancelDelete()} className={classes.button}>
+            <ClearIcon />
+          </IconButton>
+        </div>
       );
     }
 
     return (
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="flex-start">
-          <Grid item xs={6}>
+          <Grid item xs={5} md={6}>
             <Grid
               container
               justify="space-between"
@@ -114,11 +128,13 @@ class ExerciseListItem extends Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3} md={4}>
             <Typography component="p">sets</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2} md={1}>
             {deletingComponent}
+          </Grid>
+          <Grid item xs={2} md={1}>
             <IconButton
               onClick={() =>
                 pushHistory(`/workouts/${workoutId}/exercises/${id}`)
@@ -127,7 +143,7 @@ class ExerciseListItem extends Component {
               className={classes.button}
               color="primary"
             >
-              <ArrowForwardIcon />
+              <AddCircleIcon />
             </IconButton>
           </Grid>
         </Grid>
@@ -146,6 +162,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   error: {
+    margin: theme.spacing.unit,
     color: theme.palette.error.dark,
   },
 });
