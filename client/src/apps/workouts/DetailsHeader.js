@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { withStyles } from '@material-ui/core';
+import { withStyles, IconButton } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +9,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Moment from 'react-moment';
 
 import IconMenu from '../../components/IconMenu';
+import BackIcon from '@material-ui/icons/ArrowBack';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -63,6 +64,11 @@ class DetailsHeader extends Component {
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
+          <Grid item xs={2}>
+            <IconButton className={classes.button} onClick={this.props.goBack}>
+              <BackIcon />
+            </IconButton>
+          </Grid>
           <Grid item xs={8}>
             <EditableField
               isEditing={this.state.isEditing}
@@ -73,7 +79,7 @@ class DetailsHeader extends Component {
               classes={classes}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <EditOrConfirm
               isEditing={this.state.isEditing}
               editChoices={actions}
@@ -153,6 +159,7 @@ DetailsHeader.propTypes = {
   updating: PropTypes.bool.isRequired,
   completeWorkout: PropTypes.func.isRequired,
   updateWorkoutName: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -165,6 +172,9 @@ const styles = theme => ({
   },
   textField: {
     marginBottom: theme.spacing.unit * 2,
+  },
+  button: {
+    marginBottom: theme.spacing.unit,
   },
 });
 

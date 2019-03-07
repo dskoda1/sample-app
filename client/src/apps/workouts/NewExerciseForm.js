@@ -17,7 +17,7 @@ import {
 const initialState = {
   name: '',
   type: '',
-}
+};
 
 class NewExerciseForm extends Component {
   state = initialState;
@@ -35,7 +35,6 @@ class NewExerciseForm extends Component {
   submitCreate = () => {
     this.props.onCreate(this.state.name, this.state.type);
     this.setState(initialState);
-
   };
   handleTypeChange = e => {
     this.setState({ type: e.target.value });

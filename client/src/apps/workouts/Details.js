@@ -56,6 +56,7 @@ class Details extends Component {
             updating={updating}
             completeWorkout={this.completeWorkout}
             updateWorkoutName={this.updateWorkoutName}
+            goBack={this.props.goBack}
           />
           {workout.finishedAt ? null : (
             <NewExerciseForm
@@ -103,6 +104,7 @@ Details.propTypes = {
   creatingExercise: PropTypes.bool.isRequired,
   deletingExercise: PropTypes.bool.isRequired,
   pushHistory: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, router) => {
@@ -115,6 +117,7 @@ const mapStateToProps = (state, router) => {
     creatingExercise: state.exercises.creating,
     deletingExercise: state.exercises.deleting,
     pushHistory: router.history.push,
+    goBack: router.history.goBack,
   };
 };
 const mapDispatchToProps = {
