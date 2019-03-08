@@ -18,6 +18,7 @@ import WorkoutsLoggedOutView from '../apps/workouts/LoggedOutView';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
+import ExercisePage from '../apps/workouts/ExercisePage';
 
 const styles = theme => ({
   root: {
@@ -49,9 +50,15 @@ class App extends Component {
               path="/workouts"
             />
             <AuthenticatedRoute
-              child
+              exact
               path="/workouts/:workoutId"
               component={WorkoutDetails}
+              fallback={WorkoutsLoggedOutView}
+            />
+            <AuthenticatedRoute
+              exact
+              path="/workouts/:workoutId/exercises/:exerciseId"
+              component={ExercisePage}
               fallback={WorkoutsLoggedOutView}
             />
             <Route component={NotFound} />

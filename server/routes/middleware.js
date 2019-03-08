@@ -12,8 +12,8 @@ const fetchWorkout = async (req, res, next) => {
     },
     include: { model: models.Exercises, as: 'exercises' },
     order: [
-      [{ model: models.Exercises, as: 'exercises'}, 'createdAt', 'DESC']
-    ]
+      [{ model: models.Exercises, as: 'exercises' }, 'createdAt', 'DESC'],
+    ],
   });
   if (!workout) {
     return res.status(404).end();

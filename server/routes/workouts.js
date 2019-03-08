@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
   res.status(401).end();
 });
 router.post('/', async (req, res) => {
-  console.log('Creating workout')
+  console.log('Creating workout');
   if (req.session.UserId) {
     if (!req.body.name || req.body.name.length < 3) {
       return res
@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
       name: req.body.name,
       UserId: req.session.UserId,
     });
-    console.log('workout created')
+    console.log('workout created');
     return res
       .status(201)
       .json({ name: workout.name, id: workout.id })
