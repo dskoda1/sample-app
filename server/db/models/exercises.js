@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Exercises.associate = function(models) {
     // associations can be defined here
+    Exercises.hasMany(models.Sets, { as: 'sets' });
+
   };
   return Exercises;
 };
