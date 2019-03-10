@@ -8,6 +8,7 @@ const models = require('./db/models');
 const workoutRoutes = require('./routes/workouts');
 const authRoutes = require('./routes/auth');
 const exerciseRoutes = require('./routes/exercises');
+const setRoutes = require('./routes/sets');
 
 // Create our app
 const app = express();
@@ -35,6 +36,7 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
+exerciseRoutes.use('/:exerciseId/sets', setRoutes);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.

@@ -35,212 +35,86 @@ describe('Test sets endpoints', () => {
         .post('/api/workouts/23/exercises/34/sets')
         .expect(401, done);
     });
+
     test('400 cardio exercise missing duration/distance', done => {
       return testSession
         .post(`/api/workouts/${workout.id}/exercises/${cardioExercise.id}/sets`)
         .expect(400, done);
     });
+
+    test('400 lift exercise missing weights/reps', done => {
+      return testSession
+        .post(`/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets`)
+        .expect(400, done);
+    });
+
+    test('424 when exercise not valid type', async done => {
+      const badExercise = await testUtils.createExercise(
+        workout.id,
+        'invalid exercise',
+        'invalid type'
+      );
+
+      await testSession
+        .post(`/api/workouts/${workout.id}/exercises/${badExercise.id}/sets`)
+        .expect(424);
+      done();
+    });
+
+    test('201 valid body for cardio', async done => {
+      const res = await testSession
+        .post(`/api/workouts/${workout.id}/exercises/${cardioExercise.id}/sets`)
+        .send({ duration: 28, distance: 2.7 })
+        .expect(201);
+
+      const set = await models.Sets.findOne({ where: { id: res.body.id } });
+      expect(set.id).toEqual(res.body.id);
+      expect(set.duration).toBe(28);
+      expect(set.distance).toBe(2.7);
+      done();
+    });
+
+    test('201 valid body for lift', async done => {
+      const res = await testSession
+        .post(`/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets`)
+        .send({ weight: 135, reps: 8 })
+        .expect(201);
+
+      const set = await models.Sets.findOne({ where: { id: res.body.id } });
+      expect(set.id).toEqual(res.body.id);
+      expect(set.weight).toEqual(135);
+      expect(set.reps).toEqual(8);
+      done();
+    });
+  });
+
+  describe('DELETE /:id', () => {
+    test('no session 401', done => {
+      return request(app)
+        .delete('/api/workouts/23/exercises/34/sets/23')
+        .expect(401, done);
+    });
+
+    test('Set not owned by user', async done => {
+      const otherUser = await testUtils.createUser('jim', 'b');
+      const otherWorkout = await testUtils.createWorkout(otherUser.id, 'arms');
+      const otherExercise = await testUtils.createLiftExercise(
+        otherWorkout.id,
+        'curls'
+      );
+      const otherSet = await testUtils.createLiftSet(
+        otherExercise.id,
+        100,
+        100
+      );
+      await testSession
+        .delete(
+          `/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets/${
+            otherSet.id
+          }`
+        )
+        .expect(404);
+      done();
+    });
   });
 });
-
-//   describe('POST /', () => {
-
-//     test('400 Name less than 3 characters', done => {
-//       return testSession
-//         .post(`/api/workouts/${workout.id}/exercises`)
-//         .send({ name: 'av', type: 'lift' })
-//         .expect(400, done);
-//     });
-
-//     test('404 Workout does not exist', done => {
-//       return testSession
-//         .post('/api/workouts/848/exercises')
-//         .send({ name: 'squat', type: 'cardio' })
-//         .expect(404, done);
-//     });
-
-//     test('404 Workout owned by another user', async done => {
-//       const otherUser = await testUtils.createUser('jim', 'b');
-//       const otherWorkout = await testUtils.createWorkout(otherUser.id, 'legs');
-
-//       await testSession
-//         .post(`/api/workouts/${otherWorkout.id}/exercises`)
-//         .send({ name: 'squat', type: 'cardio' })
-//         .expect(404);
-//       done();
-//     });
-
-//     test('400 Type not one of valid options', done => {
-//       return testSession
-//         .post(`/api/workouts/${workout.id}/exercises`)
-//         .send({ name: 'squat', type: 'foobar' })
-//         .expect(400, done);
-//     });
-
-//     test('201 Valid type: lift', done => {
-//       return testSession
-//         .post(`/api/workouts/${workout.id}/exercises`)
-//         .send({ name: 'squat', type: 'lift' })
-//         .expect(201, done);
-//     });
-
-//     test('201 Valid type: cardio', done => {
-//       return testSession
-//         .post(`/api/workouts/${workout.id}/exercises`)
-//         .send({ name: 'squat', type: 'cardio' })
-//         .expect(201, done);
-//     });
-//   });
-
-//   describe('GET /', () => {
-//     test('401 No session', done => {
-//       return request(app)
-//         .get(`/api/workouts/${workout.id}/exercises`)
-//         .expect(401, done);
-//     });
-//     test('202 Success', async done => {
-//       // Create some exercises for our test user
-//       const cardio = await testUtils.createExercise(
-//         workout.id,
-//         'bike',
-//         'cardio'
-//       );
-//       const press = await testUtils.createExercise(
-//         workout.id,
-//         'shoulder press',
-//         'lift'
-//       );
-
-//       // And a workout for another user to test its not returned
-//       const otherUser = await testUtils.createUser('jim', 'b');
-//       const otherWorkout = await testUtils.createWorkout(otherUser.id, 'arms');
-//       const otherExercise = await testUtils.createExercise(
-//         otherWorkout.id,
-//         'curls',
-//         'lift'
-//       );
-
-//       const res = await testSession
-//         .get(`/api/workouts/${workout.id}/exercises`)
-//         .expect(200);
-//       expect(res.body.exercises.length).toBe(2);
-//       exercise = res.body.exercises[0];
-//       expect(exercise).toHaveProperty('id');
-//       expect(exercise).toHaveProperty('name');
-//       expect(exercise).toHaveProperty('type');
-//       expect(exercise).toHaveProperty('createdAt');
-//       done();
-//     });
-//   });
-
-//   describe('GET /:id', () => {
-//     test('200 Success', async done => {
-//       const exercise = await testUtils.createExercise(
-//         workout.id,
-//         'squat',
-//         'lift'
-//       );
-//       const res = await testSession
-//         .get(`/api/workouts/${workout.id}/exercises/${exercise.id}`)
-//         .expect(200);
-//       expect(res.body.exercise.id).toBe(exercise.id);
-//       expect(res.body.exercise.name).toBe(exercise.name);
-//       expect(res.body.exercise.type).toBe(exercise.type);
-//       done();
-//     });
-
-//     test('404 wrong workout', async done => {
-//       const otherUser = await testUtils.createUser('jim', 'b');
-//       const otherWorkout = await testUtils.createWorkout(otherUser.id, 'legs');
-//       const otherExercise = await testUtils.createExercise(
-//         otherWorkout.id,
-//         'curls',
-//         'lift'
-//       );
-
-//       await testSession
-//         .get(`/api/workouts/${workout.id}/exercises/${otherExercise.id}`)
-//         .expect(404);
-//       done();
-//     });
-
-//     test('404 not found', async done => {
-//       await testSession
-//         .get(`/api/workouts/${workout.id}/exercises/534`)
-//         .expect(404);
-//       done();
-//     });
-
-//     test('GET /:id with no session 401', done => {
-//       return request(app)
-//         .get(`/api/workouts/${workout.id}/exercises/234`)
-//         .expect(401, done);
-//     });
-//   });
-
-//   describe('DELETE /:id', () => {
-//     test('202 Success', async done => {
-//       // Create an exercise to delete
-//       const exercise = await testUtils.createExercise(
-//         workout.id,
-//         'bike',
-//         'cardio'
-//       );
-
-//       await testSession
-//         .delete(`/api/workouts/${workout.id}/exercises/${exercise.id}`)
-//         .expect(202);
-
-//       done();
-//     });
-
-//     test('404 Not found', done => {
-//       return testSession
-//         .delete(`/api/workouts/${workout.id}/exercises/23432`)
-//         .expect(404, done);
-//     });
-
-//     test('401 Not Authorized', async done => {
-//       // Create some exercises for our test user
-//       const exercise = await testUtils.createExercise(
-//         workout.id,
-//         'bike',
-//         'cardio'
-//       );
-//       await request(app)
-//         .delete(`/api/workouts/${workout.id}/exercises/${exercise.id}`)
-//         .expect(401);
-//       done();
-//     });
-//   });
-
-//   describe('PUT /:id', () => {
-//     test('202 Name changed', async done => {
-//       const exercise = await testUtils.createExercise(
-//         workout.id,
-//         'squat',
-//         'lift'
-//       );
-//       await testSession
-//         .put(`/api/workouts/${workout.id}/exercises/${exercise.id}`)
-//         .send({ name: 'goblet squats' })
-//         .expect(202);
-//       await exercise.reload();
-//       expect(exercise.name).toBe('goblet squats');
-//       done();
-//     });
-
-//     test('400 Name less than 3 chars', async done => {
-//       const exercise = await testUtils.createExercise(
-//         workout.id,
-//         'squat',
-//         'lift'
-//       );
-//       await testSession
-//         .put(`/api/workouts/${workout.id}/exercises/${exercise.id}`)
-//         .send({ name: 'sd' })
-//         .expect(400);
-//       done();
-//     });
-//   });
-// });

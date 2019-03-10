@@ -37,6 +37,10 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// Set float parsing for decimal types. otherwise decimals come back as strings
+// https://github.com/sequelize/sequelize/issues/8019
+Sequelize.postgres.DECIMAL.parse = value => parseFloat(value);
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
