@@ -1,13 +1,14 @@
 const models = require('../db/models');
+const constants = require('../routes/constants');
 
 const truncateDatabase = async () => {
-  await models.Sets.drop();
-  await models.Exercises.drop();
-  await models.Workouts.drop();
-  await models.Users.sync({ force: true });
-  await models.Workouts.sync({ force: true });
-  await models.Exercises.sync({ force: true });
-  await models.Sets.sync({sync: true});
+  const destroyArgs = {
+    where: {},
+  };
+  await models.Sets.destroy(destroyArgs);
+  await models.Exercises.destroy(destroyArgs);
+  await models.Workouts.destroy(destroyArgs);
+  await models.Users.destroy(destroyArgs);
 };
 
 const createUser = async (username, password) => {
@@ -35,6 +36,13 @@ const createExercise = async (WorkoutId, name, type) => {
   return exercise;
 };
 
+const createLiftExercise = async (WorkoutId, name) => {
+  return await createExercise(WorkoutId, name, constants.LIFT);
+};
+const createCardioExercise = async (WorkoutId, name) => {
+  return await createExercise(WorkoutId, name, constants.CARDIO);
+};
+
 const createCardioSet = async (ExerciseId, duration, distance) => {
   const set = await models.Sets.create({
     ExerciseId,
@@ -58,6 +66,8 @@ module.exports = {
   createUser,
   createWorkout,
   createExercise,
+  createCardioExercise,
+  createLiftExercise,
   createCardioSet,
-  createLiftSet
+  createLiftSet,
 };

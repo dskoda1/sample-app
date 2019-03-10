@@ -37,10 +37,11 @@ describe('Test workout endpoints', () => {
       await testSession
         .post('/api/workouts')
         .send({ name: 'full body' })
-        .expect(201, { name: 'full body', id: 1 });
+        .expect(201);
       await user.reload();
       const workouts = await user.getWorkouts();
       expect(workouts.length).toBe(1);
+      expect(workouts[0].name).toBe('full body');
       done();
     });
   });

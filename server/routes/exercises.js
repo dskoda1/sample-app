@@ -82,4 +82,13 @@ router.put(
   }
 );
 
+router.post(
+  '/:exerciseId/sets',
+  middleware.fetchWorkout,
+  middleware.fetchExercise,
+  async (req, res) => {
+    return res.status(407).end();
+  }
+);
+
 module.exports = router;
