@@ -2,19 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { withRouter } from 'react-router';
-import Moment from 'react-moment';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckCircleIcon from '@material-ui/icons/IndeterminateCheckBox';
-
-import green from '@material-ui/core/colors/green';
 
 export default class ExerciseList extends Component {
   state = {
@@ -78,7 +75,6 @@ class ExerciseListItem extends Component {
       id,
       name,
       type,
-      createdAt,
       pushHistory,
       deleting,
       startDelete,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 
-import Grid from '@material-ui/core/Grid';
+// import Grid from '@material-ui/core/Grid';
 import { showNotification } from '../../redux/actions';
 import { fetchWorkout } from '../../redux/actions/workouts';
 class ExercisePage extends Component {
@@ -19,6 +19,15 @@ class ExercisePage extends Component {
     );
   }
 }
+
+ExercisePage.propTypes = {
+  workoutId: PropTypes.string.isRequired,
+  exerciseId: PropTypes.string.isRequired,
+  fetching: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  workout: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state, router) => {
   return {

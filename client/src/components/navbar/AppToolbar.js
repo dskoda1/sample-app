@@ -32,11 +32,9 @@ const AppToolbar = ({
     user ? (
       <ProfileMenu logout={logout} />
     ) : (
-      <Button color="inherit">
-        <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF' }}>
-          Login
-        </Link>
-      </Button>
+      <Link to="/auth" style={{ textDecoration: 'none', color: '#FFF' }}>
+        <Button color="inherit">Login</Button>
+      </Link>
     )}
   </Toolbar>
 );

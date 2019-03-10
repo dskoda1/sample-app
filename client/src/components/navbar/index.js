@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -35,19 +36,7 @@ const styles = theme => ({
   },
 });
 
-type Props = {
-  user: string,
-  logout: func,
-  children: React.node,
-  appTitle: string,
-  classes: any,
-};
-
-type State = {
-  open: boolean,
-};
-
-class AppNavigation extends React.Component<Props, State> {
+class AppNavigation extends React.Component {
   state = {
     open: false,
   };
@@ -86,5 +75,13 @@ class AppNavigation extends React.Component<Props, State> {
     );
   }
 }
+
+AppNavigation.propTypes = {
+  user: PropTypes.string,
+  logout: PropTypes.func.isRequired,
+  children: PropTypes.node,
+  appTitle: PropTypes.string.isRequired,
+  classes: PropTypes.object,
+};
 
 export default withStyles(styles, { withTheme: true })(AppNavigation);

@@ -41,14 +41,13 @@ class NewExerciseForm extends Component {
   };
 
   render() {
-    const { onCreate, creating, classes } = this.props;
+    const { creating, classes } = this.props;
 
     const canCreate = this.state.name.length > 3 && this.state.type !== '';
 
     return (
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="flex-start">
-          {/* <form onSubmit={() => onCreate(this.state.name)}> */}
           <Grid item xs={6}>
             <Typography>Add Exercise</Typography>
             <TextField
@@ -92,7 +91,6 @@ class NewExerciseForm extends Component {
               Submit
             </Button>
           </Grid>
-          {/* </form> */}
         </Grid>
       </Paper>
     );
