@@ -60,6 +60,8 @@ class DetailsHeader extends Component {
         </div>
       );
     }
+    let sets = 0;
+    workout.exercises.forEach(exercise => (sets += exercise.sets.length));
 
     return (
       <Paper className={classes.root}>
@@ -97,7 +99,7 @@ class DetailsHeader extends Component {
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="subheading"># sets</Typography>
+            <Typography variant="subheading">{sets} sets</Typography>
           </Grid>
         </Grid>
       </Paper>

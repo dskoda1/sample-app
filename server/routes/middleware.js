@@ -10,7 +10,11 @@ const fetchWorkout = async (req, res, next) => {
       UserId: req.session.UserId,
       id: req.params.workoutId,
     },
-    include: { model: models.Exercises, as: 'exercises' },
+    include: {
+      model: models.Exercises,
+      as: 'exercises',
+      include: { model: models.Sets, as: 'sets' },
+    },
     order: [
       [{ model: models.Exercises, as: 'exercises' }, 'createdAt', 'DESC'],
     ],

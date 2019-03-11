@@ -76,21 +76,23 @@ describe('Test workout endpoints', () => {
   });
 
   describe('GET /:id', () => {
-    test('200 success includes exercises', async done => {
+    test('200 success includes exercises & sets', async done => {
       const workout = await testUtils.createWorkout(user.id, 'chest');
       const squats = await testUtils.createExercise(
         workout.id,
         'squats',
         'lift'
       );
-      const bike = await testUtils.createExercise(workout.id, 'bike', 'cardio');
-
+      await testUtils.createLiftSet(squats.id, 135, 10);
+      await testUtils.createLiftSet(squats.id, 135, 10);
+      await testUtils.createLiftSet(squats.id, 135, 10);
       const res = await testSession
         .get(`/api/workouts/${workout.id}`)
         .expect(200);
       expect(res.body.workout.id).toBe(workout.id);
       expect(res.body.workout.name).toBe(workout.name);
-      expect(res.body.workout.exercises.length).toBe(2);
+      expect(res.body.workout.exercises.length).toBe(1);
+      expect(res.body.workout.exercises[0].sets.length).toBe(3);
       done();
     });
 
