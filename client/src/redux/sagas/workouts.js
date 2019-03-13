@@ -51,9 +51,39 @@ const createWorkoutSaga = function*({ name, pushHistory }) {
   }
 };
 
+const createSetSaga = function*({ workoutId, exerciseId, setBody }) {
+  try {
+    const res = yield call(
+      axios.post,
+      `/api/workouts/${workoutId}/exercises/${exerciseId}/sets`,
+      setBody
+    );
+    yield put(workoutActions.createSetSuccess());
+    yield put(actions.showNotification('Set created successfully'));
+  } catch (error) {
+    yield put(actions.showNotification('Failed to create set', 'error'));
+    yield put(workoutActions.createSetFailure(error));
+  }
+};
+const deleteSetSaga = function*({ workoutId, exerciseId, setId }) {
+  try {
+    yield call(
+      axios.delete,
+      `/api/workouts/${workoutId}/exercises/${exerciseId}/sets/${setId}`
+    );
+    yield put(workoutActions.fetchWorkout(workoutId));
+    yield put(workoutActions.deleteSetSuccess());
+    yield put(actions.showNotification('Set deleted successfully'));
+  } catch (error) {
+    yield put(actions.showNotification('Failed to delete set', 'error'));
+    yield put(workoutActions.deleteSetFailure(error));
+  }
+};
 export {
   fetchWorkoutsSaga,
   fetchWorkoutSaga,
   updateWorkoutSaga,
   createWorkoutSaga,
+  createSetSaga,
+  deleteSetSaga,
 };

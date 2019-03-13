@@ -11,6 +11,8 @@ import {
   CREATE_WORKOUT,
   CREATE_EXERCISE,
   DELETE_EXERCISE,
+  CREATE_SET,
+  DELETE_SET,
 } from '../constants';
 
 import { loginSaga, registerSaga, logoutSaga, profileSaga } from './auth';
@@ -19,6 +21,8 @@ import {
   fetchWorkoutSaga,
   updateWorkoutSaga,
   createWorkoutSaga,
+  createSetSaga,
+  deleteSetSaga,
 } from './workouts';
 import { createExerciseSaga, deleteExerciseSaga } from './exercises';
 
@@ -34,4 +38,6 @@ export default function*() {
 
   yield takeLatest(CREATE_EXERCISE, createExerciseSaga);
   yield takeLatest(DELETE_EXERCISE, deleteExerciseSaga);
+  yield takeLatest(CREATE_SET, createSetSaga);
+  yield takeLatest(DELETE_SET, deleteSetSaga);
 }

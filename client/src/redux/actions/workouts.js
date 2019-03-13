@@ -86,3 +86,36 @@ export const deleteExerciseFailure = error => ({
 });
 
 /** End exercise actions */
+
+/** Start set actions */
+export const createSet = (workoutId, exerciseId, setBody) => ({
+  type: types.CREATE_SET,
+  workoutId,
+  exerciseId,
+  setBody,
+});
+export const createSetSuccess = () => ({
+  type: types.CREATE_SET_SUCCESS,
+});
+export const createSetFailure = error => ({
+  type: types.CREATE_SET_FAILURE,
+  error,
+});
+
+/** Delete Set */
+export const deleteSet = (workoutId, exerciseId, setId) => ({
+  type: types.DELETE_SET,
+  workoutId,
+  exerciseId,
+  setId,
+});
+
+export const deleteSetSuccess = () => ({
+  type: types.DELETE_SET_SUCCESS,
+});
+
+export const deleteSetFailure = error => ({
+  type: types.DELETE_SET_FAILURE,
+  error,
+});
+/** End set actions */

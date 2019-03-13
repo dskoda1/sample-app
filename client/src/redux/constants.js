@@ -56,3 +56,13 @@ export const DELETE_EXERCISE = 'DELETE_EXERCISE';
 export const DELETE_EXERCISE_SUCCESS = 'DELETE_EXERCISE_SUCCESS';
 export const DELETE_EXERCISE_FAILURE = 'DELETE_EXERCISE_FAILURE';
 /** End exercise constants */
+
+/** Start SET constants */
+export const CREATE_SET = 'CREATE_SET';
+export const CREATE_SET_SUCCESS = 'CREATE_SET_SUCCESS';
+export const CREATE_SET_FAILURE = 'CREATE_SET_FAILURE';
+
+export const DELETE_SET = 'DELETE_SET';
+export const DELETE_SET_SUCCESS = 'DELETE_SET_SUCCESS';
+export const DELETE_SET_FAILURE = 'DELETE_SET_FAILURE';
+/** End SET constants */

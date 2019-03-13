@@ -36,8 +36,11 @@ class NewSetForm extends Component {
   };
 
   submitCreate = () => {
-    this.props.onCreate(this.state.name, this.state.type);
-    this.setState(initialState);
+    if (this.props.type === 'lift') {
+      this.props.createLiftSet(this.state.weight, this.state.reps);
+    } else if (this.props.type === 'cardio') {
+      this.props.createCardioSet(this.state.duration, this.state.distance);
+    }
   };
 
   canCreate = () => {
@@ -48,39 +51,49 @@ class NewSetForm extends Component {
     }
   };
 
+  getFields = () => {
+    console.log(this.props.type);
+    return this.props.type === 'lift'
+      ? this.getLiftFields()
+      : this.getCardioFields();
+  };
+
+  getCardioFields = () => {
+    return [
+      { display: 'Duration', stateField: 'duration' },
+      { display: 'Distance', stateField: 'distance' },
+    ];
+  };
+
+  getLiftFields = () => {
+    return [
+      { display: 'Weight', stateField: 'weight' },
+      { display: 'Reps', stateField: 'reps' },
+    ];
+  };
+
   render() {
     const { creating, classes, type } = this.props;
-    console.log(this.props);
     return (
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="flex-start">
           <Grid item xs={12}>
             <Typography>Add Set</Typography>
           </Grid>
-          <Grid item xs={4}>
-            <TextField
-              label="Weight"
-              value={this.state.weight}
-              onChange={this.updateField('weight')}
-              type="number"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              label="Reps"
-              value={this.state.sets}
-              onChange={this.updateField('reps')}
-              type="number"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
+          {this.getFields().map(({ display, stateField }, i) => (
+            <Grid item key={i} xs={4}>
+              <TextField
+                label={display}
+                value={this.state[stateField]}
+                onChange={this.updateField(stateField)}
+                type="number"
+                className={this.props.classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+          ))}
           <Grid item xs={4}>
             <Button
               variant="contained"
@@ -117,8 +130,9 @@ const styles = theme => ({
 
 NewSetForm.propTypes = {
   type: PropTypes.string.isRequired,
-  onCreate: PropTypes.func.isRequired,
   creating: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
+  createLiftSet: PropTypes.func.isRequired,
+  createCardioSet: PropTypes.func.isRequired,
 };
 export default withStyles(styles)(NewSetForm);
