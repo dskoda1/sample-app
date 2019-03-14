@@ -1,5 +1,5 @@
 {
-  "name": "sample-app",
+  "name": "ImproveMe",
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.org/dskoda1/sample-app.svg?branch=master)](https://travis-ci.org/dskoda1/sample-app)",
   "main": "index.js",
@@ -9,7 +9,10 @@
     "ci:test": "jest --rootDir server --runInBand --forceExit",
     "test": "NODE_ENV=local_test jest --rootDir server --watchAll --runInBand",
     "test:once": "NODE_ENV=local_test jest --rootDir server --runInBand --detectOpenHandles",
-    "prettier": "prettier --config .prettierrc --write \"server/**/*.{js,jsx,scss,css}\""
+    "prettier": "prettier --config .prettierrc --write \"server/**/*.{js,jsx,scss,css}\"",
+    "client-install": "npm install --prefix client",
+    "heroku-postbuild":
+      "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
