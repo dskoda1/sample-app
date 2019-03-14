@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
-import Typography from '@material-ui/core/Typography';
-
 import Grid from '@material-ui/core/Grid';
 import { showNotification } from '../../redux/actions';
-import {
-  fetchWorkout,
-  createSet,
-  deleteSet,
-} from '../../redux/actions/workouts';
+import { fetchWorkout, createSet } from '../../redux/actions/workouts';
 import NewSetForm from './NewSetForm';
 import SetHeader from './SetHeader';
 
@@ -30,7 +24,7 @@ class ExercisePage extends Component {
   };
 
   render() {
-    const { workout, goBack, fetching, exerciseId, workoutId } = this.props;
+    const { workout, goBack, fetching, exerciseId } = this.props;
     if (!workout || fetching) {
       return <div>loading</div>;
     }

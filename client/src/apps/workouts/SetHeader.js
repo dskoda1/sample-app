@@ -5,14 +5,7 @@ import { withStyles, IconButton } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import SettingsIcon from '@material-ui/icons/Settings';
-import Moment from 'react-moment';
-
-import IconMenu from '../../components/IconMenu';
 import BackIcon from '@material-ui/icons/ArrowBack';
-
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 class SetHeader extends Component {
   render() {

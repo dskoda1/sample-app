@@ -3,16 +3,7 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import {
-  withStyles,
-  Paper,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
-  Typography,
-} from '@material-ui/core';
+import { withStyles, Paper, Typography } from '@material-ui/core';
 
 const initialState = {
   duration: undefined,
@@ -73,7 +64,7 @@ class NewSetForm extends Component {
   };
 
   render() {
-    const { creating, classes, type } = this.props;
+    const { creating, classes } = this.props;
     return (
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="flex-start">

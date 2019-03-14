@@ -9,11 +9,17 @@ matrix:
           - npm run build
 
     - language: node_js
+      env:
+        - NODE_ENV=test
       services: postgresql
-      node_js: "stable"
+      node_js:
+        - "11.10.1"
       before_script:
           - npm install
           - psql -c 'create database travis_ci_test;' -U postgres
+          - echo $NODE_ENV
+          - env
+          - ./node_modules/.bin/sequelize db:migrate
       script:
           - npm run ci:test
 

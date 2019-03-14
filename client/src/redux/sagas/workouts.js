@@ -53,7 +53,7 @@ const createWorkoutSaga = function*({ name, pushHistory }) {
 
 const createSetSaga = function*({ workoutId, exerciseId, setBody }) {
   try {
-    const res = yield call(
+    yield call(
       axios.post,
       `/api/workouts/${workoutId}/exercises/${exerciseId}/sets`,
       setBody
