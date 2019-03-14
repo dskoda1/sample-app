@@ -10,7 +10,7 @@ const NavBar = props => (
     user={props.user}
     logout={props.logout}
     children={props.children}
-    appTitle="Sample App"
+    appTitle="ImproveMe"
   />
 );
 

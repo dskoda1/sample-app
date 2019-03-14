@@ -1,7 +1,0 @@
-{
-  "root": "cmd/server/",
-  "routes": {
-    "/**": "index.html"
-  },
-  "https_only": true
-}
