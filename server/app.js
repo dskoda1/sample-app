@@ -13,9 +13,10 @@ const setRoutes = require('./routes/sets');
 // Create our app
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
+const node_env = process.env.NODE_ENV;
+if (node_env === 'production' || node_env === 'staging') {
   app.use(morgan('combined'));
-} else if (process.env.NODE_ENV === 'development') {
+} else {
   app.use(morgan('dev'));
 }
 
