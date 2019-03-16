@@ -22,6 +22,11 @@ if (node_env === 'production' || node_env === 'staging') {
 }
 
 const forceSSL = (req, res, next) => {
+  const node_env = process.env.NODE_ENV;
+  if ((node_env !== 'production' && node_env !== 'staging')) {
+    return next()
+  }
+
   if ( req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect('https://' + req.get('Host') + req.url);
   }
