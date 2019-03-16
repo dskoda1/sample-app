@@ -18,7 +18,7 @@ module.exports = {
     host: '0.0.0.0',
     dialect: 'postgres',
     migrationStorage: 'sequelize',
-    logging: true,
+    logging: console.log,
     operatorsAliases: aliases
   },
   local_test: {
@@ -42,7 +42,7 @@ module.exports = {
   staging: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
-    logging: true,
+    logging: console.log,
     migrationStorage: 'sequelize',
     operatorsAliases: aliases
   },

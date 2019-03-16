@@ -13,12 +13,24 @@ const setRoutes = require('./routes/sets');
 // Create our app
 const app = express();
 
+// Set up logging
 const node_env = process.env.NODE_ENV;
 if (node_env === 'production' || node_env === 'staging') {
   app.use(morgan('combined'));
 } else {
   app.use(morgan('dev'));
 }
+
+const forceSSL = (req, res, next) => {
+  if ( req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect('https://' + req.get('Host') + req.url);
+  }
+  next()
+}
+
+// Set up https redirects
+app.use(forceSSL);
+
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -46,3 +58,5 @@ app.get('*', (req, res) => {
 });
 
 module.exports = app;
+
+
