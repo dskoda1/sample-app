@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
+
 import {
   withStyles,
   Paper,
-  Typography,
   Grid,
   Table,
   TableHead,
@@ -20,11 +21,13 @@ class SetTable extends Component {
       <TableRow>
         <TableCell>Duration</TableCell>
         <TableCell>Distance</TableCell>
+        <TableCell>At</TableCell>
       </TableRow>
     ) : (
       <TableRow>
         <TableCell>Weight</TableCell>
         <TableCell>Reps</TableCell>
+        <TableCell>At</TableCell>
       </TableRow>
     );
   };
@@ -37,6 +40,9 @@ class SetTable extends Component {
             {set.duration}
           </TableCell>
           <TableCell align="right">{set.distance}</TableCell>
+          <TableCell align="right">
+            <Moment format="h:mm:ss a">{set.createdAt}</Moment>
+          </TableCell>
         </TableRow>
       );
     } else if (this.props.exerciseType === 'lift') {
@@ -46,6 +52,9 @@ class SetTable extends Component {
             {set.weight}
           </TableCell>
           <TableCell align="right">{set.reps}</TableCell>
+          <TableCell align="right">
+            <Moment format="hh:mm:ss a">{set.createdAt}</Moment>
+          </TableCell>
         </TableRow>
       );
     }

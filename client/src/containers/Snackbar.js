@@ -46,7 +46,7 @@ class AppSnackbar extends Component {
     return notification !== null ? (
       <div>
         <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
           onClose={hideNotification}
           open={open}
           variant={variant}

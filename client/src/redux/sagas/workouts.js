@@ -59,7 +59,8 @@ const createSetSaga = function*({ workoutId, exerciseId, setBody }) {
       setBody
     );
     yield put(workoutActions.createSetSuccess());
-    yield put(actions.showNotification('Set created successfully'));
+    yield put(workoutActions.fetchWorkout(workoutId));
+    yield put(actions.showNotification('Set created successfully', 'success'));
   } catch (error) {
     yield put(actions.showNotification('Failed to create set', 'error'));
     yield put(workoutActions.createSetFailure(error));

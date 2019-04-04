@@ -35,6 +35,11 @@ class ExercisePage extends Component {
     if (!exercise) {
       return <div>Could not find exercise {exerciseId}</div>;
     }
+    const sets = exercise.sets.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
+    });
 
     return (
       <div>
@@ -50,7 +55,7 @@ class ExercisePage extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={9}>
-            <SetTable exerciseType={exercise.type} sets={exercise.sets} />
+            <SetTable exerciseType={exercise.type} sets={sets} />
           </Grid>
         </Grid>
       </div>
