@@ -7,6 +7,7 @@ import { showNotification } from '../../redux/actions';
 import { fetchWorkout, createSet } from '../../redux/actions/workouts';
 import NewSetForm from './NewSetForm';
 import SetHeader from './SetHeader';
+import SetTable from './SetTable';
 
 class ExercisePage extends Component {
   componentDidMount() {
@@ -49,13 +50,7 @@ class ExercisePage extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={9}>
-            {exercise.sets.map(set => (
-              <div>
-                {exercise.type === 'cardio'
-                  ? `Duration: ${set.duration} Distance: ${set.distance}`
-                  : `Weight: ${set.weight} Reps: ${set.reps}`}
-              </div>
-            ))}
+            <SetTable exerciseType={exercise.type} sets={exercise.sets} />
           </Grid>
         </Grid>
       </div>

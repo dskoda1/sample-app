@@ -108,11 +108,11 @@ class ExerciseListItem extends Component {
     }
 
     let numberOfSets = 0;
-    let setsString = "Sets";
+    let setsString = 'Sets';
     if (sets && sets.length) {
       numberOfSets = sets.length;
       if (sets.length === 1) {
-        setsString = "Set";
+        setsString = 'Set';
       }
     }
     return (
@@ -134,7 +134,9 @@ class ExerciseListItem extends Component {
             </Grid>
           </Grid>
           <Grid item xs={3} md={4}>
-            <Typography component="p">{numberOfSets} {setsString}</Typography>
+            <Typography component="p">
+              {numberOfSets} {setsString}
+            </Typography>
           </Grid>
           <Grid item xs={2} md={1}>
             {deletingComponent}

@@ -23,19 +23,18 @@ if (node_env === 'production' || node_env === 'staging') {
 
 const forceSSL = (req, res, next) => {
   const node_env = process.env.NODE_ENV;
-  if ((node_env !== 'production' && node_env !== 'staging')) {
-    return next()
+  if (node_env !== 'production' && node_env !== 'staging') {
+    return next();
   }
 
-  if ( req.headers['x-forwarded-proto'] !== 'https') {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect('https://' + req.get('Host') + req.url);
   }
-  next()
-}
+  next();
+};
 
 // Set up https redirects
 app.use(forceSSL);
-
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -63,5 +62,3 @@ app.get('*', (req, res) => {
 });
 
 module.exports = app;
-
-

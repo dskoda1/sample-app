@@ -37,7 +37,7 @@ module.exports = {
     return Promise.all([
       queryInterface.removeColumn('Workouts', 'UserId'),
       queryInterface.removeColumn('Exercises', 'WorkoutId'),
-      queryInterface.removeColumn('Sets', 'ExerciseId')
+      queryInterface.removeColumn('Sets', 'ExerciseId'),
     ]);
   },
 };

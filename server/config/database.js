@@ -19,7 +19,7 @@ module.exports = {
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     logging: console.log,
-    operatorsAliases: aliases
+    operatorsAliases: aliases,
   },
   local_test: {
     username: 'dskoda',
@@ -29,7 +29,7 @@ module.exports = {
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     logging: false,
-    operatorsAliases: aliases
+    operatorsAliases: aliases,
   },
   test: {
     username: 'postgres',
@@ -37,20 +37,20 @@ module.exports = {
     database: 'travis_ci_test',
     dialect: 'postgres',
     logging: false,
-    operatorsAliases: aliases
+    operatorsAliases: aliases,
   },
   staging: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     logging: console.log,
     migrationStorage: 'sequelize',
-    operatorsAliases: aliases
+    operatorsAliases: aliases,
   },
   production: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     logging: false,
     migrationStorage: 'sequelize',
-    operatorsAliases: aliases
+    operatorsAliases: aliases,
   },
 };
