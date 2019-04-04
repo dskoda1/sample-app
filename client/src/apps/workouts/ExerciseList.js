@@ -75,6 +75,7 @@ class ExerciseListItem extends Component {
       id,
       name,
       type,
+      sets,
       pushHistory,
       deleting,
       startDelete,
@@ -106,6 +107,14 @@ class ExerciseListItem extends Component {
       );
     }
 
+    let numberOfSets = 0;
+    let setsString = "Sets";
+    if (sets && sets.length) {
+      numberOfSets = sets.length;
+      if (sets.length === 1) {
+        setsString = "Set";
+      }
+    }
     return (
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="flex-start">
@@ -125,7 +134,7 @@ class ExerciseListItem extends Component {
             </Grid>
           </Grid>
           <Grid item xs={3} md={4}>
-            <Typography component="p">sets</Typography>
+            <Typography component="p">{numberOfSets} {setsString}</Typography>
           </Grid>
           <Grid item xs={2} md={1}>
             {deletingComponent}
@@ -167,6 +176,7 @@ ExerciseListItem.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  sets: PropTypes.array,
   createdAt: PropTypes.string.isRequired,
   finishedAt: PropTypes.string,
   pushHistory: PropTypes.func.isRequired,
