@@ -16,6 +16,10 @@ class NewSetForm extends Component {
   state = initialState;
   updateField = field => e => {
     e.preventDefault();
+    if (e.target.value === '') {
+      this.setState({ [field]: e.target.value });
+      return;
+    }
     this.setState({ [field]: parseFloat(e.target.value) });
   };
 
@@ -36,7 +40,7 @@ class NewSetForm extends Component {
 
   canCreate = () => {
     if (this.props.type === 'lift') {
-      return this.state.weight > 0 && this.state.reps > 0;
+      return this.state.weight >= 0 && this.state.reps > 0;
     } else if (this.props.type === 'cardio') {
       return this.state.duration > 0 && this.state.distance > 0;
     }
@@ -64,6 +68,9 @@ class NewSetForm extends Component {
   };
 
   render() {
+    const inputProps = {
+      pattern: '[0-9]*',
+    };
     const { creating, classes } = this.props;
     return (
       <Paper className={classes.root} elevation={1}>
@@ -77,7 +84,8 @@ class NewSetForm extends Component {
                 label={display}
                 value={this.state[stateField]}
                 onChange={this.updateField(stateField)}
-                type="number"
+                inputProps={inputProps}
+                type="tel"
                 className={this.props.classes.textField}
                 InputLabelProps={{
                   shrink: true,
