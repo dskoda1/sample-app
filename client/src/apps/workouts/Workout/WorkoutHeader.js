@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Moment from 'react-moment';
 
-import IconMenu from '../../components/IconMenu';
+import IconMenu from '../../../components/IconMenu';
 import BackIcon from '@material-ui/icons/ArrowBack';
 
 import TextField from '@material-ui/core/TextField';

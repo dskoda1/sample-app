@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import { showNotification } from '../../redux/actions';
-import { fetchWorkout, createSet } from '../../redux/actions/workouts';
+import { showNotification } from '../../../redux/actions';
+import { fetchWorkout, createSet } from '../../../redux/actions/workouts';
 import NewSetForm from './NewSetForm';
-import SetHeader from './SetHeader';
+import ExerciseHeader from './ExerciseHeader';
 import SetTable from './SetTable';
 
 class ExercisePage extends Component {
@@ -45,7 +45,7 @@ class ExercisePage extends Component {
       <div>
         <Grid container justify="space-around">
           <Grid item xs={12} sm={6}>
-            <SetHeader exercise={exercise} goBack={goBack} />
+            <ExerciseHeader exercise={exercise} goBack={goBack} />
           </Grid>
           <Grid item xs={12} sm={9}>
             <NewSetForm

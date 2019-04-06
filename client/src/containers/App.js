@@ -13,12 +13,12 @@ import Authentication from './Authentication';
 import Snackbar from './Snackbar';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import WorkoutsHome from '../apps/workouts/Home';
-import WorkoutDetails from '../apps/workouts/Details';
-import WorkoutsLoggedOutView from '../apps/workouts/LoggedOutView';
+import WorkoutDetails from '../apps/workouts/Workout';
+import WorkoutsLoggedOutView from '../apps/workouts/Workout/LoggedOutView';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
-import ExercisePage from '../apps/workouts/ExercisePage';
+import ExercisePage from '../apps/workouts/Exercise';
 
 const styles = theme => ({
   root: {

@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import BackIcon from '@material-ui/icons/ArrowBack';
 
-class SetHeader extends Component {
+class ExerciseHeader extends Component {
   render() {
     const { classes, exercise } = this.props;
     return (
@@ -26,7 +26,7 @@ class SetHeader extends Component {
     );
   }
 }
-SetHeader.propTypes = {
+ExerciseHeader.propTypes = {
   exercise: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
@@ -49,4 +49,4 @@ const styles = theme => ({
   },
 });
 
-export default withStyles(styles)(SetHeader);
+export default withStyles(styles)(ExerciseHeader);

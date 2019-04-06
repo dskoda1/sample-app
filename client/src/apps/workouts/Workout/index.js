@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 
 import Grid from '@material-ui/core/Grid';
 
-import DetailsHeader from './DetailsHeader';
-import { showNotification } from '../../redux/actions';
+import DetailsHeader from './WorkoutHeader';
+import { showNotification } from '../../../redux/actions';
 import {
   fetchWorkout,
   updateWorkout,
   createExercise,
   deleteExercise,
-} from '../../redux/actions/workouts';
+} from '../../../redux/actions/workouts';
 import NewExerciseForm from './NewExerciseForm';
 import ExerciseList from './ExerciseList';
 
-class Details extends Component {
+class WorkoutPage extends Component {
   componentDidMount() {
     this.props.fetchWorkout(this.props.id);
   }
@@ -85,7 +85,7 @@ class Details extends Component {
   }
 }
 
-Details.propTypes = {
+WorkoutPage.propTypes = {
   workout: PropTypes.shape({
     name: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
@@ -131,4 +131,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Details);
+)(WorkoutPage);

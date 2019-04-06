@@ -8,10 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import NewWorkoutForm from './NewWorkoutForm';
 import WorkoutList from './WorkoutList';
 
-import { showNotification } from '../../redux/actions';
-import { fetchWorkouts, createWorkout } from '../../redux/actions/workouts';
+import { showNotification } from '../../../redux/actions';
+import { fetchWorkouts, createWorkout } from '../../../redux/actions/workouts';
 
-class Workouts extends Component {
+class WorkoutsHomePage extends Component {
   componentDidUpdate() {
     if (!this.props.fetching && !this.props.workouts) {
       this.props.fetchWorkouts();
@@ -68,7 +68,7 @@ const mapDispatchToProps = {
   createWorkout,
 };
 
-Workouts.propTypes = {
+WorkoutsHomePage.propTypes = {
   // redux state props
   pushHistory: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
@@ -85,4 +85,4 @@ Workouts.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Workouts);
+)(WorkoutsHomePage);

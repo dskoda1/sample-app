@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import NewEntityForm from './NewEntityForm';
+import NewEntityForm from '../NewEntityForm';
 
 const NewWorkoutForm = ({ classes, startNew, creating }) => (
   <Paper className={classes.root}>
