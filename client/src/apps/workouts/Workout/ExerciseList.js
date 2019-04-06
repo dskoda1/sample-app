@@ -8,32 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import ClearIcon from '@material-ui/icons/Clear';
-import CheckCircleIcon from '@material-ui/icons/IndeterminateCheckBox';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 export default class ExerciseList extends Component {
-  state = {
-    deleting: null,
-  };
-
-  startDelete = id => {
-    this.setState({
-      deleting: id,
-    });
-  };
-
-  confirmDelete = () => {
-    this.props.deleteExercise(this.props.workoutId, this.state.deleting);
-  };
-
-  cancelDelete = () => {
-    this.setState({
-      deleting: null,
-    });
-  };
-
   render() {
     if (!this.props.exercises) {
       return <div>loading...</div>;
@@ -47,11 +24,6 @@ export default class ExerciseList extends Component {
               {...exercise}
               workoutId={this.props.workoutId}
               pushHistory={this.props.pushHistory}
-              deleting={exercise.id === this.state.deleting}
-              deleteDisabled={this.props.deletingExercise}
-              startDelete={this.startDelete}
-              confirmDelete={this.confirmDelete}
-              cancelDelete={this.cancelDelete}
             />
           );
         })}
@@ -64,7 +36,6 @@ ExerciseList.propTypes = {
   exercises: PropTypes.array.isRequired,
   workoutId: PropTypes.number.isRequired,
   pushHistory: PropTypes.func.isRequired,
-  deletingExercise: PropTypes.bool.isRequired,
 };
 
 class ExerciseListItem extends Component {
@@ -77,35 +48,7 @@ class ExerciseListItem extends Component {
       type,
       sets,
       pushHistory,
-      deleting,
-      startDelete,
-      confirmDelete,
-      cancelDelete,
-      deleteDisabled,
     } = this.props;
-
-    let deletingComponent = (
-      <IconButton className={classes.button} onClick={() => startDelete(id)}>
-        <DeleteIcon />
-      </IconButton>
-    );
-
-    if (deleting) {
-      deletingComponent = (
-        <div>
-          <IconButton
-            className={classes.error}
-            onClick={() => confirmDelete()}
-            disabled={deleteDisabled}
-          >
-            <CheckCircleIcon />
-          </IconButton>
-          <IconButton onClick={() => cancelDelete()} className={classes.button}>
-            <ClearIcon />
-          </IconButton>
-        </div>
-      );
-    }
 
     let numberOfSets = 0;
     let setsString = 'Sets';
@@ -117,40 +60,26 @@ class ExerciseListItem extends Component {
     }
     return (
       <Paper className={classes.root} elevation={1}>
-        <Grid container justify="flex-start">
-          <Grid item xs={5} md={6}>
-            <Grid
-              container
-              justify="space-between"
-              direction="column"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography>{type}</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="display1">{name}</Typography>
-              </Grid>
-            </Grid>
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Typography variant="title">{name}</Typography>
           </Grid>
-          <Grid item xs={3} md={4}>
+          <Grid item xs={4} className={classes.detail}>
+            <Typography component="p">{type}</Typography>
+          </Grid>
+          <Grid item xs={4} className={classes.detail}>
             <Typography component="p">
               {numberOfSets} {setsString}
             </Typography>
           </Grid>
-          <Grid item xs={2} md={1}>
-            {deletingComponent}
-          </Grid>
-          <Grid item xs={2} md={1}>
+          <Grid item xs={4}>
             <IconButton
               onClick={() =>
                 pushHistory(`/workouts/${workoutId}/exercises/${id}`)
               }
-              aria-label="Add"
-              className={classes.button}
-              color="primary"
+              aria-label="View"
             >
-              <AddCircleIcon />
+              <ArrowForwardIcon />
             </IconButton>
           </Grid>
         </Grid>
@@ -160,13 +89,15 @@ class ExerciseListItem extends Component {
 }
 const styles = theme => ({
   root: {
-    ...theme.mixins.gutters(),
+    // ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit,
+    textAlign: 'center',
   },
-  button: {
-    margin: theme.spacing.unit,
+  detail: {
+    marginTop: theme.spacing.unit * 2,
+    textTransform: 'capitalize',
   },
   error: {
     margin: theme.spacing.unit,
@@ -182,8 +113,5 @@ ExerciseListItem.propTypes = {
   createdAt: PropTypes.string.isRequired,
   finishedAt: PropTypes.string,
   pushHistory: PropTypes.func.isRequired,
-  deleting: PropTypes.bool.isRequired,
-  startDelete: PropTypes.func.isRequired,
-  confirmDelete: PropTypes.func.isRequired,
 };
 let StyledExerciseListItem = withRouter(withStyles(styles)(ExerciseListItem));

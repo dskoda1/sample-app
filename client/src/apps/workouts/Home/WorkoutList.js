@@ -7,7 +7,8 @@ import Moment from 'react-moment';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 export default class WorkoutList extends Component {
   render() {
@@ -53,22 +54,26 @@ class WorkoutListItem extends Component {
     }
 
     return (
-      <Paper
-        onClick={() => push(`/workouts/${id}`)}
-        className={classes.root}
-        elevation={1}
-      >
-        <Grid container justify="flex-start">
-          <Grid item xs={4}>
+      <Paper className={classes.root} elevation={1}>
+        <Grid container justify="center">
+          <Grid item xs={12}>
             <Typography variant="title">{name}</Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} className={classes.detailGrid}>
             <Typography component="p">
               <Moment format="MMM DD hh:m">{createdAt}</Moment>
             </Typography>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} className={classes.detailGrid}>
             <Typography component="p">{FinishedComponent}</Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <IconButton
+              onClick={() => push(`/workouts/${id}`)}
+              aria-label="view workout"
+            >
+              <ArrowForwardIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </Paper>
@@ -82,6 +87,9 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit,
     textAlign: 'center',
+  },
+  detailGrid: {
+    marginTop: theme.spacing.unit * 2,
   },
 });
 

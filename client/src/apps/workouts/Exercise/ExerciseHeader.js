@@ -20,7 +20,7 @@ class ExerciseHeader extends Component {
             </IconButton>
           </Grid>
           <Grid item xs={8}>
-            <Typography variant="display2">{exercise.name}</Typography>
+            <Typography variant="headline">{exercise.name}</Typography>
           </Grid>
           <Grid item xs={2}>
             <DeleteExercise
