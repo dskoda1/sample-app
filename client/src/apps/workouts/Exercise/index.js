@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import { showNotification } from '../../../redux/actions';
-import { fetchWorkout, createSet } from '../../../redux/actions/workouts';
+import {
+  fetchWorkout,
+  createSet,
+  deleteExercise,
+} from '../../../redux/actions/workouts';
 import NewSetForm from './NewSetForm';
 import ExerciseHeader from './ExerciseHeader';
 import SetTable from './SetTable';
@@ -24,8 +28,20 @@ class ExercisePage extends Component {
     createSet(workoutId, exerciseId, { weight, reps });
   };
 
+  deleteExercise = () => {
+    this.props.deleteExercise(this.props.workoutId, this.props.exerciseId);
+    this.props.goBack();
+  };
+
   render() {
-    const { workout, goBack, fetching, exerciseId } = this.props;
+    const {
+      workout,
+      goBack,
+      fetching,
+      exerciseId,
+      deletingExercise,
+      creatingSet,
+    } = this.props;
     if (!workout || fetching) {
       return <div>loading</div>;
     }
@@ -45,13 +61,19 @@ class ExercisePage extends Component {
       <div>
         <Grid container justify="space-around">
           <Grid item xs={12} sm={6}>
-            <ExerciseHeader exercise={exercise} goBack={goBack} />
+            <ExerciseHeader
+              exercise={exercise}
+              goBack={goBack}
+              deleteExercise={this.deleteExercise}
+              deletingExercise={deletingExercise}
+            />
           </Grid>
           <Grid item xs={12} sm={9}>
             <NewSetForm
               type={exercise.type}
               createLiftSet={this.createLiftSet}
               createCardioSet={this.createCardioSet}
+              creating={creatingSet}
             />
           </Grid>
           <Grid item xs={12} sm={9}>
@@ -73,6 +95,8 @@ ExercisePage.propTypes = {
   creatingSet: PropTypes.bool.isRequired,
   deletingSet: PropTypes.bool.isRequired,
   createSet: PropTypes.func.isRequired,
+  deletingExercise: PropTypes.bool.isRequired,
+  deleteExercise: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, router) => {
@@ -84,6 +108,7 @@ const mapStateToProps = (state, router) => {
     workout: state.workouts.map[router.match.params.workoutId],
     creatingSet: state.sets.creating,
     deletingSet: state.sets.deleting,
+    deletingExercise: state.exercises.deleting,
     goBack: router.history.goBack,
   };
 };
@@ -91,6 +116,7 @@ const mapDispatchToProps = {
   showNotification,
   fetchWorkout,
   createSet,
+  deleteExercise,
 };
 
 export default connect(

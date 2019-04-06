@@ -1,5 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+
 // All the following keys are optional.
 // We try our best to provide a great default value.
 const theme = createMuiTheme({
@@ -10,12 +12,7 @@ const theme = createMuiTheme({
       dark: '#007c91',
       contrastText: '#000000',
     },
-    secondary: {
-      light: '#c1d5e0',
-      main: '#90a4ae',
-      dark: '#62757f',
-      contrastText: '#000000',
-    },
+    secondary: red,
     progress: green,
     // Used by `getContrastText()` to maximize the contrast between the background and
     // the text.

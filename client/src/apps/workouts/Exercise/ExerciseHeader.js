@@ -6,10 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import BackIcon from '@material-ui/icons/ArrowBack';
+import DeleteExercise from './DeleteExercise';
 
 class ExerciseHeader extends Component {
   render() {
-    const { classes, exercise } = this.props;
+    const { classes, exercise, deleteExercise, deletingExercise } = this.props;
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
@@ -20,6 +21,13 @@ class ExerciseHeader extends Component {
           </Grid>
           <Grid item xs={8}>
             <Typography variant="display2">{exercise.name}</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <DeleteExercise
+              exerciseName={exercise.name}
+              deleteExercise={deleteExercise}
+              deletingExercise={deletingExercise}
+            />
           </Grid>
         </Grid>
       </Paper>
@@ -35,6 +43,8 @@ ExerciseHeader.propTypes = {
   }),
   goBack: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  deleteExercise: PropTypes.func.isRequired,
+  deletingExercise: PropTypes.bool.isRequired,
 };
 
 const styles = theme => ({
