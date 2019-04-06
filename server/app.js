@@ -17,6 +17,8 @@ const app = express();
 const node_env = process.env.NODE_ENV;
 if (node_env === 'production' || node_env === 'staging') {
   app.use(morgan('combined'));
+} else if (node_env === 'local_test') {
+  // do nothing
 } else {
   app.use(morgan('dev'));
 }

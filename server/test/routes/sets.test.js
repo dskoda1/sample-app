@@ -86,6 +86,19 @@ describe('Test sets endpoints', () => {
       expect(set.reps).toEqual(8);
       done();
     });
+
+    test('201 lift accepts 0 for weight', async done => {
+      const res = await testSession
+        .post(`/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets`)
+        .send({ weight: 0, reps: 8 })
+        .expect(201);
+
+      const set = await models.Sets.findOne({ where: { id: res.body.id } });
+      expect(set.id).toEqual(res.body.id);
+      expect(set.weight).toEqual(0);
+      expect(set.reps).toEqual(8);
+      done();
+    });
   });
 
   describe('DELETE /:id', () => {

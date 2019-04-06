@@ -28,7 +28,7 @@ router.post(
       if (!req.body.reps) {
         error += 'Missing reps. ';
       }
-      if (!req.body.weight) {
+      if (!req.body.weight && req.body.weight !== 0) {
         error += 'Missing weight. ';
       }
       createArgs = {
