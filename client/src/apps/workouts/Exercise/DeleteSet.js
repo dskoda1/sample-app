@@ -30,7 +30,7 @@ class DeleteSet extends Component {
   };
 
   render() {
-    const { deletingSet, classes, exerciseName } = this.props;
+    const { deletingSet, classes } = this.props;
 
     return (
       <div>
@@ -50,8 +50,8 @@ class DeleteSet extends Component {
           <DialogTitle id="alert-dialog-title">{`Delete set?`}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Confirm you would like to delete this set. This action can
-              not be reversed.
+              Confirm you would like to delete this set. This action can not be
+              reversed.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -75,7 +75,7 @@ DeleteSet.propTypes = {
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit,
+    // margin: theme.spacing.unit,
   },
 });
 

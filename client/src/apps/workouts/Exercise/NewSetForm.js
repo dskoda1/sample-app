@@ -55,22 +55,19 @@ class NewSetForm extends Component {
 
   getCardioFields = () => {
     return [
-      { display: 'Duration', stateField: 'duration' },
-      { display: 'Distance', stateField: 'distance' },
+      { display: 'Duration', stateField: 'duration', type: 'number' },
+      { display: 'Distance', stateField: 'distance', type: 'number' },
     ];
   };
 
   getLiftFields = () => {
     return [
-      { display: 'Weight', stateField: 'weight' },
-      { display: 'Reps', stateField: 'reps' },
+      { display: 'Weight', stateField: 'weight', input: '[0-9]*' },
+      { display: 'Reps', stateField: 'reps', input: '[0-9]*' },
     ];
   };
 
   render() {
-    const inputProps = {
-      pattern: '[0-9]*',
-    };
     const { creating, classes } = this.props;
     return (
       <Paper className={classes.root} elevation={1}>
@@ -78,15 +75,15 @@ class NewSetForm extends Component {
           <Grid item xs={12}>
             <Typography>Add Set</Typography>
           </Grid>
-          {this.getFields().map(({ display, stateField }, i) => (
+          {this.getFields().map(({ display, stateField, input, type }, i) => (
             <Grid item key={i} xs={4}>
               <TextField
                 label={display}
                 value={this.state[stateField]}
                 onChange={this.updateField(stateField)}
-                inputProps={inputProps}
-                type="tel"
+                inputProps={{ pattern: input }}
                 className={this.props.classes.textField}
+                type={type}
                 InputLabelProps={{
                   shrink: true,
                 }}

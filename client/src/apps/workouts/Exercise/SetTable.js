@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 
-
 import {
   withStyles,
   Paper,
@@ -43,15 +42,20 @@ class SetTable extends Component {
     if (this.props.exerciseType === 'cardio') {
       return (
         <TableRow key={set.id}>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.tableCell}>
             {set.duration}
           </TableCell>
-          <TableCell align="right">{set.distance}</TableCell>
-          <TableCell align="right">
+          <TableCell align="right" className={classes.tableCell}>
+            {set.distance}
+          </TableCell>
+          <TableCell align="right" className={classes.tableCell}>
             <Moment format="h:mm:ss a">{set.createdAt}</Moment>
           </TableCell>
           <TableCell className={classes.tableCell}>
-            <DeleteSet deleteSet={() => deleteSet(set.id)} deletingSet={deletingSet}/>
+            <DeleteSet
+              deleteSet={() => deleteSet(set.id)}
+              deletingSet={deletingSet}
+            />
           </TableCell>
         </TableRow>
       );
@@ -61,12 +65,17 @@ class SetTable extends Component {
           <TableCell component="th" scope="row" className={classes.tableCell}>
             {set.weight}
           </TableCell>
-          <TableCell align="right" className={classes.tableCell}>{set.reps}</TableCell>
+          <TableCell align="right" className={classes.tableCell}>
+            {set.reps}
+          </TableCell>
           <TableCell align="right" className={classes.tableCell}>
             <Moment format="hh:mm:ss a">{set.createdAt}</Moment>
           </TableCell>
           <TableCell className={classes.tableCell}>
-            <DeleteSet deleteSet={() => deleteSet(set.id)} deletingSet={deletingSet}/>
+            <DeleteSet
+              deleteSet={() => deleteSet(set.id)}
+              deletingSet={deletingSet}
+            />
           </TableCell>
         </TableRow>
       );
@@ -113,10 +122,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 4,
   },
   tableCell: {
-     paddingRight: theme.spacing.unit * 2,
-     paddingLeft: theme.spacing.unit * 2.5, 
-     textAlign: 'center',
-  }
+    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 2.5,
+    textAlign: 'center',
+  },
 });
 
 export default withStyles(styles)(SetTable);

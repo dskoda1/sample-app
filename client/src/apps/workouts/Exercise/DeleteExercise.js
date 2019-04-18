@@ -50,8 +50,8 @@ class DeleteExercise extends Component {
           <DialogTitle id="alert-dialog-title">{`Delete exercise "${exerciseName}?`}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Confirm you would like to delete "{exerciseName}". This action can
-              not be reversed.
+              Confirm you would like to delete "{exerciseName}
+              ". This action can not be reversed.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

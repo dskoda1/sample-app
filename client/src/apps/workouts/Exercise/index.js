@@ -34,10 +34,9 @@ class ExercisePage extends Component {
     this.props.goBack();
   };
 
-
-  deleteSet = (setId) => {
+  deleteSet = setId => {
     this.props.deleteSet(this.props.workoutId, this.props.exerciseId, setId);
-  }
+  };
 
   render() {
     const {
@@ -83,7 +82,12 @@ class ExercisePage extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={9}>
-            <SetTable exerciseType={exercise.type} sets={sets} deleteSet={this.deleteSet} deletingSet={this.props.deletingSet}/>
+            <SetTable
+              exerciseType={exercise.type}
+              sets={sets}
+              deleteSet={this.deleteSet}
+              deletingSet={this.props.deletingSet}
+            />
           </Grid>
         </Grid>
       </div>
