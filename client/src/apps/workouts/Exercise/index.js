@@ -8,6 +8,7 @@ import {
   fetchWorkout,
   createSet,
   deleteExercise,
+  deleteSet,
 } from '../../../redux/actions/workouts';
 import NewSetForm from './NewSetForm';
 import ExerciseHeader from './ExerciseHeader';
@@ -32,6 +33,11 @@ class ExercisePage extends Component {
     this.props.deleteExercise(this.props.workoutId, this.props.exerciseId);
     this.props.goBack();
   };
+
+
+  deleteSet = (setId) => {
+    this.props.deleteSet(this.props.workoutId, this.props.exerciseId, setId);
+  }
 
   render() {
     const {
@@ -77,7 +83,7 @@ class ExercisePage extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={9}>
-            <SetTable exerciseType={exercise.type} sets={sets} />
+            <SetTable exerciseType={exercise.type} sets={sets} deleteSet={this.deleteSet} deletingSet={this.props.deletingSet}/>
           </Grid>
         </Grid>
       </div>
@@ -97,6 +103,7 @@ ExercisePage.propTypes = {
   createSet: PropTypes.func.isRequired,
   deletingExercise: PropTypes.bool.isRequired,
   deleteExercise: PropTypes.func.isRequired,
+  deleteSet: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state, router) => {
@@ -117,6 +124,7 @@ const mapDispatchToProps = {
   fetchWorkout,
   createSet,
   deleteExercise,
+  deleteSet,
 };
 
 export default connect(

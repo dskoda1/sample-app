@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 
+
 import {
   withStyles,
   Paper,
@@ -12,27 +13,33 @@ import {
   TableCell,
   TableBody,
 } from '@material-ui/core';
+import DeleteSet from './DeleteSet';
 
 class SetTable extends Component {
   state = {};
 
   getTableHeader = () => {
+    const { classes } = this.props;
     return this.props.exerciseType === 'cardio' ? (
       <TableRow>
-        <TableCell>Duration</TableCell>
-        <TableCell>Distance</TableCell>
-        <TableCell>At</TableCell>
+        <TableCell className={classes.tableCell}>Duration</TableCell>
+        <TableCell className={classes.tableCell}>Distance</TableCell>
+        <TableCell className={classes.tableCell}>At</TableCell>
+        <TableCell className={classes.tableCell}>Delete</TableCell>
       </TableRow>
     ) : (
       <TableRow>
-        <TableCell>Weight</TableCell>
-        <TableCell>Reps</TableCell>
-        <TableCell>At</TableCell>
+        <TableCell className={classes.tableCell}>Weight</TableCell>
+        <TableCell className={classes.tableCell}>Reps</TableCell>
+        <TableCell className={classes.tableCell}>At</TableCell>
+        <TableCell className={classes.tableCell}>Delete</TableCell>
       </TableRow>
     );
   };
 
   getTableRow = set => {
+    const { classes, deleteSet, deletingSet } = this.props;
+    console.log(this.props);
     if (this.props.exerciseType === 'cardio') {
       return (
         <TableRow key={set.id}>
@@ -43,17 +50,23 @@ class SetTable extends Component {
           <TableCell align="right">
             <Moment format="h:mm:ss a">{set.createdAt}</Moment>
           </TableCell>
+          <TableCell className={classes.tableCell}>
+            <DeleteSet deleteSet={() => deleteSet(set.id)} deletingSet={deletingSet}/>
+          </TableCell>
         </TableRow>
       );
     } else if (this.props.exerciseType === 'lift') {
       return (
         <TableRow key={set.id}>
-          <TableCell component="th" scope="row">
+          <TableCell component="th" scope="row" className={classes.tableCell}>
             {set.weight}
           </TableCell>
-          <TableCell align="right">{set.reps}</TableCell>
-          <TableCell align="right">
+          <TableCell align="right" className={classes.tableCell}>{set.reps}</TableCell>
+          <TableCell align="right" className={classes.tableCell}>
             <Moment format="hh:mm:ss a">{set.createdAt}</Moment>
+          </TableCell>
+          <TableCell className={classes.tableCell}>
+            <DeleteSet deleteSet={() => deleteSet(set.id)} deletingSet={deletingSet}/>
           </TableCell>
         </TableRow>
       );
@@ -78,6 +91,8 @@ class SetTable extends Component {
 SetTable.propTypes = {
   exerciseType: PropTypes.string.isRequired,
   sets: PropTypes.array.isRequired,
+  deleteSet: PropTypes.func.isRequired,
+  deletingSet: PropTypes.bool.isRequired,
 };
 
 const styles = theme => ({
@@ -86,6 +101,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit,
     textAlign: 'center',
+    overflowX: 'scroll',
   },
   textField: {
     marginTop: theme.spacing.unit * 3,
@@ -96,6 +112,11 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit * 4,
   },
+  tableCell: {
+     paddingRight: theme.spacing.unit * 2,
+     paddingLeft: theme.spacing.unit * 2.5, 
+     textAlign: 'center',
+  }
 });
 
 export default withStyles(styles)(SetTable);
