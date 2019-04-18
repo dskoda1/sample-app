@@ -62,6 +62,11 @@ class ExercisePage extends Component {
       return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
     });
 
+    let mostRecentSetTime = null;
+    if (sets.length > 0) {
+      mostRecentSetTime = sets[0].createdAt;
+    }
+
     return (
       <div>
         <Grid container justify="space-around">
@@ -71,6 +76,7 @@ class ExercisePage extends Component {
               goBack={goBack}
               deleteExercise={this.deleteExercise}
               deletingExercise={deletingExercise}
+              mostRecentSetTime={mostRecentSetTime}
             />
           </Grid>
           <Grid item xs={12} sm={9}>

@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import Moment from 'react-moment';
 
 export default class ExerciseList extends Component {
   render() {
@@ -52,11 +53,19 @@ class ExerciseListItem extends Component {
 
     let numberOfSets = 0;
     let setsString = 'Sets';
+    let timeSinceLastSetComponent = null;
+
     if (sets && sets.length) {
       numberOfSets = sets.length;
       if (sets.length === 1) {
         setsString = 'Set';
       }
+      let sortedSets = sets.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
+      });
+      timeSinceLastSetComponent = <Moment durationFromNow date={sortedSets[0].createdAt} interval={1000} />;
     }
     return (
       <Paper className={classes.root} elevation={1}>
@@ -69,7 +78,7 @@ class ExerciseListItem extends Component {
           </Grid>
           <Grid item xs={4} className={classes.detail}>
             <Typography component="p">
-              {numberOfSets} {setsString}
+              {numberOfSets} {setsString} {timeSinceLastSetComponent ? " - Last " : null} {timeSinceLastSetComponent}
             </Typography>
           </Grid>
           <Grid item xs={4}>

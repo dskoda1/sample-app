@@ -7,10 +7,14 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import DeleteExercise from './DeleteExercise';
+import Moment from 'react-moment';
 
 class ExerciseHeader extends Component {
+
   render() {
-    const { classes, exercise, deleteExercise, deletingExercise } = this.props;
+    const { classes, exercise, deleteExercise, deletingExercise, mostRecentSetTime } = this.props;
+    
+    const timeSinceLastSetComponent = mostRecentSetTime ?<Moment durationFromNow date={mostRecentSetTime} interval={1000} /> : null;
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
@@ -20,7 +24,13 @@ class ExerciseHeader extends Component {
             </IconButton>
           </Grid>
           <Grid item xs={8}>
-            <Typography variant="headline">{exercise.name}</Typography>
+            <Grid container direction="column">
+              <Typography variant="headline">{exercise.name}</Typography>
+              <Typography variant="body1">Last Set: {timeSinceLastSetComponent}</Typography>
+            
+            </Grid>
+
+
           </Grid>
           <Grid item xs={2}>
             <DeleteExercise
@@ -45,6 +55,7 @@ ExerciseHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteExercise: PropTypes.func.isRequired,
   deletingExercise: PropTypes.bool.isRequired,
+  mostRecentSetTime: PropTypes.string
 };
 
 const styles = theme => ({
