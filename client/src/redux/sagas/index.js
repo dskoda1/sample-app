@@ -26,6 +26,9 @@ import {
 } from './workouts';
 import { createExerciseSaga, deleteExerciseSaga } from './exercises';
 
+import { fetchInventorySaga } from '../inventory/sagas';
+import { FETCH_INVENTORY } from '../inventory/constants';
+
 export default function*() {
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(REGISTER, registerSaga);
@@ -40,4 +43,6 @@ export default function*() {
   yield takeLatest(DELETE_EXERCISE, deleteExerciseSaga);
   yield takeLatest(CREATE_SET, createSetSaga);
   yield takeLatest(DELETE_SET, deleteSetSaga);
+
+  yield takeLatest(FETCH_INVENTORY, fetchInventorySaga);
 }
