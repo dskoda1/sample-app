@@ -10,11 +10,18 @@ import DeleteExercise from './DeleteExercise';
 import Moment from 'react-moment';
 
 class ExerciseHeader extends Component {
-
   render() {
-    const { classes, exercise, deleteExercise, deletingExercise, mostRecentSetTime } = this.props;
-    
-    const timeSinceLastSetComponent = mostRecentSetTime ?<Moment durationFromNow date={mostRecentSetTime} interval={1000} /> : null;
+    const {
+      classes,
+      exercise,
+      deleteExercise,
+      deletingExercise,
+      mostRecentSetTime,
+    } = this.props;
+
+    const timeSinceLastSetComponent = mostRecentSetTime ? (
+      <Moment durationFromNow date={mostRecentSetTime} interval={1000} />
+    ) : null;
     return (
       <Paper className={classes.root}>
         <Grid container justify="flex-start">
@@ -26,11 +33,10 @@ class ExerciseHeader extends Component {
           <Grid item xs={8}>
             <Grid container direction="column">
               <Typography variant="headline">{exercise.name}</Typography>
-              <Typography variant="body1">Last Set: {timeSinceLastSetComponent}</Typography>
-            
+              <Typography variant="body1">
+                Last Set: {timeSinceLastSetComponent}
+              </Typography>
             </Grid>
-
-
           </Grid>
           <Grid item xs={2}>
             <DeleteExercise
@@ -55,7 +61,7 @@ ExerciseHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteExercise: PropTypes.func.isRequired,
   deletingExercise: PropTypes.bool.isRequired,
-  mostRecentSetTime: PropTypes.string
+  mostRecentSetTime: PropTypes.string,
 };
 
 const styles = theme => ({

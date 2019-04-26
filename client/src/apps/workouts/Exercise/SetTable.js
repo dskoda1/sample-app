@@ -38,7 +38,6 @@ class SetTable extends Component {
 
   getTableRow = set => {
     const { classes, deleteSet, deletingSet } = this.props;
-    console.log(this.props);
     if (this.props.exerciseType === 'cardio') {
       return (
         <TableRow key={set.id}>

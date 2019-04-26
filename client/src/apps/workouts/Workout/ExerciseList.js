@@ -65,7 +65,13 @@ class ExerciseListItem extends Component {
         const dateB = new Date(b.createdAt);
         return dateA > dateB ? -1 : dateA < dateB ? 1 : 0;
       });
-      timeSinceLastSetComponent = <Moment durationFromNow date={sortedSets[0].createdAt} interval={1000} />;
+      timeSinceLastSetComponent = (
+        <Moment
+          durationFromNow
+          date={sortedSets[0].createdAt}
+          interval={1000}
+        />
+      );
     }
     return (
       <Paper className={classes.root} elevation={1}>
@@ -78,7 +84,9 @@ class ExerciseListItem extends Component {
           </Grid>
           <Grid item xs={4} className={classes.detail}>
             <Typography component="p">
-              {numberOfSets} {setsString} {timeSinceLastSetComponent ? " - Last " : null} {timeSinceLastSetComponent}
+              {numberOfSets} {setsString}{' '}
+              {timeSinceLastSetComponent ? ' - Last ' : null}{' '}
+              {timeSinceLastSetComponent}
             </Typography>
           </Grid>
           <Grid item xs={4}>
