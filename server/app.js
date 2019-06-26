@@ -3,6 +3,7 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const morgan = require('morgan');
+const compression = require('compression');
 const models = require('./db/models');
 
 const workoutRoutes = require('./routes/workouts');
@@ -34,6 +35,9 @@ const forceSSL = (req, res, next) => {
   }
   next();
 };
+
+// Compress static assets
+app.use(compression);
 
 // Set up https redirects
 app.use(forceSSL);
