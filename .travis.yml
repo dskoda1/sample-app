@@ -9,6 +9,8 @@ matrix:
           - npm run build
 
     - language: node_js
+      node_js:
+        - "lts/dubnium"
       env:
         - NODE_ENV=test
       services: postgresql
