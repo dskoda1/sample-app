@@ -13,6 +13,8 @@ const setRoutes = require('./routes/sets');
 // Create our app
 const app = express();
 
+models.sequelize.authenticate();
+
 // Set up logging
 const node_env = process.env.NODE_ENV;
 if (node_env === 'production' || node_env === 'staging') {
@@ -56,6 +58,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
 exerciseRoutes.use('/:exerciseId/sets', setRoutes);
+
+
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require('./typeDefs')
+
+const resolvers = require('./resolvers')
+const server = new ApolloServer({ typeDefs, resolvers, context: { models } });
+server.applyMiddleware({ app });
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
