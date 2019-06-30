@@ -1,6 +1,6 @@
 const request = require('supertest');
 const session = require('supertest-session');
-const app = require('../../app');
+const app = require('../../app').app;
 const models = require('../../db/models');
 
 const testUtils = require('../utils');

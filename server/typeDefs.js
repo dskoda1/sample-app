@@ -9,7 +9,6 @@ type User {
     updatedAt: String!
     workouts: [Workouts!]!
 }
-
 type Workouts {
     id: Int!
     name: String!
@@ -18,7 +17,6 @@ type Workouts {
     updatedAt: String!
     user: User!
 }
-
 type Query {
     getUser(username: String!): User
     getAllUsers: [User!]!
