@@ -58,33 +58,34 @@ app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
 exerciseRoutes.use('/:exerciseId/sets', setRoutes);
 
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
 
+// the function that sets up the global context for each resolver, using the req
+const context = ({ req }) => {
+  if (!req.session.UserId) {
+    console.log('No username');
+    throw new Error('unauthorized');
+  }
+  return {
+    UserId: req.session.UserId,
+    models,
+  };
+};
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context,
+});
+server.applyMiddleware({ app });
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
-const { ApolloServer, gql } = require('apollo-server-express');
-const typeDefs = require('./typeDefs')
-const resolvers = require('./resolvers')
-
-// the function that sets up the global context for each resolver, using the req
-const context =  ({ req }) => {
-  return {
-    user: {
-      username: 'dskoda'
-    },
-    models
-  };
-};
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context
-});
-server.applyMiddleware({ app });
 
 module.exports = {
   // TODO: Datasources / apis
@@ -94,4 +95,4 @@ module.exports = {
   resolvers,
   ApolloServer,
   gqlServer: server,
-}
+};
