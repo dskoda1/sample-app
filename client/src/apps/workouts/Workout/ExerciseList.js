@@ -77,7 +77,7 @@ class ExerciseListItem extends Component {
       <Paper className={classes.root} elevation={1}>
         <Grid container justify="center">
           <Grid item xs={12}>
-            <Typography variant="title">{name}</Typography>
+            <Typography variant="h6">{name}</Typography>
           </Grid>
           <Grid item xs={4} className={classes.detail}>
             <Typography component="p">{type}</Typography>
@@ -107,17 +107,17 @@ class ExerciseListItem extends Component {
 const styles = theme => ({
   root: {
     // ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    marginTop: theme.spacing(1),
     textAlign: 'center',
   },
   detail: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     textTransform: 'capitalize',
   },
   error: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     color: theme.palette.error.dark,
   },
 });

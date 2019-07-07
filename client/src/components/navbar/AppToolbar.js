@@ -22,7 +22,7 @@ const AppToolbar = ({
       <MenuIcon />
     </IconButton>
     {/* App title home page link */}
-    <Typography variant="title" color="inherit" className={flex} noWrap>
+    <Typography variant="subtitle1" color="inherit" className={flex} noWrap>
       <Link to="/" style={{ textDecoration: 'none', color: '#FFF' }}>
         {appTitle}
       </Link>

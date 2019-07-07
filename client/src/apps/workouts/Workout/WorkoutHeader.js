@@ -77,7 +77,7 @@ class DetailsHeader extends Component {
               label="Name"
               value={workout.name}
               onEdit={this.onEdit /* not needed*/}
-              typogrophyVariant="display2"
+              typogrophyVariant="h4"
               classes={classes}
             />
           </Grid>
@@ -91,15 +91,15 @@ class DetailsHeader extends Component {
             />
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="subheading">{duration}</Typography>
+            <Typography variant="subtitle1">{duration}</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="subheading">
+            <Typography variant="subtitle1">
               {(workout.exercises || []).length} exercises
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="subheading">{sets} sets</Typography>
+            <Typography variant="subtitle1">{sets} sets</Typography>
           </Grid>
         </Grid>
       </Paper>
@@ -168,15 +168,15 @@ DetailsHeader.propTypes = {
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    padding: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(1),
     textAlign: 'center',
   },
   textField: {
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing(2),
   },
   button: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
 });
 

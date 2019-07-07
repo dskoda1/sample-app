@@ -44,7 +44,9 @@ const createWorkoutSaga = function*({ name, pushHistory }) {
     const res = yield call(axios.post, '/api/workouts', { name });
     yield put(workoutActions.createWorkoutSuccess());
     pushHistory(`/workouts/${res.data.id}`);
-    yield put(actions.showNotification('Workout created successfully'));
+    yield put(
+      actions.showNotification('Workout created successfully', 'success')
+    );
   } catch (error) {
     yield put(actions.showNotification('Failed to create workout', 'error'));
     yield put(workoutActions.createWorkoutFailure(error));

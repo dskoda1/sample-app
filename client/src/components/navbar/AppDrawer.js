@@ -17,7 +17,7 @@ const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
       <div className={toolbar} />
       <Divider />
       <List>
-        <Link to="/workouts" style={{ textDecoration: 'none', color: '#FFF' }}>
+        <Link to="/workouts" style={{ textDecoration: 'none', color: '#000' }}>
           <ListItem button>
             <ListItemIcon>
               <DirectionsRunIcon />

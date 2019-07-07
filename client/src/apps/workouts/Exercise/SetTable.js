@@ -106,23 +106,23 @@ SetTable.propTypes = {
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    padding: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(1),
     textAlign: 'center',
     overflowX: 'scroll',
   },
   textField: {
-    marginTop: theme.spacing.unit * 3,
-    // marginRight: theme.spacing.unit,
-    // marginLeft: theme.spacing.unit,
+    marginTop: theme.spacing(3),
+    // marginRight: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
     width: '90%',
   },
   button: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
   },
   tableCell: {
-    paddingRight: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 2.5,
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2.5),
     textAlign: 'center',
   },
 });

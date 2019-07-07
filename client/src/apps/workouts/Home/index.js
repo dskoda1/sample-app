@@ -33,7 +33,7 @@ class WorkoutsHomePage extends Component {
   render() {
     return (
       <div>
-        <Typography variant="display3">Workouts</Typography>
+        <Typography variant="h3">Workouts</Typography>
         <Grid container justify="space-around">
           <Grid item xs={12} sm={6}>
             <NewWorkoutForm

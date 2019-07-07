@@ -48,7 +48,7 @@ export default class IconMenu extends React.Component {
 }
 
 IconMenu.propTypes = {
-  iconClass: PropTypes.func.isRequired,
+  iconClass: PropTypes.object.isRequired,
   choices: PropTypes.arrayOf(
     PropTypes.shape({
       choice: PropTypes.string.isRequired,

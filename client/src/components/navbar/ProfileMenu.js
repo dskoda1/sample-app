@@ -7,56 +7,53 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
-import { withRouter } from 'react-router-dom';
+export default function ProfileMenu({ logout }) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-class ProfileMenu extends React.Component {
-  state = {
-    open: false,
-  };
-  toggleOpen = open => () => {
-    this.setState({
-      open,
-    });
-  };
-
-  handleLogout = () => {
-    this.props.logout();
-  };
-  render() {
-    const { open } = this.state;
-    return (
-      <div>
-        <IconButton
-          aria-owns={open ? 'menu-appbar' : null}
-          aria-haspopup="true"
-          onClick={this.toggleOpen(true)}
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Menu
-          id="menu-appbar"
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={open}
-          onClose={this.toggleOpen(false)}
-        >
-          <MenuItem onClick={this.toggleOpen(false)}>Profile</MenuItem>
-          <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
-        </Menu>
-      </div>
-    );
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
   }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  function handleLogout() {
+    setAnchorEl(null);
+    logout();
+  }
+
+  return (
+    <div>
+      <IconButton
+        aria-owns={setAnchorEl ? 'menu-appbar' : null}
+        aria-haspopup="true"
+        onClick={handleClick}
+        color="inherit"
+      >
+        <AccountCircle />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        id="menu-appbar"
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+    </div>
+  );
 }
 
 ProfileMenu.propTypes = {
   logout: PropTypes.func.isRequired,
 };
-
-export default withRouter(ProfileMenu);

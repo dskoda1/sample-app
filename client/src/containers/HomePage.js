@@ -18,7 +18,7 @@ class HomePage extends Component {
   };
 
   render() {
-    return <Typography variant="display1">Hello!</Typography>;
+    return <Typography variant="h3">Welcome to ImproveMe!</Typography>;
   }
 }
 
