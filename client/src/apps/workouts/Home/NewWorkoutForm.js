@@ -7,7 +7,7 @@ import NewEntityForm from '../NewEntityForm';
 
 const NewWorkoutForm = ({ classes, startNew, creating }) => (
   <Paper className={classes.root}>
-    <Typography variant="subheading">Start a new workout!</Typography>
+    <Typography variant="h6">Start a new workout!</Typography>
     <NewEntityForm
       classes={classes}
       onCreate={startNew}
@@ -19,14 +19,14 @@ const NewWorkoutForm = ({ classes, startNew, creating }) => (
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'center',
   },
   textField: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   button: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
   },
 });
 NewWorkoutForm.propTypes = {

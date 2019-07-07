@@ -32,7 +32,7 @@ class ExerciseHeader extends Component {
           </Grid>
           <Grid item xs={8}>
             <Grid container direction="column">
-              <Typography variant="headline">{exercise.name}</Typography>
+              <Typography variant="h6">{exercise.name}</Typography>
               <Typography variant="body1">
                 Last Set: {timeSinceLastSetComponent}
               </Typography>
@@ -67,12 +67,12 @@ ExerciseHeader.propTypes = {
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    padding: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(1),
     textAlign: 'center',
   },
   button: {
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
   },
 });
 

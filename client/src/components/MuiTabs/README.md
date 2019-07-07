@@ -35,7 +35,6 @@ render() {
 
 It also supports the following optional props with the defaults listed:
 
-- `fullWidth`: Defaults `true`.
 - `centered`: Defaults `true`; will expand out width of tabs to match available space
 - `scrollable`: Defaults `false`
 

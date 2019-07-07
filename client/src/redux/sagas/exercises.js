@@ -18,7 +18,9 @@ const createExerciseSaga = function*({
     yield put(workoutActions.createExerciseSuccess());
     yield put(workoutActions.fetchWorkout(workoutId));
     pushHistory(`/workouts/${workoutId}/exercises/${res.data.id}`);
-    yield put(actions.showNotification('Exercise created successfully'));
+    yield put(
+      actions.showNotification('Exercise created successfully', 'success')
+    );
   } catch (error) {
     yield put(actions.showNotification('Failed to create exercise', 'error'));
     yield put(workoutActions.createExerciseFailure(error));

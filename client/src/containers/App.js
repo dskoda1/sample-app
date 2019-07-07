@@ -23,7 +23,7 @@ import ExercisePage from '../apps/workouts/Exercise';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     textAlign: 'center',
   },
 });
@@ -39,7 +39,7 @@ class App extends Component {
     return (
       <NavBar>
         <Snackbar />
-        <Grid container spacing={24} direction="column">
+        <Grid container direction="column">
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/auth" component={Authentication} />

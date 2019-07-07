@@ -13,10 +13,10 @@ import { Login, Register } from '../components/authentication';
 
 const styles = theme => ({
   textField: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
   },
   button: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(3),
   },
 });
 
@@ -71,7 +71,7 @@ class Authentication extends Component {
     }
 
     return (
-      <Grid container spacing={16} justify="center">
+      <Grid container justify="center">
         <Grid item xs={12} sm={8} md={6} lg={3}>
           <Paper className={classes.paper}>
             <MuiTabs

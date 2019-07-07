@@ -24,7 +24,6 @@ class MuiTabs extends React.Component {
   }
 
   static defaultProps = {
-    fullWidth: true,
     scrollable: false,
     centered: true,
     index: null,
@@ -39,7 +38,7 @@ class MuiTabs extends React.Component {
   };
 
   render() {
-    const { classes, theme, fullWidth, scrollable, centered } = this.props;
+    const { classes, theme, scrollable, centered } = this.props;
     const tabs = this.props.tabs || [];
     return (
       <div className={classes.root}>
@@ -49,9 +48,7 @@ class MuiTabs extends React.Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            fullWidth={fullWidth}
             centered={centered}
-            scrollable={scrollable}
             scrollButtons={scrollable ? 'auto' : 'off'}
           >
             {tabs.map(({ title, key }) => (
