@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const bcrypt = require('bcrypt');
 const cookieSession = require('cookie-session');
 const morgan = require('morgan');
 const models = require('./db/models');
@@ -12,6 +11,8 @@ const setRoutes = require('./routes/sets');
 
 // Create our app
 const app = express();
+
+models.sequelize.authenticate();
 
 // Set up logging
 const node_env = process.env.NODE_ENV;
@@ -57,10 +58,41 @@ app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
 exerciseRoutes.use('/:exerciseId/sets', setRoutes);
 
+const { ApolloServer, gql } = require('apollo-server-express');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
+
+// the function that sets up the global context for each resolver, using the req
+const context = ({ req }) => {
+  if (!req.session.UserId) {
+    console.log('No username');
+    throw new Error('unauthorized');
+  }
+  return {
+    UserId: req.session.UserId,
+    models,
+  };
+};
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context,
+});
+server.applyMiddleware({ app });
+
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
 
-module.exports = app;
+module.exports = {
+  // TODO: Datasources / apis
+  context,
+  app,
+  typeDefs,
+  resolvers,
+  ApolloServer,
+  gqlServer: server,
+};

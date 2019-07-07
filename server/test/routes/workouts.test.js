@@ -1,6 +1,6 @@
 const request = require('supertest');
 const session = require('supertest-session');
-const app = require('../../app');
+const app = require('../../app').app;
 const models = require('../../db/models');
 
 const testUtils = require('../utils');
@@ -118,7 +118,7 @@ describe('Test workout endpoints', () => {
   describe('PUT /:id', () => {
     test('when finished=true', async done => {
       let workout = await testUtils.createWorkout(user.id, 'legs');
-      expect(workout.finishedAt).toBeNull();
+      expect(workout.finishedAt).toBeFalsy();
       await testSession
         .put(`/api/workouts/${workout.id}`)
         .send({ finished: true })
