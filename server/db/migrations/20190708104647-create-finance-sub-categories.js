@@ -31,7 +31,7 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: true,
       },
-      CategoryId: {
+      FinanceCategoryId: {
         type: Sequelize.INTEGER,
         references: {
           model: 'FinanceCategories',

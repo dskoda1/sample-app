@@ -7,6 +7,7 @@ const FinanceCategory = gql`
     createdAt: String!
     updatedAt: String
     user: User
+    subCategories: [FinanceSubCategory]!
   }
 `;
 

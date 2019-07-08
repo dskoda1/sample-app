@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   FinanceSubCategories.associate = function(models) {
     // associations can be defined here
-    FinanceSubCategories.hasOne(models.Users);
-    FinanceSubCategories.hasOne(models.FinanceCategories);
+    FinanceSubCategories.belongsTo(models.Users);
+    FinanceSubCategories.belongsTo(models.FinanceCategories);
   };
   return FinanceSubCategories;
 };
