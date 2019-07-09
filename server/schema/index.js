@@ -23,6 +23,14 @@ const Workouts = gql`
   }
 `;
 
+const Responses = gql`
+type CreateCategoryResponse {
+  success: Boolean!
+  message: String
+  category: FinanceCategory
+}
+`;
+
 const Queries = gql`
   type Query {
     getWorkouts: [Workouts]!
@@ -32,4 +40,10 @@ const Queries = gql`
   }
 `;
 
-module.exports = [User, Workouts, FinanceCategory, FinanceSubCategory, Queries];
+const Mutations = gql`
+  type Mutation {
+    createCategory(name: String!): CreateCategoryResponse!
+  }
+`;
+
+module.exports = [User, Workouts, FinanceCategory, FinanceSubCategory, Responses, Queries, Mutations];

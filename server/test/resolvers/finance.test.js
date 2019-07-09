@@ -131,7 +131,21 @@ describe('Test finance queries', () => {
       // Second is the public one
       expect(subCategories[1].id).toEqual(publicSubCategory.id);
       done();
-    })
+    });
+  });
+
+  describe('Test categories mutations', () => {
+    test('createCategory', async done => {
+      // WHEN
+      let res = await testMutate({
+        mutation: CREATE_CATEGORY,
+        variables: {
+          name: 'kit kats',
+        },
+      });
+      expect(res.data.createCategory.success).toEqual(true);
+      done();
+    });
   });
 });
 
@@ -154,7 +168,6 @@ const GET_CATEGORIES_WITH_SUB_AND_USER = gql`
   }
 `;
 
-
 const GET_SUB_CATEGORIES = gql`
   query getSubCategories($categoryId: Int!) {
     getSubCategories(categoryId: $categoryId) {
@@ -169,4 +182,17 @@ const GET_SUB_CATEGORIES = gql`
       }
     }
   }
+`;
+
+const CREATE_CATEGORY = gql`
+mutation createCategory($name: String!) {
+  createCategory(name: $name) {
+    success
+    message
+    category {
+      id
+      name
+    }
+  }  
+}
 `;

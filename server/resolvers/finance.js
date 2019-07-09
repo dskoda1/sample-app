@@ -31,6 +31,19 @@ module.exports = {
       });
     }
   },
+  Mutation: {
+    async createCategory(root, args, { models, UserId }) {
+      // TODO: Public
+      const category = await models.FinanceCategories.create({
+        UserId,
+        name: args.name
+      });
+      return {
+        success: true,
+        category,
+      };
+    }
+  },
   FinanceCategory: {
     async subCategories(root, args, { models, UserId }) {
       // Get sub categories for this category, and apply user permissions
