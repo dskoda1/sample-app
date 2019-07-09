@@ -1,9 +1,5 @@
 const { gql, mergeSchemas } = require('apollo-server-express');
-const {
-  FinanceCategory,
-  FinanceSubCategory,
-} = require('./financeModels');
-
+const { FinanceCategory, FinanceSubCategory } = require('./financeModels');
 
 const User = gql`
   type User {
@@ -36,10 +32,4 @@ const Queries = gql`
   }
 `;
 
-module.exports = [
-  User,
-  Workouts,
-  FinanceCategory,
-  FinanceSubCategory,
-  Queries,
-];
+module.exports = [User, Workouts, FinanceCategory, FinanceSubCategory, Queries];

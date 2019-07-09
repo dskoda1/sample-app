@@ -1,22 +1,9 @@
-const app = require('../app');
-const models = require('../db/models');
-
-const testUtils = require('./utils');
-
 const { gql } = require('apollo-server-express');
 const { createTestClient } = require('apollo-server-testing');
 
-const { gqlServer, ApolloServer, typeDefs, resolvers } = require('../app');
-
-const GET_PROFILE = gql`
-  query getProfile {
-    getProfile {
-      id
-      username
-      createdAt
-    }
-  }
-`;
+const { ApolloServer, typeDefs, resolvers } = require('../../app');
+const models = require('../../db/models');
+const testUtils = require('../utils');
 
 const GET_WORKOUTS_WITH_USER = gql`
   query {
@@ -32,14 +19,12 @@ const GET_WORKOUTS_WITH_USER = gql`
 `;
 
 describe('Test graphql endopints endpoints', () => {
-  let testSession = null;
   let user = null;
-  let workout = null;
   let testQuery = null;
   let testMutate = null;
 
   beforeEach(async done => {
-    await testUtils.truncateDatabase();
+    await testUtils.truncateFitnessTables();
     user = await testUtils.createUser('dwight', 'password');
     const context = ({}) => {
       return {

@@ -22,7 +22,6 @@ const FinanceSubCategory = gql`
   }
 `;
 
-
 module.exports = {
   FinanceCategory,
   FinanceSubCategory,
