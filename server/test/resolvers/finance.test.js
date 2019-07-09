@@ -31,8 +31,8 @@ describe('Test finance queries', () => {
     done();
   });
 
-  describe('Test categories & subcategories', () => {
-    test('Get categories only includes yours and public', async done => {
+  describe('Test categories queries', () => {
+    test('getCategories', async done => {
       // GIVEN
       // the other user we will be testing with
       let otherUser = await testUtils.createUser('keanu', 'password');
@@ -74,6 +74,7 @@ describe('Test finance queries', () => {
       expect(categories.length).toEqual(2);
       // Sorts by name so first is privateCategory
       expect(categories[0].id).toEqual(privateCategory.id);
+      // Should be able to get the user
       expect(categories[0].user.username).toEqual(user.username);
       // Second is the public category
       expect(categories[1].id).toEqual(publicCategory.id);
@@ -84,6 +85,53 @@ describe('Test finance queries', () => {
       expect(categories[1].subCategories[1].id).toEqual(publicSubCategory.id);
       done();
     });
+
+    test('getSubCategories', async done => {
+      // GIVEN
+      // the other user we will be testing with
+      let otherUser = await testUtils.createUser('keanu', 'password');
+      // Create a public category
+      let publicCategory = await testUtils.createFinanceCategory(
+        null,
+        'zzzzzzzzz'
+      );
+      // create a public, private, and private for another user sub category
+      let publicSubCategory = await testUtils.createFinanceSubCategory(
+        publicCategory.id,
+        null,
+        'zzzzzzz'
+      );
+      let privateSubCategory = await testUtils.createFinanceSubCategory(
+        publicCategory.id,
+        user.id,
+        'mySub'
+      );
+      let otherSubCategory = await testUtils.createFinanceSubCategory(
+        publicCategory.id,
+        otherUser.id,
+        'otherSub'
+      );
+
+      // WHEN
+      let res = await testQuery({
+        query: GET_SUB_CATEGORIES,
+        variables: {
+          categoryId: publicCategory.id,
+        },
+      });
+      let subCategories = res.data.getSubCategories;
+
+      // THEN
+      // Should not have the other users sub category
+      expect(subCategories.length).toEqual(2);
+      // Sorts by name so first is the private one
+      expect(subCategories[0].id).toEqual(privateSubCategory.id);
+      // Should be able to get user
+      expect(subCategories[0].user.username).toEqual(user.username);
+      // Second is the public one
+      expect(subCategories[1].id).toEqual(publicSubCategory.id);
+      done();
+    })
   });
 });
 
@@ -101,6 +149,23 @@ const GET_CATEGORIES_WITH_SUB_AND_USER = gql`
         user {
           username
         }
+      }
+    }
+  }
+`;
+
+
+const GET_SUB_CATEGORIES = gql`
+  query getSubCategories($categoryId: Int!) {
+    getSubCategories(categoryId: $categoryId) {
+      id
+      name
+      user {
+        username
+      }
+      parent {
+        id
+        name
       }
     }
   }

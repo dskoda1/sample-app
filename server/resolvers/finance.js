@@ -13,6 +13,23 @@ module.exports = {
         order: [['name', 'ASC']],
       });
     },
+    async getSubCategories(root, args, { models, UserId }) {
+      return models.FinanceSubCategories.findAll({
+        where: {
+          [Op.and]: [
+            { FinanceCategoryId: args.categoryId},
+            {
+              [Op.or]: [
+                // Active user or public
+                { UserId: UserId },
+                { UserId: null },
+              ],
+            },
+          ],
+        },
+        order: [['name', 'ASC']],
+      });
+    }
   },
   FinanceCategory: {
     async subCategories(root, args, { models, UserId }) {
@@ -33,13 +50,16 @@ module.exports = {
         order: [['name', 'ASC']],
       });
     },
-    async user(root, args, { models }) {
+    async user(root) {
       return root.getUser();
     },
   },
   FinanceSubCategory: {
-    async user(model) {
-      return model.getUser();
+    async user(root) {
+      return root.getUser();
     },
+    async parent(root) {
+      return root.getFinanceCategory();
+    }
   },
 };

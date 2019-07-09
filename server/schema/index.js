@@ -28,7 +28,7 @@ const Queries = gql`
     getWorkouts: [Workouts]!
     getUser: User!
     getCategories: [FinanceCategory]!
-    getSubCategories(categoryName: String!): [FinanceSubCategory]!
+    getSubCategories(categoryId: Int!): [FinanceSubCategory]!
   }
 `;
 
