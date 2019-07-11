@@ -10,7 +10,7 @@ describe('Test user endpoints', () => {
   let user;
 
   beforeEach(async done => {
-    await testUtils.truncateDatabase();
+    await testUtils.truncateFitnessTables();
     done();
   });
 

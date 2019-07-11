@@ -1,13 +1,22 @@
 const models = require('../db/models');
 const constants = require('../routes/constants');
 
-const truncateDatabase = async () => {
+const truncateFitnessTables = async () => {
   const destroyArgs = {
     where: {},
   };
   await models.Sets.destroy(destroyArgs);
   await models.Exercises.destroy(destroyArgs);
   await models.Workouts.destroy(destroyArgs);
+  await models.Users.destroy(destroyArgs);
+};
+
+const truncateFinanceTables = async () => {
+  const destroyArgs = {
+    where: {},
+  };
+  await models.FinanceSubCategories.destroy(destroyArgs);
+  await models.FinanceCategories.destroy(destroyArgs);
   await models.Users.destroy(destroyArgs);
 };
 
@@ -61,13 +70,33 @@ const createLiftSet = async (ExerciseId, weight, reps) => {
   return set;
 };
 
+const createFinanceCategory = async (UserId, name) => {
+  return await models.FinanceCategories.create({
+    name,
+    UserId,
+  });
+};
+
+const createFinanceSubCategory = async (FinanceCategoryId, UserId, name) =>
+  await models.FinanceSubCategories.create({
+    FinanceCategoryId,
+    UserId,
+    name,
+  });
+
 module.exports = {
-  truncateDatabase,
+  // Table maintenance functions
+  truncateFitnessTables,
+  truncateFinanceTables,
   createUser,
+  // Fitness helpers
   createWorkout,
   createExercise,
   createCardioExercise,
   createLiftExercise,
   createCardioSet,
   createLiftSet,
+  // Finance helpers
+  createFinanceCategory,
+  createFinanceSubCategory,
 };

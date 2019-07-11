@@ -9,7 +9,7 @@ describe('Test workout endpoints', () => {
   let testSession = null;
   let user = null;
   beforeEach(async done => {
-    await testUtils.truncateDatabase();
+    await testUtils.truncateFitnessTables();
     testSession = session(app);
     await testSession
       .post('/api/auth/register')
