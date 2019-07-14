@@ -5,8 +5,8 @@ matrix:
       before_script:
         - cd client
       script:
-          - npm install
-          - npm run build
+          - yarn
+          - yarn run build
 
     - language: node_js
       env:
@@ -14,11 +14,11 @@ matrix:
       services: postgresql
       node_js: "lts/dubnium"
       before_script:
-          - npm install
+          - yarn
           - psql -c 'create database travis_ci_test;' -U postgres
           - echo $NODE_ENV
           - env
           - ./node_modules/.bin/sequelize db:migrate
       script:
-          - npm run ci:test
+          - yarn run ci:test
 

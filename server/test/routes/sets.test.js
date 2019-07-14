@@ -122,9 +122,7 @@ describe('Test sets endpoints', () => {
       );
       await testSession
         .delete(
-          `/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets/${
-            otherSet.id
-          }`
+          `/api/workouts/${workout.id}/exercises/${liftExercise.id}/sets/${otherSet.id}`
         )
         .expect(404);
       done();
