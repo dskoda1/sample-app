@@ -34,14 +34,21 @@ module.exports = {
   Mutation: {
     async createCategory(root, args, { models, UserId }) {
       // TODO: Public
-      const category = await models.FinanceCategories.create({
-        UserId,
-        name: args.name
-      });
-      return {
-        success: true,
-        category,
-      };
+      try {
+        const category = await models.FinanceCategories.create({
+          UserId,
+          name: args.name
+        });
+        return {
+          success: true,
+          category
+        };
+      }catch (err) {
+        return {
+          success: false,
+          message: err.parent.detail,
+        }
+      }
     }
   },
   FinanceCategory: {

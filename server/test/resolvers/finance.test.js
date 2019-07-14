@@ -146,6 +146,29 @@ describe('Test finance queries', () => {
       expect(res.data.createCategory.success).toEqual(true);
       done();
     });
+
+    test('createCategory unique index on userid and name', async done => {
+      // WHEN
+      // First one will succeed
+      let res = await testMutate({
+        mutation: CREATE_CATEGORY,
+        variables: {
+          name: 'kit kats',
+        },
+      });
+      expect(res.data.createCategory.success).toEqual(true);
+
+      // Second will fail on unique index
+      res = await testMutate({
+        mutation: CREATE_CATEGORY,
+        variables: {
+          name: 'kit kats',
+        },
+      });
+      expect(res.data.createCategory.success).toEqual(false);
+      expect(res.data.createCategory.message).toBeTruthy();
+      done();
+    })
   });
 });
 

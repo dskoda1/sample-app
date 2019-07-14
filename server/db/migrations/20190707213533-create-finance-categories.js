@@ -31,6 +31,12 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: true,
       },
+    },{
+      uniqueKeys: {
+        unique_finance_categories: {
+          fields: ['name', 'UserId']
+        }
+      }
     });
   },
   down: (queryInterface, Sequelize) => {
