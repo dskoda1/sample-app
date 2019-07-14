@@ -40,9 +40,9 @@ class AutoRefresh extends Component {
     this.clearRefreshTimer();
   }
 
-  handleChange = (event: { target: { checked: boolean } }) => {
-    this.setState({ shouldRefresh: event.target.checked });
-    if (event.target.checked) {
+  handleChange = ({ target: { checked } }) => {
+    this.setState({ shouldRefresh: checked });
+    if (checked) {
       this.setRefreshTimer();
     } else {
       this.clearRefreshTimer();
