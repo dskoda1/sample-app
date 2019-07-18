@@ -4,8 +4,10 @@
   "description": "[![Build Status](https://travis-ci.org/dskoda1/ImproveMe.svg?branch=master)](https://travis-ci.org/dskoda1/ImproveMe)",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "watch": "NODE_ENV=development nodemon  -w server server.js",
+    "start": "node server/index.js",
+    "watch": "NODE_ENV=development nodemon -w server server/index.js",
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./server/index.ts",
     "ci:test": "jest --rootDir server --runInBand --forceExit",
     "test": "NODE_ENV=local_test jest --rootDir server --watchAll --runInBand",
     "test:once": "NODE_ENV=local_test jest --rootDir server --runInBand --detectOpenHandles",
@@ -24,7 +26,6 @@
   },
   "homepage": "https://github.com/dskoda1/ImproveMe#readme",
   "dependencies": {
-    "@babel/preset-env": "^7.3.1",
     "apollo-server-express": "^2.6.7",
     "bcrypt": "^3.0.4",
     "cookie-session": "^2.0.0-beta.3",
@@ -38,10 +39,14 @@
     "sequelize-cli": "^5.5.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.0",
     "apollo-server-testing": "^2.6.7",
     "jest": "24.7.1",
     "prettier": "^1.16.4",
     "supertest": "^3.4.2",
-    "supertest-session": "^3.3.0"
+    "supertest-session": "^3.3.0",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.5.3"
   }
 }
