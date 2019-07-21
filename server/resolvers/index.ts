@@ -1,9 +1,9 @@
-const { merge } = require('lodash');
+import { merge } from 'lodash';
 
-const userResolver = require('./user');
-const workoutsResolver = require('./workouts');
-const financeResolver = require('./finance');
+import userResolver from './user';
+import workoutsResolver from './workouts';
+import financeResolver from './finance';
 
 const resolvers = merge({}, workoutsResolver, userResolver, financeResolver);
 
-module.exports = resolvers;
+export default resolvers;

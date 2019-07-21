@@ -1,5 +1,5 @@
-const Op = require('sequelize').Op;
-module.exports = {
+import { Op }  from 'sequelize';
+export default {
   Query: {
     async getCategories(root, args, { models, UserId }) {
       return models.FinanceCategories.findAll({

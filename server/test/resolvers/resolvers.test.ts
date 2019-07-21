@@ -1,7 +1,7 @@
-const { gql } = require('apollo-server-express');
-const { createTestClient } = require('apollo-server-testing');
+import { gql } from 'apollo-server-express';
+import { createTestClient } from 'apollo-server-testing';
 
-const { ApolloServer, typeDefs, resolvers } = require('../../app');
+import { ApolloServer, typeDefs, resolvers } from '../../app';
 const models = require('../../db/models');
 const testUtils = require('../utils');
 

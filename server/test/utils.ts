@@ -11,7 +11,7 @@ const truncateFitnessTables = async () => {
   await models.Users.destroy(destroyArgs);
 };
 
-const truncateFinanceTables = async () => {
+const truncateFinanceTables = async (): Promise<void> => {
   const destroyArgs = {
     where: {},
   };

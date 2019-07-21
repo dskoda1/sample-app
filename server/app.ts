@@ -61,7 +61,7 @@ exerciseRoutes.use('/:exerciseId/sets', setRoutes);
 import { ApolloServer } from 'apollo-server-express';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+import resolvers from './resolvers';
 
 interface Session {
   UserId: string;
@@ -96,12 +96,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
 
-module.exports = {
+export default app;
+export {
   // TODO: Datasources / apis
   context,
   app,
   typeDefs,
   resolvers,
   ApolloServer,
-  gqlServer: server,
+  server
 };
