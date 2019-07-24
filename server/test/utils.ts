@@ -53,21 +53,19 @@ const createCardioExercise = async (WorkoutId, name) => {
 };
 
 const createCardioSet = async (ExerciseId, duration, distance) => {
-  const set = await models.Sets.create({
+  return await models.Sets.create({
     ExerciseId,
     duration,
     distance,
   });
-  return set;
 };
 
 const createLiftSet = async (ExerciseId, weight, reps) => {
-  const set = await models.Sets.create({
+  return await models.Sets.create({
     ExerciseId,
     weight,
     reps,
   });
-  return set;
 };
 
 const createFinanceCategory = async (UserId, name) => {

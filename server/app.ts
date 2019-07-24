@@ -63,17 +63,8 @@ import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 const typeDefs = require('./schema');
 import resolvers from './resolvers';
 
-interface Session {
-  UserId: string;
-}
-interface Request {
-  session: Session;
-}
-interface ContextParams {
-  req: Request;
-}
 
-const context = (params: ExpressContext | ContextParams ) => {
+const context = (params: ExpressContext | ExpressAuthenticatedContext ) : ResolverContext => {
   if (!params.req.session.UserId) {
     console.log('No username');
     throw new Error('unauthorized');

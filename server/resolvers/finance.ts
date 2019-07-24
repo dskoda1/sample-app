@@ -1,27 +1,27 @@
 import { Op }  from 'sequelize';
 export default {
   Query: {
-    async getCategories(root, args, { models, UserId }) {
-      return models.FinanceCategories.findAll({
+    async getCategories(root, args, context: ResolverContext) {
+      return context.models.FinanceCategories.findAll({
         where: {
           [Op.or]: [
             // Active user or public
-            { UserId: UserId },
+            { UserId: context.UserId },
             { UserId: null },
           ],
         },
         order: [['name', 'ASC']],
       });
     },
-    async getSubCategories(root, args, { models, UserId }) {
-      return models.FinanceSubCategories.findAll({
+    async getSubCategories(root, args, context: ResolverContext) {
+      return context.models.FinanceSubCategories.findAll({
         where: {
           [Op.and]: [
             { FinanceCategoryId: args.categoryId},
             {
               [Op.or]: [
                 // Active user or public
-                { UserId: UserId },
+                { UserId: context.UserId },
                 { UserId: null },
               ],
             },
@@ -32,11 +32,11 @@ export default {
     }
   },
   Mutation: {
-    async createCategory(root, args, { models, UserId }) {
+    async createCategory(root, args, context: ResolverContext) {
       // TODO: Public
       try {
-        const category = await models.FinanceCategories.create({
-          UserId,
+        const category = await context.models.FinanceCategories.create({
+          UserId: context.UserId,
           name: args.name
         });
         return {
@@ -52,16 +52,16 @@ export default {
     }
   },
   FinanceCategory: {
-    async subCategories(root, args, { models, UserId }) {
+    async subCategories(root, args, context: ResolverContext) {
       // Get sub categories for this category, and apply user permissions
-      return models.FinanceSubCategories.findAll({
+      return context.models.FinanceSubCategories.findAll({
         where: {
           [Op.and]: [
             { FinanceCategoryId: root.id },
             {
               [Op.or]: [
                 // Active user or public
-                { UserId: UserId },
+                { UserId: context.UserId },
                 { UserId: null },
               ],
             },

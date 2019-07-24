@@ -3,41 +3,45 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('FinanceCategories', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      UserId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
+    return queryInterface.createTable(
+      'FinanceCategories',
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        allowNull: true,
+        name: {
+          type: Sequelize.STRING,
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        UserId: {
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'Users',
+            key: 'id',
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          allowNull: true,
+        },
       },
-    },{
-      uniqueKeys: {
-        unique_finance_categories: {
-          fields: ['name', 'UserId']
-        }
+      {
+        uniqueKeys: {
+          unique_finance_categories: {
+            fields: ['name', 'UserId'],
+          },
+        },
       }
-    });
+    );
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('FinanceCategories');
