@@ -1,8 +1,8 @@
-const express = require('express');
-const path = require('path');
-const cookieSession = require('cookie-session');
-const morgan = require('morgan');
-const models = require('./db/models');
+import express from 'express';
+import path from 'path';
+import cookieSession from 'cookie-session';
+import morgan from 'morgan';
+import models from './db/models';
 
 const workoutRoutes = require('./routes/workouts');
 const authRoutes = require('./routes/auth');
@@ -10,7 +10,7 @@ const exerciseRoutes = require('./routes/exercises');
 const setRoutes = require('./routes/sets');
 
 // Create our app
-const app = express();
+const app: express.Application = express();
 
 models.sequelize.authenticate();
 
@@ -24,7 +24,7 @@ if (node_env === 'production' || node_env === 'staging') {
   app.use(morgan('dev'));
 }
 
-const forceSSL = (req, res, next) => {
+const forceSSL = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const node_env = process.env.NODE_ENV;
   if (node_env !== 'production' && node_env !== 'staging') {
     return next();
@@ -58,22 +58,22 @@ app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
 exerciseRoutes.use('/:exerciseId/sets', setRoutes);
 
-const { ApolloServer, gql } = require('apollo-server-express');
+import { ApolloServer } from 'apollo-server-express';
+import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+import resolvers from './resolvers';
 
-// the function that sets up the global context for each resolver, using the req
-const context = ({ req }) => {
-  if (!req.session.UserId) {
+
+const context = (params: ExpressContext | ExpressAuthenticatedContext ) : ResolverContext => {
+  if (!params.req.session.UserId) {
     console.log('No username');
     throw new Error('unauthorized');
   }
   return {
-    UserId: req.session.UserId,
+    UserId: params.req.session.UserId,
     models,
   };
 };
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -87,12 +87,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
 
-module.exports = {
+export default app;
+export {
   // TODO: Datasources / apis
   context,
   app,
   typeDefs,
   resolvers,
   ApolloServer,
-  gqlServer: server,
+  server
 };

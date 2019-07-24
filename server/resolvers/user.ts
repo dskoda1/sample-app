@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Query: {
     async getUser(root, args, { models, UserId }) {
       console.log(args);
