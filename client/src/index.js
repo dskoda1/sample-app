@@ -11,12 +11,17 @@ import theme from './theme';
 import App from './containers/App';
 import { store } from './redux/store';
 
+import apolloClient from 'apollo';
+import ApolloProvider from 'react-apollo/ApolloProvider';
+
 render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
+      <ApolloProvider client={apolloClient}>
+        <Router>
+          <App />
+        </Router>
+      </ApolloProvider>
     </MuiThemeProvider>
   </Provider>,
   document.getElementById('root')

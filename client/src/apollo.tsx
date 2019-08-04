@@ -1,30 +1,9 @@
+import ApolloClient from 'apollo-boost';
+import DefaultClient from 'apollo-boost';
 
-
-import ApolloClient, { gql } from 'apollo-boost';
-import { OperationDefinitionNode } from 'graphql';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:5000/graphql'
+const client: DefaultClient<any> = new ApolloClient({
+  uri: 'http://localhost:3000/graphql',
+  credentials: 'include',
 });
-
-client.query({
-  query: gql`
-  getCategories {
-    id
-    name
-    user {
-      username
-    }
-    subCategories {
-      id
-      name
-      user {
-        id
-        username
-      }
-    }
-  }
-  `
-}).then(result => console.log(result));
 
 export default client;
