@@ -12,7 +12,7 @@ import App from './containers/App';
 import { store } from './redux/store';
 
 import apolloClient from 'apollo';
-import ApolloProvider from 'react-apollo/ApolloProvider';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 render(
   <Provider store={store}>

@@ -1,47 +1,61 @@
 import * as React from 'react';
-import { Typography } from '@material-ui/core';
+import { createStyles, Theme, Typography } from '@material-ui/core';
 
-import { Category, GetCategoriesData, GetCategoriesQuery } from './queries';
-import { ChildDataProps, graphql } from 'react-apollo';
-import { ApolloError } from 'apollo-client/errors/ApolloError';
+import { GetCategoriesData, GetCategoriesQuery } from './queries';
+import AddNewCategory from 'apps/finance/Categories/AddNewCategory';
+import Grid from '@material-ui/core/Grid';
+import { useQuery } from '@apollo/react-hooks';
+import client from 'apollo';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-type ChildProps = ChildDataProps<{}, GetCategoriesData>;
-const withCategories = graphql<{}, GetCategoriesData, {}, ChildProps>(
-  GetCategoriesQuery
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    header: {
+      margin: theme.spacing(1),
+    },
+  })
 );
-
-const Categories: React.ComponentClass = withCategories(props => {
+const Categories: React.FC = () => {
+  const classes = useStyles();
   return (
-    <>
-      <Typography variant="h5">Categories</Typography>
-      <CategoryList
-        loading={props.data.loading}
-        error={props.data.error}
-        data={props.data.getCategories || []}
-      />
-    </>
+    <Grid container>
+      <Grid item xs={9} justify="center">
+        <Typography className={classes.header} variant="h5">
+          Categories
+        </Typography>
+      </Grid>
+      <Grid item xs={3}>
+        <AddNewCategory />
+      </Grid>
+      <Grid item xs={12} justify={'center'}>
+        <CategoryList />
+      </Grid>
+    </Grid>
   );
-});
+};
 
 export default Categories;
 
-interface CategoryListProps {
-  loading: boolean;
-  error?: ApolloError;
-  data: Array<Category>;
-}
+interface CategoryListProps {}
 
-const CategoryList: React.FunctionComponent<CategoryListProps> = props => {
-  if (props.loading) {
-    return <div>"loading"</div>;
+const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
+  const query = useQuery<GetCategoriesData>(GetCategoriesQuery, {
+    client,
+  });
+  if (query.loading) {
+    return <CircularProgress />;
   }
-  if (props.error) {
-    return <>"error"</>;
+  if (query.error) {
+    return <>error: ${query.error}</>;
+  }
+  if (!query.data) {
+    return <>No Categories. Why don't you create one?</>;
   }
   return (
     <ul>
-      {props.data.map(element => (
-        <li>{element.name}</li>
+      {query.data.getCategories.map(element => (
+        <li key={element.id.toString()}>{element.name}</li>
       ))}
     </ul>
   );

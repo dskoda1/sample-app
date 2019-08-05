@@ -38,7 +38,7 @@ const Finance: React.FunctionComponent<FinanceProps> = () => {
         </Grid>
         <Grid item xs={12} md={3}>
           <Paper className={classes.paper}>
-            <Typography variant="h5">Spending</Typography>
+            <Typography variant="h5">Purchases</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} md={3}>

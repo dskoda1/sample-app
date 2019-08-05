@@ -1,7 +1,7 @@
 import { gql } from 'apollo-boost';
 
 export const GetCategoriesQuery = gql`
-  {
+  query getCategoriesQuery {
     getCategories {
       id
       name
@@ -15,6 +15,18 @@ export const GetCategoriesQuery = gql`
           id
           username
         }
+      }
+    }
+  }
+`;
+
+export const CreateCategoryMutation = gql`
+  mutation createCategory($name: String!) {
+    createCategory(name: $name) {
+      success
+      message
+      category {
+        id
       }
     }
   }
@@ -39,4 +51,16 @@ export interface SubCategory {
 
 export interface GetCategoriesData {
   getCategories: Array<Category>;
+}
+
+export interface CreateCategoryData {
+  createCategory: {
+    success: boolean;
+    message: string;
+    category?: Category;
+  };
+}
+
+export interface CreateCategoryVariables {
+  name: string;
 }
