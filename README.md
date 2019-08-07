@@ -31,7 +31,7 @@ createuser --interactive --pwprompt
 ```
 
 Next, lets create both the dev and test databases. We'll need to start using the `sequelize` binary which can be
-done
+done either with `npx` or with our `sequelize` helper in package.json, letting us run it as a yarn script:
 
 ```
 NODE_ENV=development yarn run sequelize db:create
