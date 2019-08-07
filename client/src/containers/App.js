@@ -16,6 +16,8 @@ import WorkoutsHome from '../apps/workouts/Home';
 import WorkoutDetails from '../apps/workouts/Workout';
 import WorkoutsLoggedOutView from '../apps/workouts/Workout/LoggedOutView';
 
+import Finance from 'apps/finance';
+
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
 import ExercisePage from '../apps/workouts/Exercise';
@@ -60,6 +62,12 @@ class App extends Component {
               path="/workouts/:workoutId/exercises/:exerciseId"
               component={ExercisePage}
               fallback={WorkoutsLoggedOutView}
+            />
+            <AuthenticatedRoute
+              exact
+              component={Finance}
+              fallback={WorkoutsLoggedOutView}
+              s
             />
             <Route component={NotFound} />
           </Switch>
