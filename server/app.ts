@@ -24,7 +24,11 @@ if (node_env === 'production' || node_env === 'staging') {
   app.use(morgan('dev'));
 }
 
-const forceSSL = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+const forceSSL = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
   const node_env = process.env.NODE_ENV;
   if (node_env !== 'production' && node_env !== 'staging') {
     return next();
@@ -63,8 +67,9 @@ import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 const typeDefs = require('./schema');
 import resolvers from './resolvers';
 
-
-const context = (params: ExpressContext | ExpressAuthenticatedContext ) : ResolverContext => {
+const context = (
+  params: ExpressContext | ExpressAuthenticatedContext
+): ResolverContext => {
   if (!params.req.session.UserId) {
     console.log('No username');
     throw new Error('unauthorized');
@@ -95,5 +100,5 @@ export {
   typeDefs,
   resolvers,
   ApolloServer,
-  server
+  server,
 };

@@ -2,18 +2,18 @@ const Op = require('sequelize').Op;
 
 module.exports = {
   development: {
-    username: 'dskoda',
-    password: 'toolzroolz',
-    database: 'dskoda',
+    username: 'improveme_user',
+    password: 'improveme_user_password',
+    database: 'improveme_dev',
     host: '0.0.0.0',
     dialect: 'postgres',
     migrationStorage: 'sequelize',
     logging: console.log,
   },
   local_test: {
-    username: 'dskoda',
-    password: 'toolzroolz',
-    database: 'workouts-local-test',
+    username: 'improveme_user',
+    password: 'improveme_user_password',
+    database: 'improveme_test',
     host: '0.0.0.0',
     dialect: 'postgres',
     migrationStorage: 'sequelize',

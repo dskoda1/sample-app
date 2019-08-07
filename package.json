@@ -12,7 +12,8 @@
     "test:once": "NODE_ENV=local_test jest --rootDir server --runInBand --detectOpenHandles",
     "prettier": "prettier --config .prettierrc --write \"{client/src,server}/**/*.{js,jsx,scss,css}\" ",
     "client-install": "npm install --prefix client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && ./node_modules/.bin/sequelize db:migrate && npm run tsc"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && ./node_modules/.bin/sequelize db:migrate && npm run tsc",
+    "sequelize": "sequelize"
   },
   "repository": {
     "type": "git",

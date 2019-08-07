@@ -168,7 +168,7 @@ describe('Test finance queries', () => {
       expect(res.data.createCategory.success).toEqual(false);
       expect(res.data.createCategory.message).toBeTruthy();
       done();
-    })
+    });
   });
 });
 
@@ -208,14 +208,14 @@ const GET_SUB_CATEGORIES = gql`
 `;
 
 const CREATE_CATEGORY = gql`
-mutation createCategory($name: String!) {
-  createCategory(name: $name) {
-    success
-    message
-    category {
-      id
-      name
+  mutation createCategory($name: String!) {
+    createCategory(name: $name) {
+      success
+      message
+      category {
+        id
+        name
+      }
     }
-  }  
-}
+  }
 `;

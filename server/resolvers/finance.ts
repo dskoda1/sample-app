@@ -1,4 +1,4 @@
-import { Op }  from 'sequelize';
+import { Op } from 'sequelize';
 export default {
   Query: {
     async getCategories(root, args, context: ResolverContext) {
@@ -17,7 +17,7 @@ export default {
       return context.models.FinanceSubCategories.findAll({
         where: {
           [Op.and]: [
-            { FinanceCategoryId: args.categoryId},
+            { FinanceCategoryId: args.categoryId },
             {
               [Op.or]: [
                 // Active user or public
@@ -29,7 +29,7 @@ export default {
         },
         order: [['name', 'ASC']],
       });
-    }
+    },
   },
   Mutation: {
     async createCategory(root, args, context: ResolverContext) {
@@ -37,19 +37,19 @@ export default {
       try {
         const category = await context.models.FinanceCategories.create({
           UserId: context.UserId,
-          name: args.name
+          name: args.name,
         });
         return {
           success: true,
-          category
+          category,
         };
-      }catch (err) {
+      } catch (err) {
         return {
           success: false,
           message: err.parent.detail,
-        }
+        };
       }
-    }
+    },
   },
   FinanceCategory: {
     async subCategories(root, args, context: ResolverContext) {
@@ -80,6 +80,6 @@ export default {
     },
     async parent(root) {
       return root.getFinanceCategory();
-    }
+    },
   },
 };
