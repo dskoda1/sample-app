@@ -3,7 +3,7 @@ import { createStyles, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-// import Categories from './Categories';
+import ListsView from './ListsView';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -25,6 +25,7 @@ interface ListPageProps {}
 
 const ListPage: React.FunctionComponent<ListPageProps> = () => {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <Grid container justify={'center'} direction={'row'} spacing={3}>
@@ -36,14 +37,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = () => {
             <Typography variant="h5">hello</Typography>
           </Paper>
         </Grid>
-        {/*<Grid item xs={12} md={3}>*/}
-        {/*  <Paper className={classes.paper}>*/}
-        {/*    <Typography variant="h5">Purchases</Typography>*/}
-        {/*  </Paper>*/}
-        {/*</Grid>*/}
         <Grid item xs={12} md={3}>
           <Paper className={classes.paper}>
-            <Typography variant="h5">hello</Typography>
+            <ListsView />
           </Paper>
         </Grid>
       </Grid>
