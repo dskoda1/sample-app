@@ -8,7 +8,7 @@ interface fetchListsAction {
 }
 interface fetchListsSuccess {
   type: typeof FETCH_LISTS_SUCCESS;
-  lists: Array<List>;
+  lists: Array<ListType>;
 }
 interface fetchListsError {
   type: typeof FETCH_LISTS_ERROR;
@@ -26,7 +26,7 @@ export const fetchLists = (): ListActionTypes => {
     type: FETCH_LISTS,
   };
 };
-export const fetchListsSuccess = (lists: Array<List>): ListActionTypes => {
+export const fetchListsSuccess = (lists: Array<ListType>): ListActionTypes => {
   return {
     type: FETCH_LISTS_SUCCESS,
     lists,
@@ -40,7 +40,7 @@ export const fetchListsError = (error: string): ListActionTypes => {
 };
 
 // Models
-export interface ListItem {
+export interface ListItemType {
   id?: string;
   text: string;
   createdAt?: Date;
@@ -48,14 +48,17 @@ export interface ListItem {
   rank?: number;
 }
 
-export interface List {
-  items: Array<ListItem>;
+export interface ListType {
+  items: Array<ListItemType>;
+  name: string;
+  order: number;
+  id: number;
 }
 
 // Reducer
 export interface ListReducerState {
   fetching?: boolean;
-  lists: Array<List>;
+  lists: Array<ListType>;
   fetchingError?: string;
   creatingList?: boolean;
   creatingListError?: string;

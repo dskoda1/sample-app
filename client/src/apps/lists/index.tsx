@@ -3,7 +3,7 @@ import { createStyles, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import ListsView from './ListsView';
+import ListsView from './AllLists';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -32,12 +32,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = () => {
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Your Lists</Typography>
         </Grid>
-        <Grid item xs={12} md={3}>
-          <Paper className={classes.paper}>
-            <Typography variant="h5">hello</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
             <ListsView />
           </Paper>

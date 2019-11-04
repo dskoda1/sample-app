@@ -1,8 +1,8 @@
 import {
   FETCH_LISTS,
   fetchListsSuccess,
-  List,
-  ListItem,
+  ListType,
+  ListItemType,
   fetchListsError,
 } from './index';
 import { takeLatest, put } from 'redux-saga/effects';
@@ -16,7 +16,13 @@ function sleep(ms: number) {
 
 const fetchListsSaga = function*() {
   try {
-    const lists: Array<List> = [{ items: [{ text: 'hello' }] }];
+    const todoList: ListType = {
+      id: 10,
+      items: [{ text: 'hello' }, { text: 'hi' }],
+      name: 'Todo',
+      order: 1,
+    };
+    const lists: Array<ListType> = [todoList];
     yield sleep(500);
     yield put(fetchListsSuccess(lists));
   } catch (error) {
