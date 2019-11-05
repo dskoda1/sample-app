@@ -17,7 +17,7 @@ function sleep(ms: number) {
 const fetchListsSaga = function*() {
   try {
     const todoList: ListType = {
-      id: 10,
+      id: 0,
       items: [{ text: 'hello' }, { text: 'hi' }],
       name: 'Todo',
       order: 1,
