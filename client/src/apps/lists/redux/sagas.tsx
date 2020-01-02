@@ -2,7 +2,6 @@ import {
   FETCH_LISTS,
   fetchListsSuccess,
   ListType,
-  ListItemType,
   fetchListsError,
 } from './index';
 import { takeLatest, put } from 'redux-saga/effects';

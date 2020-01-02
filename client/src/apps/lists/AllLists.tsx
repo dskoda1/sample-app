@@ -5,7 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from 'redux/reducers/types';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { fetchLists, ListType } from './redux';
 import ListView from 'apps/lists/ListView';
 import Select from '@material-ui/core/Select';
@@ -32,10 +32,10 @@ const ListsView: React.FunctionComponent<ListPageProps> = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchLists());
-  }, [useDispatch]);
+  }, [dispatch]);
 
   // List select state
-  const [activeListIndex, setActiveListIndex] = useState(0);
+  // const [activeListIndex, setActiveListIndex] = useState(0);
 
   if (state.fetching) {
     return <CircularProgress />;
