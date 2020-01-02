@@ -31,6 +31,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = () => {
       <Grid container justify={'center'} direction={'row'} spacing={3}>
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Your Lists</Typography>
+          <Typography variant="subtitle1" color={'error'}>
+            * Under construction *
+          </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>
