@@ -11,6 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import ListIcon from '@material-ui/icons/List';
 
 const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
   <SwipeableDrawer open={isOpen} onClose={onClose} onOpen={onOpen}>
@@ -32,6 +33,14 @@ const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
               <AttachMoneyIcon />
             </ListItemIcon>
             <ListItemText primary="Finance" />
+          </ListItem>
+        </Link>
+        <Link to="/lists" style={{ textDecoration: 'none', color: '#000' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <ListIcon />
+            </ListItemIcon>
+            <ListItemText primary="Lists" />
           </ListItem>
         </Link>
       </List>
