@@ -2,9 +2,6 @@ import * as React from 'react';
 import { createStyles, Typography, List, Divider } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { ListType } from 'apps/lists/redux';
-import ListItemForm from './ListItemForm';
-import ListItemView from './ListItemView';
 
 const useStyles = makeStyles(theme =>
   createStyles({

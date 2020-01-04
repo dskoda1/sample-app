@@ -1,5 +1,5 @@
-const models = require('../db/models');
-const constants = require('../routes/constants');
+import models from '../db/models';
+import constants from '../routes/constants';
 
 const truncateFitnessTables = async () => {
   const destroyArgs = {
@@ -17,6 +17,15 @@ const truncateFinanceTables = async (): Promise<void> => {
   };
   await models.FinanceSubCategories.destroy(destroyArgs);
   await models.FinanceCategories.destroy(destroyArgs);
+  await models.Users.destroy(destroyArgs);
+};
+
+const truncateActivityTables = async (): Promise<void> => {
+  const destroyArgs = {
+    where: {},
+  };
+  await models.Activities.destroy(destroyArgs);
+  await models.ActivityTypes.destroy(destroyArgs);
   await models.Users.destroy(destroyArgs);
 };
 
@@ -82,10 +91,18 @@ const createFinanceSubCategory = async (FinanceCategoryId, UserId, name) =>
     name,
   });
 
+const createActivityType = async (UserId: number, name: string) =>
+  await models.ActivityTypes.create({
+    name,
+    UserId,
+  });
+
 module.exports = {
   // Table maintenance functions
   truncateFitnessTables,
   truncateFinanceTables,
+  truncateActivityTables,
+  // General
   createUser,
   // Fitness helpers
   createWorkout,
@@ -97,4 +114,6 @@ module.exports = {
   // Finance helpers
   createFinanceCategory,
   createFinanceSubCategory,
+  // Activity helpers
+  createActivityType,
 };

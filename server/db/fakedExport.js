@@ -5,4 +5,6 @@ module.exports = {
   Workouts: require('./models/workouts'),
   Exercises: require('./models/exercises'),
   Sets: require('./models/sets'),
+  ActivityTypes: require('./models/activitytypes'),
+  Activities: require('./models/activities'),
 };
