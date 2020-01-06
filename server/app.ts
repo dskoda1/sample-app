@@ -8,7 +8,7 @@ const workoutRoutes = require('./routes/workouts');
 const authRoutes = require('./routes/auth');
 const exerciseRoutes = require('./routes/exercises');
 const setRoutes = require('./routes/sets');
-import activityTypeRoutes from './routes/activityTypes';
+import activityTypeRoutes from './routes/activity';
 
 // Create our app
 const app: express.Application = express();
@@ -62,7 +62,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/workouts', workoutRoutes);
 workoutRoutes.use('/:workoutId/exercises', exerciseRoutes);
 exerciseRoutes.use('/:exerciseId/sets', setRoutes);
-app.use('/api/activity_types', activityTypeRoutes);
+app.use('/api/activity', activityTypeRoutes);
 
 import { ApolloServer } from 'apollo-server-express';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
