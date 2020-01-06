@@ -1,9 +1,8 @@
-const request = require('supertest');
-const session = require('supertest-session');
-
-const app = require('../../app').app;
-const models = require('../../db/models');
-const testUtils = require('../utils');
+import request from 'supertest';
+import session from 'supertest-session';
+import { app } from '../../app';
+import models from '../../db/models';
+import testUtils from '../utils';
 
 describe('Test user endpoints', () => {
   let testSession;

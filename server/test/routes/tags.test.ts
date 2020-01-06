@@ -25,6 +25,7 @@ describe('Test tag endpoints', () => {
       //   .get('/api/activity_types')
       //   .expect(401, done);
     });
+  });
 
   //   test('returns list of activity types sorted by name', async done => {
   //     await testUtils.createActivityType(user.id, 'workout');

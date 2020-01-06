@@ -1,15 +1,16 @@
-const request = require('supertest');
-const session = require('supertest-session');
-const app = require('../../app').app;
-const models = require('../../db/models');
-
-const testUtils = require('../utils');
+import request from 'supertest';
+import session from 'supertest-session';
+import { app } from '../../app';
+import models from '../../db/models';
+import testUtils from '../utils';
 
 describe('Test sets endpoints', () => {
   let testSession = null;
   let user = null;
   let workout = null;
   let exercise = null;
+  let liftExercise = null;
+  let cardioExercise = null;
 
   beforeEach(async done => {
     await testUtils.truncateFitnessTables();
