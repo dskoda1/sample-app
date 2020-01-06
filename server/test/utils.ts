@@ -97,7 +97,7 @@ const createActivityType = async (UserId: number, name: string) =>
     UserId,
   });
 
-module.exports = {
+export default {
   // Table maintenance functions
   truncateFitnessTables,
   truncateFinanceTables,
