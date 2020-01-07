@@ -7,4 +7,5 @@ module.exports = {
   Sets: require('./models/sets'),
   ActivityTypes: require('./models/activitytypes'),
   Activities: require('./models/activities'),
+  Tags: require('./models/tags'),
 };

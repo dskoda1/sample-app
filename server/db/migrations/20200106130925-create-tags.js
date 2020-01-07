@@ -19,6 +19,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      forTable: {
+        type: Sequelize.STRING,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

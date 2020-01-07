@@ -26,6 +26,7 @@ const truncateActivityTables = async (): Promise<void> => {
   };
   await models.Activities.destroy(destroyArgs);
   await models.ActivityTypes.destroy(destroyArgs);
+  await models.Tags.destroy(destroyArgs);
   await models.Users.destroy(destroyArgs);
 };
 
@@ -97,6 +98,13 @@ const createActivityType = async (UserId: number, name: string) =>
     UserId,
   });
 
+const createTag = async (UserId: number, name: string, forTable: string) =>
+  await models.Tags.create({
+    name,
+    UserId,
+    forTable
+  });
+
 export default {
   // Table maintenance functions
   truncateFitnessTables,
@@ -104,6 +112,7 @@ export default {
   truncateActivityTables,
   // General
   createUser,
+  createTag,
   // Fitness helpers
   createWorkout,
   createExercise,
