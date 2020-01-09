@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Activities.associate = function(models) {
     // associations can be defined here
+    Activities.belongsTo(models.Tags);
+    Activities.belongsTo(models.ActivityTypes);
   };
   return Activities;
 };

@@ -39,7 +39,7 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: true,
       },
-    });
+    })
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Activities');

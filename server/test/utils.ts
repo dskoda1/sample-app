@@ -102,7 +102,18 @@ const createTag = async (UserId: number, name: string, forTable: string) =>
   await models.Tags.create({
     name,
     UserId,
-    forTable
+    forTable,
+  });
+
+const createActivity = async (
+  UserId: number,
+  ActivityTypeId: number,
+  TagId: number
+) =>
+  await models.Activities.create({
+    UserId,
+    ActivityTypeId,
+    TagId,
   });
 
 export default {
@@ -125,4 +136,5 @@ export default {
   createFinanceSubCategory,
   // Activity helpers
   createActivityType,
+  createActivity,
 };
