@@ -24,7 +24,7 @@ const truncateActivityTables = async (): Promise<void> => {
   const destroyArgs = {
     where: {},
   };
-  await models.Activities.destroy(destroyArgs);
+  await models.Activity.destroy(destroyArgs);
   await models.ActivityTypes.destroy(destroyArgs);
   await models.Tags.destroy(destroyArgs);
   await models.Users.destroy(destroyArgs);
@@ -110,7 +110,7 @@ const createActivity = async (
   ActivityTypeId: number,
   TagId: number
 ) =>
-  await models.Activities.create({
+  await models.Activity.create({
     UserId,
     ActivityTypeId,
     TagId,

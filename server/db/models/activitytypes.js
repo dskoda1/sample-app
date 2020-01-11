@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   ActivityTypes.associate = function(models) {
     // associations can be defined here
-    ActivityTypes.hasMany(models.Activities);
+    ActivityTypes.hasMany(models.Activity);
   };
   return ActivityTypes;
 };

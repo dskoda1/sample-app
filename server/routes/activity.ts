@@ -3,55 +3,39 @@ const router = express.Router({ mergeParams: true });
 import models from '../db/models';
 
 router.post('/', async (req, res) => {
-  // Create an activity. Tag can be either tag name or tag it, and same with activity type.
   if (!req.session.UserId) {
     return res.status(401).end();
   }
-  let tag = null;
-  let activityType = null;
 
-  const newActivity = {};
-  if (req.body.tagId) {
-    // TODO: Check user id of tag
-    tag = await models.Tags.findOne({
-      where: {
-        id: req.body.tagId,
-      },
-    });
-  } else if (req.body.tagName) {
-    tag = await models.Tags.create({
-      name: req.body.tagName,
-      forTable: 'activities',
-      UserId: req.session.UserId,
-    });
-  } else {
+  if (!req.body.tagName) {
     return res
       .status(400)
       .json({ error: 'no tag param provided' })
       .end();
   }
-
-  if (req.body.activityTypeId) {
-    // TODO: Check user id of activity type
-    activityType = await models.ActivityTypes.findOne({
-      where: {
-        id: req.body.activityTypeId,
-      },
-    });
-  } else if (req.body.activityTypeName) {
-    activityType = await models.ActivityTypes.create({
-      name: req.body.activityTypeName,
+  const [tag, _] = await models.Tags.findOrCreate({
+    where: {
+      name: req.body.tagName,
+      forTable: 'activity',
       UserId: req.session.UserId,
-    });
-  } else {
+    },
+  });
+
+  if (!req.body.activityTypeName) {
     return res
       .status(400)
       .json({ error: 'no activity type param provided' })
       .end();
   }
+  const [activityType, __] = await models.ActivityTypes.findOrCreate({
+    where: {
+      name: req.body.activityTypeName,
+      UserId: req.session.UserId,
+    },
+  });
 
   // We have a tag and activity type, now create our activity
-  const activity = await models.Activities.create({
+  const activity = await models.Activity.create({
     TagId: tag.id,
     ActivityTypeId: activityType.id,
     UserId: req.session.UserId,
@@ -62,7 +46,7 @@ router.post('/', async (req, res) => {
     .end();
 });
 
-// TODO: CHange this endpoint to return all tags, activity types, and activities in a non-rest fashion
+// TODO: CHange this endpoint to return all tags, activity types, and activity in a non-rest fashion
 router.get('/', async (req, res) => {
   if (!req.session.UserId) {
     return res.status(401).end();

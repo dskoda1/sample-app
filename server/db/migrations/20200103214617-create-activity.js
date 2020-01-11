@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Activities', {
+    return queryInterface.createTable('Activity', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -39,9 +39,9 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: true,
       },
-    })
+    });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Activities');
+    return queryInterface.dropTable('Activity');
   },
 };

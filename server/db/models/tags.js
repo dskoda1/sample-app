@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Tags.associate = function(models) {
     // associations can be defined here
-    Tags.hasMany(models.Activities);
+    Tags.hasMany(models.Activity);
   };
   return Tags;
 };
