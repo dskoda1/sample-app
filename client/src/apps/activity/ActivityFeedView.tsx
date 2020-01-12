@@ -19,11 +19,7 @@ interface ActivityFeedViewProps {
   // list: ListType;
 }
 
-const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = (
-  {
-    // list,
-  }
-) => {
+const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
   const classes = useStyles();
   return (
     <Grid container>
