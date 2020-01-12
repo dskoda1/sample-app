@@ -18,6 +18,7 @@ import WorkoutsLoggedOutView from '../apps/workouts/Workout/LoggedOutView';
 
 import Finance from 'apps/finance';
 import Lists from 'apps/lists';
+import Activity from 'apps/activity';
 
 import NavBar from './NavBar';
 import NotFound from '../components/NotFound';
@@ -69,6 +70,12 @@ class App extends Component {
               component={Finance}
               fallback={WorkoutsLoggedOutView}
               path="/finance"
+            />
+            <AuthenticatedRoute
+              exact
+              component={Activity}
+              fallback={WorkoutsLoggedOutView}
+              path="/activity"
             />
             <AuthenticatedRoute
               exact

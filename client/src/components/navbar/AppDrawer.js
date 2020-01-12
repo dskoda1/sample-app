@@ -35,6 +35,14 @@ const AppDrawer = ({ classes: { toolbar }, onClose, onOpen, isOpen }) => (
             <ListItemText primary="Finance" />
           </ListItem>
         </Link>
+        <Link to="/activity" style={{ textDecoration: 'none', color: '#000' }}>
+          <ListItem button>
+            <ListItemIcon>
+              <ListIcon />
+            </ListItemIcon>
+            <ListItemText primary="Activity" />
+          </ListItem>
+        </Link>
         <Link to="/lists" style={{ textDecoration: 'none', color: '#000' }}>
           <ListItem button>
             <ListItemIcon>

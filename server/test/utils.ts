@@ -1,5 +1,5 @@
-const models = require('../db/models');
-const constants = require('../routes/constants');
+import models from '../db/models';
+import constants from '../routes/constants';
 
 const truncateFitnessTables = async () => {
   const destroyArgs = {
@@ -17,6 +17,16 @@ const truncateFinanceTables = async (): Promise<void> => {
   };
   await models.FinanceSubCategories.destroy(destroyArgs);
   await models.FinanceCategories.destroy(destroyArgs);
+  await models.Users.destroy(destroyArgs);
+};
+
+const truncateActivityTables = async (): Promise<void> => {
+  const destroyArgs = {
+    where: {},
+  };
+  await models.Activity.destroy(destroyArgs);
+  await models.ActivityTypes.destroy(destroyArgs);
+  await models.Tags.destroy(destroyArgs);
   await models.Users.destroy(destroyArgs);
 };
 
@@ -82,11 +92,38 @@ const createFinanceSubCategory = async (FinanceCategoryId, UserId, name) =>
     name,
   });
 
-module.exports = {
+const createActivityType = async (UserId: number, name: string) =>
+  await models.ActivityTypes.create({
+    name,
+    UserId,
+  });
+
+const createTag = async (UserId: number, name: string, forTable: string) =>
+  await models.Tags.create({
+    name,
+    UserId,
+    forTable,
+  });
+
+const createActivity = async (
+  UserId: number,
+  ActivityTypeId: number,
+  TagId: number
+) =>
+  await models.Activity.create({
+    UserId,
+    ActivityTypeId,
+    TagId,
+  });
+
+export default {
   // Table maintenance functions
   truncateFitnessTables,
   truncateFinanceTables,
+  truncateActivityTables,
+  // General
   createUser,
+  createTag,
   // Fitness helpers
   createWorkout,
   createExercise,
@@ -97,4 +134,7 @@ module.exports = {
   // Finance helpers
   createFinanceCategory,
   createFinanceSubCategory,
+  // Activity helpers
+  createActivityType,
+  createActivity,
 };

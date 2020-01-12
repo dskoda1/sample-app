@@ -1,9 +1,8 @@
-const request = require('supertest');
-const session = require('supertest-session');
-const app = require('../../app').app;
-const models = require('../../db/models');
-
-const testUtils = require('../utils');
+import request from 'supertest';
+import session from 'supertest-session';
+import { app } from '../../app';
+import models from '../../db/models';
+import testUtils from '../utils';
 
 describe('Test workout endpoints', () => {
   let testSession = null;
@@ -65,7 +64,7 @@ describe('Test workout endpoints', () => {
 
       const res = await testSession.get('/api/workouts').expect(200);
       expect(res.body.workouts.length).toBe(3);
-      workout = res.body.workouts[0];
+      const workout = res.body.workouts[0];
       expect(workout).toHaveProperty('id');
       expect(workout).toHaveProperty('name');
       expect(workout).toHaveProperty('createdAt');

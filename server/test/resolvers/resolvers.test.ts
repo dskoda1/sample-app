@@ -2,8 +2,8 @@ import { gql } from 'apollo-server-express';
 import { createTestClient } from 'apollo-server-testing';
 
 import { ApolloServer, typeDefs, resolvers } from '../../app';
-const models = require('../../db/models');
-const testUtils = require('../utils');
+import models from '../../db/models';
+import testUtils from '../utils';
 
 const GET_WORKOUTS_WITH_USER = gql`
   query {
