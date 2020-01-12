@@ -106,6 +106,7 @@ describe('Test activity endpoints', () => {
         .send({ tagName: 'abc' })
         .expect(400, done);
     });
+    test.todo('Can pass in a timestamp to use as the createdAt');
   });
 
   describe('GET /', () => {
@@ -116,8 +117,8 @@ describe('Test activity endpoints', () => {
     });
 
     test('returns all relevant data for activity page', async done => {
-      const choreType = await testUtils.createActivityType(user.id, 'eat out');
-      const eatOutType = await testUtils.createActivityType(user.id, 'chore');
+      const eatOutType = await testUtils.createActivityType(user.id, 'eat out');
+      const choreType = await testUtils.createActivityType(user.id, 'chore');
 
       const noodlesTag = await testUtils.createTag(
         user.id,
@@ -130,28 +131,36 @@ describe('Test activity endpoints', () => {
         'activity'
       );
 
-      await testUtils.createActivity(user.id, choreType.id, dishwasherTag.id);
-      await testUtils.createActivity(user.id, eatOutType.id, noodlesTag.id);
+      const a1 = await testUtils.createActivity(
+        user.id,
+        choreType.id,
+        dishwasherTag.id
+      );
+      const a2 = await testUtils.createActivity(
+        user.id,
+        eatOutType.id,
+        noodlesTag.id
+      );
 
       const res = await testSession.get('/api/activity').expect(200);
 
       // All should be sorted
       // Activity Types
-      // expect(res.body.activityTypes.length).toBe(2);
-      // expect(res.body.activityTypes[0].name).toEqual('chore');
-      // expect(res.body.activityTypes[1].name).toEqual('eat out');
+      expect(res.body.activityTypes.length).toBe(2);
+      expect(res.body.activityTypes[0].name).toEqual('chore');
+      expect(res.body.activityTypes[1].name).toEqual('eat out');
       //
-      // // Tags
-      // expect(res.body.tags.length).toBe(2);
-      // expect(res.body.tags[0].name).toEqual('dishwasher');
-      // expect(res.body.tags[1].name).toEqual('noodles');
-      //
-      // // Activity
-      // expect(res.body.activity.length).toBe(2);
-      // expect(res.body.activity[0].tag.name).toEqual('dishwasher');
-      // expect(res.body.activity[0].activityType.name).toEqual('chore');
-      // expect(res.body.activity[1].tag.name).toEqual('noodles');
-      // expect(res.body.activity[1].activityType.name).toEqual('eat out');
+      // Tags
+      expect(res.body.tags.length).toBe(2);
+      expect(res.body.tags[0].name).toEqual('dishwasher');
+      expect(res.body.tags[1].name).toEqual('noodles');
+
+      // Activity, ordered by createdAt
+      expect(res.body.activity.length).toBe(2);
+      expect(res.body.activity[0].Tag.name).toEqual('noodles');
+      expect(res.body.activity[0].ActivityType.name).toEqual('eat out');
+      expect(res.body.activity[1].Tag.name).toEqual('dishwasher');
+      expect(res.body.activity[1].ActivityType.name).toEqual('chore');
 
       done();
     });

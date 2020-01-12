@@ -46,22 +46,34 @@ router.post('/', async (req, res) => {
     .end();
 });
 
-// TODO: CHange this endpoint to return all tags, activity types, and activity in a non-rest fashion
 router.get('/', async (req, res) => {
   if (!req.session.UserId) {
     return res.status(401).end();
   }
-
+  // TODO: Perform the three queries all at the same time using Promise.all to speed things up
   const activityTypes = await models.ActivityTypes.findAll({
     where: {
       UserId: req.session.UserId,
     },
     order: [['name', 'ASC']],
   });
+  const tags = await models.Tags.findAll({
+    where: {
+      UserId: req.session.UserId,
+    },
+    order: [['name', 'ASC']],
+  });
+  const activity = await models.Activity.findAll({
+    where: {
+      UserId: req.session.UserId,
+    },
+    order: [['createdAt', 'DESC']],
+    include: [models.Tags, models.ActivityTypes],
+  });
 
   return res
     .status(200)
-    .json({ activityTypes })
+    .json({ activityTypes, tags, activity })
     .end();
 });
 
