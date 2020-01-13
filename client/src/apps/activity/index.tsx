@@ -7,7 +7,7 @@ import ActivityFeedView from './ActivityFeedView';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/reducers/types';
 import { useEffect } from 'react';
-import { fetchLists } from './redux';
+import { fetchActivity } from './redux';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme =>
@@ -30,14 +30,12 @@ interface ActivityPageProps {}
 
 const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
   const classes = useStyles();
-  const state = useSelector((state: AppState) => state.listState);
+  const state = useSelector((state: AppState) => state.activityState);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchLists());
+    console.log('dispatching fetchActivity');
+    dispatch(fetchActivity());
   }, [dispatch]);
-
-  // List select state
-  // const [activeListIndex, setActiveListIndex] = useState(0);
 
   if (state.fetching) {
     return <CircularProgress />;

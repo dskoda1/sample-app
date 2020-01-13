@@ -1,30 +1,27 @@
 import {
-  FETCH_LISTS,
-  fetchListsSuccess,
-  ListType,
-  fetchListsError,
+  FETCH_ACTIVITY,
+  fetchActivitySuccess,
+  fetchActivityError,
 } from './index';
-import { takeLatest, put } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
+import axios from 'axios';
 
 export default function*() {
-  yield takeLatest(FETCH_LISTS, fetchListsSaga);
-}
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  yield takeLatest(FETCH_ACTIVITY, fetchActivitySaga);
 }
 
-const fetchListsSaga = function*() {
+const fetchActivitySaga = function*() {
+  console.log('in fetch activity saga');
   try {
-    const todoList: ListType = {
-      id: 0,
-      items: [{ text: 'hello' }, { text: 'hi' }],
-      name: 'Todo',
-      order: 1,
-    };
-    const lists: Array<ListType> = [todoList];
-    yield sleep(500);
-    yield put(fetchListsSuccess(lists));
+    const res = yield call(axios.get, `/api/activity`);
+    yield put(
+      fetchActivitySuccess(
+        res.data.activity,
+        res.data.tags,
+        res.data.activityTypes
+      )
+    );
   } catch (error) {
-    yield put(fetchListsError(error));
+    yield put(fetchActivityError(error));
   }
 };
