@@ -42,6 +42,6 @@ export default function*() {
   yield takeLatest(DELETE_EXERCISE, deleteExerciseSaga);
   yield takeLatest(CREATE_SET, createSetSaga);
   yield takeLatest(DELETE_SET, deleteSetSaga);
-  yield rootListSaga();
   yield rootActivitySaga();
+  yield rootListSaga();
 }

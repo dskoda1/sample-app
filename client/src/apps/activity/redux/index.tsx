@@ -64,7 +64,7 @@ export interface Activity {
   id: number;
   ActivityType: ActivityType;
   Tag: Tag;
-  createdAt: Date;
+  createdAt: string;
 }
 // Reducer
 export interface ActivityReducerState {
