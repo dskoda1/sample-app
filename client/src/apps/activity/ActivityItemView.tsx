@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { createStyles, Typography, ListItem, Divider } from '@material-ui/core';
+import { Typography, ListItem, Divider } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import makeStyles from '@material-ui/core/styles/makeStyles';
+// import makeStyles from '@material-ui/core/styles/makeStyles';
 import Moment from 'react-moment';
 
 import { Activity } from './redux';
 
-const useStyles = makeStyles(theme =>
-  createStyles({
-    list: {
-      flexGrow: 1,
-    },
-    icon: {
-      margin: '-5px',
-    },
-  })
-);
+// const useStyles = makeStyles(theme =>
+//   createStyles({
+//     list: {
+//       flexGrow: 1,
+//     },
+//     icon: {
+//       margin: '-5px',
+//     },
+//   })
+// );
 
 interface ActivityItemProps {
   activityItem: Activity;
@@ -24,7 +24,7 @@ interface ActivityItemProps {
 const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
   activityItem,
 }) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   return (
     <>
       <ListItem>

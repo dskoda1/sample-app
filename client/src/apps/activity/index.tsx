@@ -40,13 +40,6 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
   if (state.fetching) {
     return <CircularProgress />;
   }
-  // if (state.activity.length === 0) {
-  //   return (
-  //     <Typography variant="subtitle1">
-  //       You have no activity. Why not record some?
-  //     </Typography>
-  //   );
-  // }
   return (
     <div className={classes.root}>
       <Grid container justify={'center'} direction={'row'} spacing={3}>

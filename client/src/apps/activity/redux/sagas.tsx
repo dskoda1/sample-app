@@ -5,7 +5,6 @@ import {
 } from './index';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
-import { FETCH_LISTS } from '../../lists/redux';
 export default function*() {
   console.log('registering root activity saga');
 
