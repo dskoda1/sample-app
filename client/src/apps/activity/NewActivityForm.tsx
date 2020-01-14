@@ -43,7 +43,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   }
   return (
     <Grid container>
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
@@ -60,7 +60,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           )}
         />
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={12}>
         <Autocomplete
           id="activity-tag-autocomplete"
           freeSolo
@@ -77,8 +77,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           )}
         />
       </Grid>
-
-      <Grid item xs={3}>
+      <Grid item xs={12}>
         <Button
           variant="contained"
           color="primary"

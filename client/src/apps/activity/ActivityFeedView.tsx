@@ -17,6 +17,9 @@ const useStyles = makeStyles(theme =>
     icon: {
       margin: '-5px',
     },
+    feed: {
+      marginTop: '30px',
+    },
   })
 );
 
@@ -26,11 +29,11 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
   const activityState = useSelector((state: AppState) => state.activityState);
   const classes = useStyles();
   return (
-    <Grid container justify={'space-between'}>
-      <Grid item xs={12}>
+    <Grid container justify={'space-around'}>
+      <Grid item xs={12} md={6}>
         <NewActivityForm />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.feed}>
         <Typography variant="h5">Your Recent Activity</Typography>
       </Grid>
       <List className={classes.list}>
