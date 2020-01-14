@@ -5,10 +5,12 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../redux/reducers/types';
 import { ActivityType, Tag } from './redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { postActivity } from './redux';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -34,56 +36,62 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   const activityTypes = activityState.activityTypes.map(
     (type: ActivityType) => type.name
   );
-  console.log(selectedTag);
-  console.log(selectedActivityType);
 
+  const dispatch = useDispatch();
+  if (activityState.fetching) {
+    return <CircularProgress />;
+  }
   return (
     <Grid container>
-      <Grid item xs={9}>
-        <Autocomplete
-          id="activity-tag-autocomplete"
-          freeSolo
-          options={tags}
-          getOptionLabel={(option: string) => option}
-          onChange={(event: any, newValue: string | undefined) => {
-            setSelectedTag(newValue);
-          }}
-          renderInput={params => (
-            <TextField
-              {...params}
-              label="Search or create new Tag"
-              margin="normal"
-              fullWidth
-            />
-          )}
-        />
-      </Grid>
       <Grid item xs={9}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
           options={activityTypes}
           getOptionLabel={(option: string) => option}
-          onChange={(event: any, newValue: string | undefined) => {
+          onInputChange={(event: any, newValue: string | undefined) => {
+            if (newValue === undefined) {
+              newValue = '';
+            }
             setSelectedActivityType(newValue);
           }}
           renderInput={params => (
-            <TextField
-              {...params}
-              label="Search or create Activity Types"
-              margin="normal"
-              fullWidth
-            />
+            <TextField {...params} label="Name" margin="normal" fullWidth />
           )}
         />
       </Grid>
+      <Grid item xs={9}>
+        <Autocomplete
+          id="activity-tag-autocomplete"
+          freeSolo
+          options={tags}
+          getOptionLabel={(option: string) => option}
+          onInputChange={(event: any, newValue: string | undefined) => {
+            if (newValue === undefined) {
+              newValue = '';
+            }
+            setSelectedTag(newValue);
+          }}
+          renderInput={params => (
+            <TextField {...params} label="Tag" margin="normal" fullWidth />
+          )}
+        />
+      </Grid>
+
       <Grid item xs={3}>
         <Button
           variant="contained"
           color="primary"
           className={classes.button}
-          // onClick={this.submitCreate}
-          // disabled={creating || !canCreate}
+          onClick={() =>
+            dispatch(
+              postActivity(
+                selectedActivityType as string,
+                selectedTag as string
+              )
+            )
+          }
+          disabled={!selectedActivityType || !selectedTag}
         >
           Submit
         </Button>

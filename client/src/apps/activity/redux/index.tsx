@@ -3,6 +3,10 @@ export const FETCH_ACTIVITY = 'FETCH_ACTIVITY';
 export const FETCH_ACTIVITY_SUCCESS = 'FETCH_ACTIVITY_SUCCESS';
 export const FETCH_ACTIVITY_ERROR = 'FETCH_ACTIVITY_ERROR';
 
+export const POST_ACTIVITY = 'POST_ACTIVITY';
+export const POST_ACTIVITY_SUCCESS = 'POST_ACTIVITY_SUCCESS';
+export const POST_ACTIVITY_ERROR = 'POST_ACTIVITY_ERROR';
+
 interface fetchActivityAction {
   type: typeof FETCH_ACTIVITY;
 }
@@ -17,13 +21,31 @@ interface fetchActivityErrorAction {
   error: string;
 }
 
+export interface postActivityAction {
+  type: typeof POST_ACTIVITY;
+  activityTypeName: string;
+  tagName: string;
+}
+
+interface postActivitySuccessAction {
+  type: typeof POST_ACTIVITY_SUCCESS;
+}
+
+interface postActivityErrorAction {
+  type: typeof POST_ACTIVITY_ERROR;
+  error: string;
+}
+
 export type ActivityActionTypes =
   | fetchActivityAction
   | fetchActivitySuccessAction
-  | fetchActivityErrorAction;
+  | fetchActivityErrorAction
+  | postActivityAction
+  | postActivitySuccessAction
+  | postActivityErrorAction;
 
 // Actions
-export const fetchActivity = (): ActivityActionTypes => {
+export const fetchActivity = (): fetchActivityAction => {
   return {
     type: FETCH_ACTIVITY,
   };
@@ -32,7 +54,7 @@ export const fetchActivitySuccess = (
   activity: Array<Activity>,
   tags: Array<Tag>,
   activityTypes: Array<ActivityType>
-): ActivityActionTypes => {
+): fetchActivitySuccessAction => {
   return {
     type: FETCH_ACTIVITY_SUCCESS,
     activity,
@@ -40,9 +62,30 @@ export const fetchActivitySuccess = (
     activityTypes,
   };
 };
-export const fetchActivityError = (error: string): ActivityActionTypes => {
+export const fetchActivityError = (error: string): fetchActivityErrorAction => {
   return {
     type: FETCH_ACTIVITY_ERROR,
+    error,
+  };
+};
+export const postActivity = (
+  activityTypeName: string,
+  tagName: string
+): postActivityAction => {
+  return {
+    type: POST_ACTIVITY,
+    activityTypeName,
+    tagName,
+  };
+};
+export const postActivitySuccess = (): postActivitySuccessAction => {
+  return {
+    type: POST_ACTIVITY_SUCCESS,
+  };
+};
+export const postActivityError = (error: string): postActivityErrorAction => {
+  return {
+    type: POST_ACTIVITY_ERROR,
     error,
   };
 };
@@ -69,14 +112,15 @@ export interface Activity {
 // Reducer
 export interface ActivityReducerState {
   fetching?: boolean;
-  error?: string;
+  fetchingError?: string;
+  postingActivity?: boolean;
+  postingActivityError?: string;
   activity: Array<Activity>;
   tags: Array<Tag>;
   activityTypes: Array<ActivityType>;
 }
 
 const initialState: ActivityReducerState = {
-  fetching: false,
   activity: [],
   tags: [],
   activityTypes: [],
@@ -86,7 +130,6 @@ export const ActivityReducer = (
   state = initialState,
   action: ActivityActionTypes
 ): ActivityReducerState => {
-  console.log(`Got action with type ${action.type}`);
   switch (action.type) {
     case FETCH_ACTIVITY:
       return {
@@ -108,7 +151,24 @@ export const ActivityReducer = (
       return {
         ...state,
         fetching: false,
-        error: action.error,
+        fetchingError: action.error,
+      };
+    case POST_ACTIVITY:
+      return {
+        ...state,
+        postingActivity: true,
+        postingActivityError: undefined,
+      };
+    case POST_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        postingActivity: false,
+      };
+    case POST_ACTIVITY_ERROR:
+      return {
+        ...state,
+        postingActivity: false,
+        postingActivityError: action.error,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/reducers/types';
 import ActivityItemView from './ActivityItemView';
 import NewActivityForm from './NewActivityForm';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -34,9 +35,11 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
       </Grid>
       <List className={classes.list}>
         <Divider />
-        {activityState.activity.map(activity => (
-          <ActivityItemView key={activity.id} activityItem={activity} />
-        ))}
+        {activityState.fetching && <CircularProgress />}
+        {!activityState.fetching &&
+          activityState.activity.map(activity => (
+            <ActivityItemView key={activity.id} activityItem={activity} />
+          ))}
       </List>
     </Grid>
   );

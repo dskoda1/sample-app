@@ -33,13 +33,9 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
   const state = useSelector((state: AppState) => state.activityState);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('dispatching fetchActivity');
     dispatch(fetchActivity());
   }, [dispatch]);
 
-  if (state.fetching) {
-    return <CircularProgress />;
-  }
   return (
     <div className={classes.root}>
       <Grid container justify={'center'} direction={'row'} spacing={3}>
