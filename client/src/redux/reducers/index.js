@@ -7,6 +7,7 @@ import exercises from './exercises';
 import { sets } from './exercises';
 
 import { ListReducer as listState } from 'apps/lists/redux';
+import { ActivityReducer as activityState } from 'apps/activity/redux';
 
 export default combineReducers({
   auth,
@@ -15,4 +16,5 @@ export default combineReducers({
   exercises,
   sets,
   listState,
+  activityState,
 });

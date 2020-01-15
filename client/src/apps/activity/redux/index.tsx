@@ -1,100 +1,174 @@
 // Types
-export const FETCH_LISTS = 'FETCH_LISTS';
-export const FETCH_LISTS_SUCCESS = 'FETCH_LISTS_SUCCESS';
-export const FETCH_LISTS_ERROR = 'FETCH_LISTS_ERROR';
+export const FETCH_ACTIVITY = 'FETCH_ACTIVITY';
+export const FETCH_ACTIVITY_SUCCESS = 'FETCH_ACTIVITY_SUCCESS';
+export const FETCH_ACTIVITY_ERROR = 'FETCH_ACTIVITY_ERROR';
 
-interface fetchListsAction {
-  type: typeof FETCH_LISTS;
+export const POST_ACTIVITY = 'POST_ACTIVITY';
+export const POST_ACTIVITY_SUCCESS = 'POST_ACTIVITY_SUCCESS';
+export const POST_ACTIVITY_ERROR = 'POST_ACTIVITY_ERROR';
+
+interface fetchActivityAction {
+  type: typeof FETCH_ACTIVITY;
 }
-interface fetchListsSuccess {
-  type: typeof FETCH_LISTS_SUCCESS;
-  lists: Array<ListType>;
+interface fetchActivitySuccessAction {
+  type: typeof FETCH_ACTIVITY_SUCCESS;
+  tags: Array<Tag>;
+  activityTypes: Array<ActivityType>;
+  activity: Array<Activity>;
 }
-interface fetchListsError {
-  type: typeof FETCH_LISTS_ERROR;
+interface fetchActivityErrorAction {
+  type: typeof FETCH_ACTIVITY_ERROR;
   error: string;
 }
 
-export type ListActionTypes =
-  | fetchListsAction
-  | fetchListsSuccess
-  | fetchListsError;
+export interface postActivityAction {
+  type: typeof POST_ACTIVITY;
+  activityTypeName: string;
+  tagName: string;
+}
+
+interface postActivitySuccessAction {
+  type: typeof POST_ACTIVITY_SUCCESS;
+}
+
+interface postActivityErrorAction {
+  type: typeof POST_ACTIVITY_ERROR;
+  error: string;
+}
+
+export type ActivityActionTypes =
+  | fetchActivityAction
+  | fetchActivitySuccessAction
+  | fetchActivityErrorAction
+  | postActivityAction
+  | postActivitySuccessAction
+  | postActivityErrorAction;
 
 // Actions
-export const fetchLists = (): ListActionTypes => {
+export const fetchActivity = (): fetchActivityAction => {
   return {
-    type: FETCH_LISTS,
+    type: FETCH_ACTIVITY,
   };
 };
-export const fetchListsSuccess = (lists: Array<ListType>): ListActionTypes => {
+export const fetchActivitySuccess = (
+  activity: Array<Activity>,
+  tags: Array<Tag>,
+  activityTypes: Array<ActivityType>
+): fetchActivitySuccessAction => {
   return {
-    type: FETCH_LISTS_SUCCESS,
-    lists,
+    type: FETCH_ACTIVITY_SUCCESS,
+    activity,
+    tags,
+    activityTypes,
   };
 };
-export const fetchListsError = (error: string): ListActionTypes => {
+export const fetchActivityError = (error: string): fetchActivityErrorAction => {
   return {
-    type: FETCH_LISTS_ERROR,
+    type: FETCH_ACTIVITY_ERROR,
+    error,
+  };
+};
+export const postActivity = (
+  activityTypeName: string,
+  tagName: string
+): postActivityAction => {
+  return {
+    type: POST_ACTIVITY,
+    activityTypeName,
+    tagName,
+  };
+};
+export const postActivitySuccess = (): postActivitySuccessAction => {
+  return {
+    type: POST_ACTIVITY_SUCCESS,
+  };
+};
+export const postActivityError = (error: string): postActivityErrorAction => {
+  return {
+    type: POST_ACTIVITY_ERROR,
     error,
   };
 };
 
 // Models
-export interface ListItemType {
-  id?: string;
-  text: string;
-  createdAt?: Date;
-  isDeleted?: boolean;
-  rank?: number;
-}
-
-export interface ListType {
-  items: Array<ListItemType>;
-  name: string;
-  order: number;
+export interface ActivityType {
   id: number;
+  name: string;
+  createdAt?: Date;
 }
 
+export interface Tag {
+  id: number;
+  name: string;
+  forTable: string;
+}
+
+export interface Activity {
+  id: number;
+  ActivityType: ActivityType;
+  Tag: Tag;
+  createdAt: string;
+}
 // Reducer
-export interface ListReducerState {
+export interface ActivityReducerState {
   fetching?: boolean;
-  lists: Array<ListType>;
   fetchingError?: string;
-  creatingList?: boolean;
-  creatingListError?: string;
-  creatingItem?: boolean;
-  creatingItemError?: string;
-  deletingItem?: boolean;
-  deletingItemError?: string;
+  postingActivity?: boolean;
+  postingActivityError?: string;
+  activity: Array<Activity>;
+  tags: Array<Tag>;
+  activityTypes: Array<ActivityType>;
 }
 
-const initialState: ListReducerState = {
-  lists: [],
+const initialState: ActivityReducerState = {
+  activity: [],
+  tags: [],
+  activityTypes: [],
 };
 
-export const ListReducer = (
+export const ActivityReducer = (
   state = initialState,
-  action: ListActionTypes
-): ListReducerState => {
+  action: ActivityActionTypes
+): ActivityReducerState => {
   switch (action.type) {
-    case FETCH_LISTS:
+    case FETCH_ACTIVITY:
       return {
         ...state,
         fetching: true,
-        fetchingError: '',
+        activity: [],
+        tags: [],
+        activityTypes: [],
       };
-    case FETCH_LISTS_SUCCESS:
+    case FETCH_ACTIVITY_SUCCESS:
       return {
         ...state,
         fetching: false,
-        lists: action.lists,
+        activity: action.activity,
+        tags: action.tags,
+        activityTypes: action.activityTypes,
       };
-    case FETCH_LISTS_ERROR:
+    case FETCH_ACTIVITY_ERROR:
       return {
         ...state,
         fetching: false,
         fetchingError: action.error,
-        lists: [],
+      };
+    case POST_ACTIVITY:
+      return {
+        ...state,
+        postingActivity: true,
+        postingActivityError: undefined,
+      };
+    case POST_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        postingActivity: false,
+      };
+    case POST_ACTIVITY_ERROR:
+      return {
+        ...state,
+        postingActivity: false,
+        postingActivityError: action.error,
       };
     default:
       return state;

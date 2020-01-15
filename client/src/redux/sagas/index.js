@@ -26,6 +26,8 @@ import {
 } from './workouts';
 import { createExerciseSaga, deleteExerciseSaga } from './exercises';
 import rootListSaga from 'apps/lists/redux/sagas';
+import rootActivitySaga from 'apps/activity/redux/sagas';
+
 export default function*() {
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(REGISTER, registerSaga);
@@ -40,5 +42,6 @@ export default function*() {
   yield takeLatest(DELETE_EXERCISE, deleteExerciseSaga);
   yield takeLatest(CREATE_SET, createSetSaga);
   yield takeLatest(DELETE_SET, deleteSetSaga);
+  yield rootActivitySaga();
   yield rootListSaga();
 }

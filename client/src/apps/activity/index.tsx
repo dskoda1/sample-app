@@ -4,11 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import ActivityFeedView from './ActivityFeedView';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../redux/reducers/types';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchLists } from './redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { fetchActivity } from './redux';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -30,25 +28,11 @@ interface ActivityPageProps {}
 
 const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
   const classes = useStyles();
-  const state = useSelector((state: AppState) => state.listState);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchLists());
+    dispatch(fetchActivity());
   }, [dispatch]);
 
-  // List select state
-  // const [activeListIndex, setActiveListIndex] = useState(0);
-
-  if (state.fetching) {
-    return <CircularProgress />;
-  }
-  // if (state.activity.length === 0) {
-  //   return (
-  //     <Typography variant="subtitle1">
-  //       You have no activity. Why not record some?
-  //     </Typography>
-  //   );
-  // }
   return (
     <div className={classes.root}>
       <Grid container justify={'center'} direction={'row'} spacing={3}>

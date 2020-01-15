@@ -7,6 +7,8 @@ import {
 import { takeLatest, put } from 'redux-saga/effects';
 
 export default function*() {
+  console.log('registering root list saga');
+
   yield takeLatest(FETCH_LISTS, fetchListsSaga);
 }
 function sleep(ms: number) {

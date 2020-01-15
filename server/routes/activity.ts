@@ -6,16 +6,13 @@ router.post('/', async (req, res) => {
   if (!req.session.UserId) {
     return res.status(401).end();
   }
-
-  if (!req.body.tagName) {
-    return res
-      .status(400)
-      .json({ error: 'no tag param provided' })
-      .end();
+  let tagName = 'none';
+  if (req.body.tagName) {
+    tagName = req.body.tagName.toLowerCase();
   }
   const [tag, _] = await models.Tags.findOrCreate({
     where: {
-      name: req.body.tagName,
+      name: tagName,
       forTable: 'activity',
       UserId: req.session.UserId,
     },
@@ -29,7 +26,7 @@ router.post('/', async (req, res) => {
   }
   const [activityType, __] = await models.ActivityTypes.findOrCreate({
     where: {
-      name: req.body.activityTypeName,
+      name: req.body.activityTypeName.toLowerCase(),
       UserId: req.session.UserId,
     },
   });
