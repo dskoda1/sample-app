@@ -119,7 +119,42 @@ describe('Test activity endpoints', () => {
         .send({ tagName: 'abc' })
         .expect(400, done);
     });
-    test.todo('Can pass in a timestamp to use as the createdAt');
+    test('Can pass in a timestamp to use as the createdAt', async done => {
+      const futureTime = new Date(2020, 5, 3);
+
+      await testSession
+        .post('/api/activity')
+        .send({
+          tagName: 'test',
+          activityTypeName: 'test',
+          timestamp: futureTime,
+        })
+        .expect(201);
+
+      const activity = await models.Activity.findAll({
+        where: {
+          UserId: user.id,
+        },
+      });
+      expect(activity.length).toEqual(1);
+      expect(activity[0].createdAt).toEqual(futureTime);
+      done();
+    });
+    test('Can persist a duration on an activity if passed', async done => {
+      await testSession
+        .post('/api/activity')
+        .send({ tagName: 'test', activityTypeName: 'test', duration: 30 })
+        .expect(201);
+
+      const activity = await models.Activity.findAll({
+        where: {
+          UserId: user.id,
+        },
+      });
+      expect(activity.length).toEqual(1);
+      expect(activity[0].duration).toEqual(30);
+      done();
+    });
   });
 
   describe('GET /', () => {

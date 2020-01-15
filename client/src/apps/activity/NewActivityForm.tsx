@@ -30,10 +30,6 @@ const useStyles = makeStyles(theme =>
       marginTop: theme.spacing(3),
       width: '90%',
     },
-    timestampGrid: {
-      marginTop: theme.spacing(2),
-      textAlignt: 'center',
-    },
     advancedHeading: {
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
@@ -56,10 +52,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   const [selectedDate, handleDateChange] = useState<MaterialUiPickersDate>(
     null
   );
-  if (selectedDate) {
-    console.log(selectedDate.toDate());
-  }
-  console.log(new Date());
+  const [selectedDuration, handleDurationChange] = useState<number>();
   const dispatch = useDispatch();
   if (activityState.fetching) {
     return <CircularProgress />;
@@ -101,7 +94,8 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           )}
         />
       </Grid>
-      <Grid item xs={12} className={classes.timestampGrid}>
+
+      <Grid item xs={12}>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.advancedHeading}>
@@ -109,12 +103,27 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <DateTimePicker
-              fullWidth
-              value={selectedDate}
-              onChange={date => handleDateChange(date)}
-              label={'Timestamp (optional)'}
-            />
+            <Grid item xs={12}>
+              <DateTimePicker
+                fullWidth
+                value={selectedDate}
+                onChange={date => handleDateChange(date)}
+                label={'Timestamp (optional)'}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                className={classes.textField}
+                label={'Duration (optional)'}
+                value={selectedDuration}
+                onChange={e => handleDurationChange(parseInt(e.target.value))}
+                inputProps={{ pattern: '[0-9]*' }}
+                type={'number'}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Grid>

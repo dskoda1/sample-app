@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Activity = sequelize.define(
     'Activity',
     {
-      timestamp: DataTypes.DATE,
+      duration: DataTypes.NUMBER,
     },
     {
       freezeTableName: true,

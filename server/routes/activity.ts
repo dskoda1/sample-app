@@ -36,6 +36,8 @@ router.post('/', async (req, res) => {
     TagId: tag.id,
     ActivityTypeId: activityType.id,
     UserId: req.session.UserId,
+    createdAt: req.body.timestamp,
+    duration: req.body.duration,
   });
   return res
     .status(201)
