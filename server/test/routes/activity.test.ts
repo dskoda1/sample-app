@@ -53,7 +53,7 @@ describe('Test activity endpoints', () => {
 
       await testSession
         .post('/api/activity')
-        .send({ tagName: 'groceries', activityTypeName: activityType.name })
+        .send({ tagName: 'GROCERIES', activityTypeName: activityType.name })
         .expect(201);
       const activity = await models.Activity.findAll({
         where: {
@@ -76,7 +76,7 @@ describe('Test activity endpoints', () => {
       const tag = await testUtils.createTag(user.id, 'groceries', 'activity');
       await testSession
         .post('/api/activity')
-        .send({ tagName: tag.name, activityTypeName: 'shopping' })
+        .send({ tagName: tag.name, activityTypeName: 'SHOPPING' })
         .expect(201);
       const activity = await models.Activity.findAll({
         where: {
@@ -94,11 +94,24 @@ describe('Test activity endpoints', () => {
       expect(activity[0].TagId).toEqual(tag.id);
       done();
     });
-    test('Will throw error if tag name missingt', done => {
-      testSession
+    test('Will use "None" tag if none passed', async done => {
+      await testSession
         .post('/api/activity')
         .send({ activityTypeName: 'abc' })
-        .expect(400, done);
+        .expect(201);
+      const activity = await models.Activity.findAll({
+        where: {
+          UserId: user.id,
+        },
+      });
+      const tag = await models.Tags.findOne({
+        where: {
+          name: 'none',
+        },
+      });
+      expect(activity.length).toEqual(1);
+      expect(activity[0].TagId).toEqual(tag.id);
+      done();
     });
     test('Will throw error if activity type name missing', done => {
       testSession

@@ -90,7 +90,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
               )
             )
           }
-          disabled={!selectedActivityType || !selectedTag}
+          disabled={!selectedActivityType}
         >
           Submit
         </Button>

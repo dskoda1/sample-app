@@ -34,7 +34,9 @@ const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="subtitle1">{activityItem.Tag.name}</Typography>
+          <Typography variant="subtitle1">
+            {activityItem.Tag ? activityItem.Tag.name : ''}
+          </Typography>
         </Grid>
         <Grid item xs={4}>
           <Moment format={'h:mm:ss a'}>{activityItem.createdAt}</Moment>
