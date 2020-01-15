@@ -4,11 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import ActivityFeedView from './ActivityFeedView';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../redux/reducers/types';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchActivity } from './redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -30,7 +28,6 @@ interface ActivityPageProps {}
 
 const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
   const classes = useStyles();
-  const state = useSelector((state: AppState) => state.activityState);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchActivity());
