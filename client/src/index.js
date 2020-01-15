@@ -12,13 +12,18 @@ import { store } from './redux/store';
 import apolloClient from 'apollo';
 import { ApolloProvider } from '@apollo/react-hooks';
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+
 render(
   <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <ApolloProvider client={apolloClient}>
-        <Router>
-          <App />
-        </Router>
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <Router>
+            <App />
+          </Router>
+        </MuiPickersUtilsProvider>
       </ApolloProvider>
     </MuiThemeProvider>
   </Provider>,
