@@ -57,5 +57,8 @@
     "ts-node-dev": "^1.0.0-pre.40",
     "tsc": "^1.20150623.0",
     "typescript": "^3.5.3"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
