@@ -172,6 +172,52 @@ describe('Test activity endpoints', () => {
     });
   });
 
+  describe('DELETE /', () => {
+    test('no session 401', done => {
+      return request(app)
+        .delete('/api/activity/2343')
+        .expect(401, done);
+    });
+    test('activity id not found', done => {
+      return testSession.delete('/api/activity/23432').expect(404, done);
+    });
+    test('activity owned by other user is protected', async done => {
+      const otherUser = await testUtils.createUser('otheruser', 'password');
+      const eatOutType = await testUtils.createActivityType(
+        otherUser.id,
+        'eat out'
+      );
+      const noodlesTag = await testUtils.createTag(
+        otherUser.id,
+        'noodles',
+        'activity'
+      );
+      const activity = await testUtils.createActivity(
+        otherUser.id,
+        eatOutType.id,
+        noodlesTag.id
+      );
+      await testSession.delete(`/api/activity/${activity.id}`).expect(404);
+      done();
+    });
+
+    test('activity id found success', async done => {
+      const eatOutType = await testUtils.createActivityType(user.id, 'eat out');
+      const noodlesTag = await testUtils.createTag(
+        user.id,
+        'noodles',
+        'activity'
+      );
+      const activity = await testUtils.createActivity(
+        user.id,
+        eatOutType.id,
+        noodlesTag.id
+      );
+      await testSession.delete(`/api/activity/${activity.id}`).expect(202);
+      done();
+    });
+  });
+
   describe('GET /', () => {
     test('no session 401', done => {
       return request(app)

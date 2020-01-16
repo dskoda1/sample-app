@@ -79,4 +79,24 @@ router.get('/', async (req, res) => {
     .end();
 });
 
+router.delete('/:activityId', async (req, res) => {
+  if (!req.session.UserId) {
+    return res.status(401).end();
+  }
+
+  const activity = await models.Activity.findOne({
+    where: {
+      id: req.params.activityId,
+      UserId: req.session.UserId,
+    },
+  });
+  if (!activity) {
+    return res.status(404).end();
+  }
+
+  await activity.destroy();
+
+  return res.status(202).end();
+});
+
 export default router;

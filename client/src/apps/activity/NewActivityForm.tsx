@@ -154,7 +154,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           variant="contained"
           color="primary"
           className={classes.button}
-          onClick={() =>
+          onClick={() => {
             dispatch(
               postActivity(
                 selectedActivityType as string,
@@ -162,8 +162,9 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
                 selectedDate ? selectedDate.toString() : '',
                 selectedDuration as number
               )
-            )
-          }
+            );
+            handleDateChange(null);
+          }}
           disabled={!selectedActivityType}
         >
           Submit
