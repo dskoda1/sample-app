@@ -16,7 +16,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
-import Moment from 'react-moment';
 
 const useStyles = makeStyles(theme =>
   createStyles({
