@@ -155,6 +155,21 @@ describe('Test activity endpoints', () => {
       expect(activity[0].duration).toEqual(30);
       done();
     });
+    test('Sets duration to 0 if not passed', async done => {
+      await testSession
+        .post('/api/activity')
+        .send({ tagName: 'test', activityTypeName: 'test' })
+        .expect(201);
+
+      const activity = await models.Activity.findAll({
+        where: {
+          UserId: user.id,
+        },
+      });
+      expect(activity.length).toEqual(1);
+      expect(activity[0].duration).toEqual(0);
+      done();
+    });
   });
 
   describe('GET /', () => {

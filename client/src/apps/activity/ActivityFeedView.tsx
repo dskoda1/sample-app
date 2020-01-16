@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { createStyles, Typography, List, Divider } from '@material-ui/core';
+import {
+  createStyles,
+  Typography,
+  List,
+  Divider,
+  ListItem,
+} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useSelector } from 'react-redux';
@@ -10,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
+import Moment from 'react-moment';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -66,6 +73,23 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
       <Grid item xs={12}>
         <List className={classes.list}>
           <Divider />
+          <>
+            <ListItem>
+              <Grid item xs={3}>
+                <Typography variant="subtitle1">Name</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography variant="subtitle1">Tag</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography variant="subtitle1">Duration</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                Date
+              </Grid>
+            </ListItem>
+            <Divider />
+          </>
           {activityState.fetching && <CircularProgress />}
           {!activityState.fetching &&
             filteredActivity.map(activity => (

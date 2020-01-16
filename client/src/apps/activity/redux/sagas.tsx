@@ -35,9 +35,16 @@ const fetchActivitySaga = function*() {
 const postActivitySaga = function*({
   activityTypeName,
   tagName,
+  timestamp,
+  duration,
 }: postActivityAction) {
   try {
-    yield call(axios.post, '/api/activity', { activityTypeName, tagName });
+    yield call(axios.post, '/api/activity', {
+      activityTypeName,
+      tagName,
+      timestamp,
+      duration,
+    });
     yield put(postActivitySuccess());
     // reload
     yield put(fetchActivity());

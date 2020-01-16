@@ -25,6 +25,8 @@ export interface postActivityAction {
   type: typeof POST_ACTIVITY;
   activityTypeName: string;
   tagName: string;
+  timestamp?: string;
+  duration?: number;
 }
 
 interface postActivitySuccessAction {
@@ -70,12 +72,16 @@ export const fetchActivityError = (error: string): fetchActivityErrorAction => {
 };
 export const postActivity = (
   activityTypeName: string,
-  tagName: string
+  tagName: string,
+  timestamp: string,
+  duration: number
 ): postActivityAction => {
   return {
     type: POST_ACTIVITY,
     activityTypeName,
     tagName,
+    timestamp,
+    duration,
   };
 };
 export const postActivitySuccess = (): postActivitySuccessAction => {
@@ -108,6 +114,7 @@ export interface Activity {
   ActivityType: ActivityType;
   Tag: Tag;
   createdAt: string;
+  duration: number;
 }
 // Reducer
 export interface ActivityReducerState {

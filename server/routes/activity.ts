@@ -30,14 +30,17 @@ router.post('/', async (req, res) => {
       UserId: req.session.UserId,
     },
   });
-
+  let duration = 0;
+  if (req.body.duration) {
+    duration = req.body.duration;
+  }
   // We have a tag and activity type, now create our activity
   const activity = await models.Activity.create({
     TagId: tag.id,
     ActivityTypeId: activityType.id,
     UserId: req.session.UserId,
     createdAt: req.body.timestamp,
-    duration: req.body.duration,
+    duration,
   });
   return res
     .status(201)

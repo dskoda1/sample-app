@@ -28,18 +28,21 @@ const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
   return (
     <>
       <ListItem>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography variant="subtitle1">
             {activityItem.ActivityType.name}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography variant="subtitle1">
             {activityItem.Tag ? activityItem.Tag.name : ''}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Moment format={'h:mm:ss a'}>{activityItem.createdAt}</Moment>
+        <Grid item xs={3}>
+          <Typography variant="subtitle1">{activityItem.duration}</Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Moment format={'h:mm:ss a M-D'}>{activityItem.createdAt}</Moment>
         </Grid>
       </ListItem>
       <Divider />

@@ -37,10 +37,7 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
     <div className={classes.root}>
       <Grid container justify={'center'} direction={'row'} spacing={3}>
         <Grid item xs={12} className={classes.header}>
-          <Typography variant="h2">Your Activity</Typography>
-          <Typography variant="subtitle1" color={'error'}>
-            * Under construction *
-          </Typography>
+          <Typography variant="h2">Activity</Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <Paper className={classes.paper}>

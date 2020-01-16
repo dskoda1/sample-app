@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   createStyles,
+  Divider,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Typography,
@@ -26,13 +27,18 @@ const useStyles = makeStyles(theme =>
     button: {
       marginTop: theme.spacing(4),
     },
+    advancedOptionsGrid: {
+      marginTop: theme.spacing(3),
+    },
+    advancedOptionsSummaryPanel: {
+      style: 'flex',
+      justify: 'center',
+    },
+    advancedOptionsDetailsPanel: {
+      marginTop: -theme.spacing(3),
+    },
     textField: {
       marginTop: theme.spacing(3),
-      width: '90%',
-    },
-    advancedHeading: {
-      fontSize: theme.typography.pxToRem(15),
-      fontWeight: theme.typography.fontWeightRegular,
     },
   })
 );
@@ -73,7 +79,13 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             setSelectedActivityType(newValue);
           }}
           renderInput={params => (
-            <TextField {...params} label="Name" margin="normal" fullWidth />
+            <TextField
+              {...params}
+              required
+              label="Name"
+              margin="normal"
+              fullWidth
+            />
           )}
         />
       </Grid>
@@ -90,39 +102,49 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             setSelectedTag(newValue);
           }}
           renderInput={params => (
-            <TextField {...params} label="Tag" margin="normal" fullWidth />
+            <TextField
+              {...params}
+              required
+              label="Tag"
+              margin="normal"
+              fullWidth
+            />
           )}
         />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} className={classes.advancedOptionsGrid}>
         <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.advancedHeading}>
-              Advanced
-            </Typography>
+          <ExpansionPanelSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={classes.advancedOptionsSummaryPanel}
+          >
+            <Typography>Advanced</Typography>
+            <Divider />
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <Grid item xs={12}>
-              <DateTimePicker
-                fullWidth
-                value={selectedDate}
-                onChange={date => handleDateChange(date)}
-                label={'Timestamp (optional)'}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                className={classes.textField}
-                label={'Duration (optional)'}
-                value={selectedDuration}
-                onChange={e => handleDurationChange(parseInt(e.target.value))}
-                inputProps={{ pattern: '[0-9]*' }}
-                type={'number'}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
+          <ExpansionPanelDetails
+            className={classes.advancedOptionsDetailsPanel}
+          >
+            <Grid container>
+              <Grid item xs={12}>
+                <DateTimePicker
+                  fullWidth
+                  value={selectedDate}
+                  onChange={date => handleDateChange(date)}
+                  label={'Timestamp'}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.textField}
+                  fullWidth
+                  label={'Duration'}
+                  value={selectedDuration}
+                  onChange={e => handleDurationChange(parseInt(e.target.value))}
+                  inputProps={{ pattern: '[0-9]*' }}
+                  type={'number'}
+                />
+              </Grid>
             </Grid>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -136,7 +158,9 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             dispatch(
               postActivity(
                 selectedActivityType as string,
-                selectedTag as string
+                selectedTag as string,
+                selectedDate ? selectedDate.toString() : '',
+                selectedDuration as number
               )
             )
           }
