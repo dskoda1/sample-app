@@ -7,6 +7,10 @@ import {
   postActivitySuccess,
   postActivityError,
   POST_ACTIVITY,
+  DELETE_ACTIVITY,
+  deleteActivityAction,
+  deleteActivitySuccess,
+  deleteActivityError,
 } from './index';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
@@ -15,6 +19,7 @@ export default function*() {
 
   yield takeLatest(FETCH_ACTIVITY, fetchActivitySaga);
   yield takeLatest(POST_ACTIVITY, postActivitySaga);
+  yield takeLatest(DELETE_ACTIVITY, deleteActivitySaga);
 }
 
 const fetchActivitySaga = function*() {
@@ -50,5 +55,16 @@ const postActivitySaga = function*({
     yield put(fetchActivity());
   } catch (error) {
     yield put(postActivityError(error));
+  }
+};
+
+const deleteActivitySaga = function*({ activityId }: deleteActivityAction) {
+  try {
+    yield call(axios.delete, `/api/activity/${activityId}`);
+    yield put(deleteActivitySuccess());
+    // reload
+    yield put(fetchActivity());
+  } catch (error) {
+    yield put(deleteActivityError(error));
   }
 };

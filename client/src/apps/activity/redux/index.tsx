@@ -7,6 +7,10 @@ export const POST_ACTIVITY = 'POST_ACTIVITY';
 export const POST_ACTIVITY_SUCCESS = 'POST_ACTIVITY_SUCCESS';
 export const POST_ACTIVITY_ERROR = 'POST_ACTIVITY_ERROR';
 
+export const DELETE_ACTIVITY = 'DELETE_ACTIVITY';
+export const DELETE_ACTIVITY_SUCCESS = 'DELETE_ACTIVITY_SUCCESS';
+export const DELETE_ACTIVITY_ERROR = 'DELETE_ACTIVITY_ERROR';
+
 interface fetchActivityAction {
   type: typeof FETCH_ACTIVITY;
 }
@@ -38,13 +42,30 @@ interface postActivityErrorAction {
   error: string;
 }
 
+export interface deleteActivityAction {
+  type: typeof DELETE_ACTIVITY;
+  activityId: number;
+}
+
+interface deleteActivitySuccess {
+  type: typeof DELETE_ACTIVITY_SUCCESS;
+}
+
+interface deleteActivityError {
+  type: typeof DELETE_ACTIVITY_ERROR;
+  error: string;
+}
+
 export type ActivityActionTypes =
   | fetchActivityAction
   | fetchActivitySuccessAction
   | fetchActivityErrorAction
   | postActivityAction
   | postActivitySuccessAction
-  | postActivityErrorAction;
+  | postActivityErrorAction
+  | deleteActivityAction
+  | deleteActivitySuccess
+  | deleteActivityError;
 
 // Actions
 export const fetchActivity = (): fetchActivityAction => {
@@ -96,6 +117,26 @@ export const postActivityError = (error: string): postActivityErrorAction => {
   };
 };
 
+export const deleteActivity = (activityId: number): deleteActivityAction => {
+  return {
+    type: DELETE_ACTIVITY,
+    activityId,
+  };
+};
+
+export const deleteActivitySuccess = (): deleteActivitySuccess => {
+  return {
+    type: DELETE_ACTIVITY_SUCCESS,
+  };
+};
+
+export const deleteActivityError = (error: string): deleteActivityError => {
+  return {
+    type: DELETE_ACTIVITY_ERROR,
+    error,
+  };
+};
+
 // Models
 export interface ActivityType {
   id: number;
@@ -122,6 +163,8 @@ export interface ActivityReducerState {
   fetchingError?: string;
   postingActivity?: boolean;
   postingActivityError?: string;
+  deletingActivity?: boolean;
+  deletingActivityError?: string;
   activity: Array<Activity>;
   tags: Array<Tag>;
   activityTypes: Array<ActivityType>;
@@ -176,6 +219,24 @@ export const ActivityReducer = (
         ...state,
         postingActivity: false,
         postingActivityError: action.error,
+      };
+    case DELETE_ACTIVITY:
+      return {
+        ...state,
+        deletingActivity: true,
+        deletingActivityError: undefined,
+      };
+    case DELETE_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        deletingActivity: false,
+        deletingActivityError: undefined,
+      };
+    case DELETE_ACTIVITY_ERROR:
+      return {
+        ...state,
+        deletingActivity: false,
+        deletingActivityError: action.error,
       };
     default:
       return state;
