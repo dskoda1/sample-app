@@ -213,6 +213,7 @@ export const ActivityReducer = (
       return {
         ...state,
         postingActivity: false,
+        postingActivityError: undefined,
       };
     case POST_ACTIVITY_ERROR:
       return {

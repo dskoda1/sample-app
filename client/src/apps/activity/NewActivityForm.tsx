@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme =>
   createStyles({
     button: {
       marginTop: theme.spacing(4),
+      minWidth: '100px',
     },
     advancedOptionsGrid: {
       marginTop: theme.spacing(3),
@@ -63,10 +64,9 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   if (activityState.fetching) {
     return <CircularProgress />;
   }
-  // @ts-ignore
   return (
-    <Grid container>
-      <Grid item xs={12}>
+    <Grid container justify={'space-around'}>
+      <Grid item xs={10}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
@@ -89,7 +89,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           )}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={10}>
         <Autocomplete
           id="activity-tag-autocomplete"
           freeSolo
@@ -102,13 +102,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             setSelectedTag(newValue);
           }}
           renderInput={params => (
-            <TextField
-              {...params}
-              required
-              label="Tag"
-              margin="normal"
-              fullWidth
-            />
+            <TextField {...params} label="Tag" margin="normal" fullWidth />
           )}
         />
       </Grid>
@@ -164,10 +158,16 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
               )
             );
             handleDateChange(null);
+            setSelectedActivityType(undefined);
+            setSelectedTag(undefined);
           }}
-          disabled={!selectedActivityType}
+          disabled={!selectedActivityType || activityState.postingActivity}
         >
-          Submit
+          {activityState.postingActivity ? (
+            <CircularProgress size={22} />
+          ) : (
+            'Submit'
+          )}
         </Button>
       </Grid>
     </Grid>

@@ -43,7 +43,7 @@ const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
           <Typography variant="subtitle1">{activityItem.duration}</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Moment format={'h:mm:ss a M-D'}>{activityItem.createdAt}</Moment>
+          <Moment format={'h:mm A M-D'}>{activityItem.createdAt}</Moment>
         </Grid>
         <Grid item xs={1}>
           <DeleteActivityItem activityId={activityItem.id} />
