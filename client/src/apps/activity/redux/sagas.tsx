@@ -14,6 +14,7 @@ import {
 } from './index';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import axios from 'axios';
+import sleep from '../../../redux/sleep';
 export default function*() {
   console.log('registering root activity saga');
 

@@ -11,7 +11,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/reducers/types';
 import ActivityItemView from './ActivityItemView';
-import NewActivityForm from './NewActivityForm';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
@@ -26,8 +25,11 @@ const useStyles = makeStyles(theme =>
     icon: {
       margin: '-5px',
     },
-    feed: {
-      marginTop: '30px',
+    title: {
+      marginTop: theme.spacing(3),
+    },
+    loadingIndicator: {
+      marginTop: theme.spacing(3),
     },
   })
 );
@@ -47,10 +49,7 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
 
   return (
     <Grid container justify={'space-around'}>
-      <Grid item xs={9} sm={6} md={4}>
-        <NewActivityForm />
-      </Grid>
-      <Grid item xs={12} className={classes.feed}>
+      <Grid item xs={12} className={classes.title}>
         <Typography variant="h5">Your Recent Activity</Typography>
       </Grid>
       <Grid item xs={9} sm={6} md={4}>
@@ -89,7 +88,9 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
             </ListItem>
             <Divider />
           </>
-          {activityState.fetching && <CircularProgress />}
+          {activityState.fetching && !filteredActivity.length && (
+            <CircularProgress className={classes.loadingIndicator} />
+          )}
           {!activityState.fetching &&
             filteredActivity.map(activity => (
               <ActivityItemView key={activity.id} activityItem={activity} />

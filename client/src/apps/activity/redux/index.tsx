@@ -186,8 +186,6 @@ export const ActivityReducer = (
         ...state,
         fetching: true,
         activity: [],
-        tags: [],
-        activityTypes: [],
       };
     case FETCH_ACTIVITY_SUCCESS:
       return {
