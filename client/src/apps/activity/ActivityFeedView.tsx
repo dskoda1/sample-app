@@ -50,7 +50,7 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
   return (
     <Grid container justify={'space-around'}>
       <Grid item xs={12} className={classes.title}>
-        <Typography variant="h5">Your Recent Activity</Typography>
+        <Typography variant="h4">Your Recent Activity</Typography>
       </Grid>
       <Grid item xs={9} sm={6} md={4}>
         <Autocomplete

@@ -22,6 +22,9 @@ const useStyles = makeStyles(theme =>
       padding: theme.spacing(2),
       textAlign: 'center',
     },
+    section: {
+      marginTop: theme.spacing(3),
+    },
   })
 );
 
@@ -42,7 +45,12 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
         </Grid>
         <Grid item xs={12} sm={9} md={4}>
           <Paper className={classes.paper}>
-            <NewActivityForm />
+            <Grid item xs={12} className={classes.section}>
+              <Typography variant="h4">Record Activity</Typography>
+            </Grid>
+            <Grid item className={classes.section}>
+              <NewActivityForm />
+            </Grid>
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>

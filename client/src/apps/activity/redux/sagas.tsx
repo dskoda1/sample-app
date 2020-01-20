@@ -13,6 +13,7 @@ import {
   deleteActivityError,
 } from './index';
 import { takeLatest, put, call } from 'redux-saga/effects';
+import { showNotification } from 'redux/actions';
 import axios from 'axios';
 export default function*() {
   console.log('registering root activity saga');
@@ -51,6 +52,7 @@ const postActivitySaga = function*({
       duration,
     });
     yield put(postActivitySuccess());
+    yield put(showNotification('Activity saved successfully', 'success'));
     // reload
     yield put(fetchActivity());
   } catch (error) {

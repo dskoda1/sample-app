@@ -53,7 +53,6 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   const classes = useStyles();
 
   const activityState = useSelector((state: AppState) => state.activityState);
-  const [isPosting, setStatePosting] = useState(activityState.postingActivity);
 
   const [selectedActivityType, setSelectedActivityType] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
@@ -68,6 +67,8 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
     (type: ActivityType) => type.name
   );
 
+  // Below is an example of useEffect for listening to prop changes
+  const [isPosting, setStatePosting] = useState(activityState.postingActivity);
   useEffect(() => {
     if (isPosting && !activityState.postingActivity) {
       setSelectedActivityType('');
@@ -80,32 +81,42 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   }, [
     activityState.postingActivity,
     isPosting,
-    setStatePosting,
-    setSelectedTag,
     setSelectedActivityType,
+    setSelectedTag,
+    setStatePosting,
     setSelectedDate,
     setSelectedDuration,
   ]);
 
   const dispatch = useDispatch();
-  if (activityState.fetching && !activityTypes) {
-    return <CircularProgress />;
+  if (activityState.postingActivity) {
+    return <CircularProgress size={50} />;
   }
+
+  // Get all activity that matches the selected activity type, cast it to a set to
+  // get unique values
+  const uniqueMatchingTags = new Set(
+    activityState.activity
+      .filter(activity => activity.ActivityType.name === selectedActivityType)
+      .map(activity => activity.Tag.name)
+  );
+  // Get the remaining tags that have not been used for this and sort them
+  const otherTags = tags.filter(tag => !uniqueMatchingTags.has(tag)).sort();
+  // Finally, we can concat them all together
+  const overallTagList = Array.from(uniqueMatchingTags)
+    .sort()
+    .concat(otherTags);
+
   return (
     <Grid container justify={'space-around'}>
-      <Grid item xs={12} className={classes.title}>
-        <Typography variant="h5">Record Activity</Typography>
-      </Grid>
       <Grid item xs={10}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
-          value={selectedActivityType}
           options={activityTypes}
           getOptionLabel={(option: string) => option}
-          disabled={activityState.postingActivity}
           onInputChange={(event: any, newValue: string | undefined) => {
-            if (newValue === undefined) {
+            if (!newValue) {
               newValue = '';
             }
             setSelectedActivityType(newValue);
@@ -125,10 +136,12 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
         <Autocomplete
           id="activity-tag-autocomplete"
           freeSolo
-          options={tags}
+          options={overallTagList}
           getOptionLabel={(option: string) => option}
-          value={selectedTag}
-          disabled={activityState.postingActivity}
+          groupBy={(option: string) =>
+            uniqueMatchingTags.has(option) ? 'Common' : 'Other'
+          }
+          disabled={!selectedActivityType}
           onInputChange={(event: any, newValue: string | undefined) => {
             if (newValue === undefined) {
               newValue = '';
@@ -163,7 +176,6 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
                   value={selectedDate}
                   onChange={date => setSelectedDate(date)}
                   label={'Timestamp'}
-                  disabled={activityState.postingActivity}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -177,7 +189,6 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
                   }
                   inputProps={{ pattern: '[0-9]*' }}
                   type={'number'}
-                  disabled={activityState.postingActivity}
                 />
               </Grid>
             </Grid>
@@ -199,13 +210,9 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
               )
             );
           }}
-          disabled={!selectedActivityType || activityState.postingActivity}
+          disabled={!selectedActivityType}
         >
-          {activityState.postingActivity ? (
-            <CircularProgress size={22} />
-          ) : (
-            'Submit'
-          )}
+          Submit
         </Button>
       </Grid>
     </Grid>
