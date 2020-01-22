@@ -76,10 +76,10 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
               <Grid item xs={3}>
                 <Typography variant="subtitle1">Name</Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <Typography variant="subtitle1">Tag</Typography>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <Typography variant="subtitle1">Duration</Typography>
               </Grid>
               <Grid item xs={3}>
@@ -89,7 +89,7 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
             <Divider />
           </>
           {activityState.fetching && !filteredActivity.length && (
-            <CircularProgress className={classes.loadingIndicator} />
+            <CircularProgress size={100} className={classes.loadingIndicator} />
           )}
           {!activityState.fetching &&
             filteredActivity.map(activity => (

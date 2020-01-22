@@ -16,8 +16,6 @@ import { takeLatest, put, call } from 'redux-saga/effects';
 import { showNotification } from 'redux/actions';
 import axios from 'axios';
 export default function*() {
-  console.log('registering root activity saga');
-
   yield takeLatest(FETCH_ACTIVITY, fetchActivitySaga);
   yield takeLatest(POST_ACTIVITY, postActivitySaga);
   yield takeLatest(DELETE_ACTIVITY, deleteActivitySaga);

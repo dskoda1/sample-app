@@ -157,6 +157,15 @@ export interface Activity {
   createdAt: string;
   duration: number;
 }
+
+export interface FlatActivity {
+  id?: number;
+  activityTypeName: string;
+  tagName: string;
+  duration: number;
+  createdAt: string;
+}
+
 // Reducer
 export interface ActivityReducerState {
   fetching?: boolean;

@@ -7,7 +7,7 @@ import ActivityFeedView from './ActivityFeedView';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchActivity } from './redux';
-import NewActivityForm from './NewActivityForm';
+import CreateActivityWrapper from './CreateActivityWrapper';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -39,21 +39,21 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container justify={'center'} direction={'row'} spacing={3}>
+      <Grid container justify={'center'} direction={'row'} spacing={1}>
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Activity</Typography>
         </Grid>
-        <Grid item xs={12} sm={9} md={4}>
+        <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>
-            <Grid item xs={12} className={classes.section}>
+            <Grid item className={classes.section}>
               <Typography variant="h4">Record Activity</Typography>
             </Grid>
             <Grid item className={classes.section}>
-              <NewActivityForm />
+              <CreateActivityWrapper />
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={9} md={6}>
           <Paper className={classes.paper}>
             <ActivityFeedView />
           </Paper>

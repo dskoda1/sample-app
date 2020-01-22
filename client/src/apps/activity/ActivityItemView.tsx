@@ -1,22 +1,11 @@
 import * as React from 'react';
 import { Typography, ListItem, Divider } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-// import makeStyles from '@material-ui/core/styles/makeStyles';
 import Moment from 'react-moment';
 
 import { Activity } from './redux';
 import DeleteActivityItem from './DeleteActivityItem';
-
-// const useStyles = makeStyles(theme =>
-//   createStyles({
-//     list: {
-//       flexGrow: 1,
-//     },
-//     icon: {
-//       margin: '-5px',
-//     },
-//   })
-// );
+import EditActivityDialog from './EditActivityDialog';
 
 interface ActivityItemProps {
   activityItem: Activity;
@@ -25,7 +14,6 @@ interface ActivityItemProps {
 const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
   activityItem,
 }) => {
-  // const classes = useStyles();
   return (
     <>
       <ListItem>
@@ -42,8 +30,11 @@ const ActivityItemView: React.FunctionComponent<ActivityItemProps> = ({
         <Grid item xs={2}>
           <Typography variant="subtitle1">{activityItem.duration}</Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <Moment format={'h:mm A M-D'}>{activityItem.createdAt}</Moment>
+        </Grid>
+        <Grid item xs={1}>
+          <EditActivityDialog activityItem={activityItem} />
         </Grid>
         <Grid item xs={1}>
           <DeleteActivityItem activityId={activityItem.id} />

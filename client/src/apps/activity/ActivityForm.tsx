@@ -10,30 +10,27 @@ import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/reducers/types';
-import { ActivityType, Tag } from './redux';
+import { ActivityType, FlatActivity, Tag } from './redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { postActivity } from './redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { DateTimePicker } from '@material-ui/pickers';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { ExpansionPanel } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme =>
   createStyles({
+    root: {
+      style: 'flex',
+      justifyContent: 'center',
+    },
     button: {
       marginTop: theme.spacing(4),
-      minWidth: '100px',
     },
     advancedOptionsGrid: {
-      marginTop: theme.spacing(3),
-    },
-    advancedOptionsSummaryPanel: {
-      style: 'flex',
-      justify: 'center',
+      marginTop: theme.spacing(4),
     },
     advancedOptionsDetailsPanel: {
       marginTop: -theme.spacing(3),
@@ -44,20 +41,32 @@ const useStyles = makeStyles(theme =>
     title: {
       marginTop: theme.spacing(3),
     },
+    buttonArea: {
+      style: 'flex',
+      justifyContent: 'center',
+    },
   })
 );
 
-interface NewActivityFormProps {}
+interface NewActivityFormProps {
+  submitActivity: (activity: FlatActivity) => void;
+  item: FlatActivity;
+}
 
-const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
+const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
+  submitActivity,
+  item,
+}) => {
   const classes = useStyles();
-
   const activityState = useSelector((state: AppState) => state.activityState);
-
-  const [selectedActivityType, setSelectedActivityType] = useState<string>('');
-  const [selectedTag, setSelectedTag] = useState<string>('');
-  const [selectedDate, setSelectedDate] = useState<MaterialUiPickersDate>(null);
-  const [selectedDuration, setSelectedDuration] = useState<string>('');
+  const [selectedActivityType, setSelectedActivityType] = useState<string>(
+    item.activityTypeName
+  );
+  const [selectedTag, setSelectedTag] = useState<string>(item.tagName);
+  const [selectedDate, setSelectedDate] = useState<string>(item.createdAt);
+  const [selectedDuration, setSelectedDuration] = useState<string | null>(
+    item.duration ? `${item.duration}` : null
+  );
   const [isAdvancedPanelExpanded, setAdvancePanelExpanded] = useState<boolean>(
     false
   );
@@ -66,32 +75,6 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
   const activityTypes = activityState.activityTypes.map(
     (type: ActivityType) => type.name
   );
-
-  // Below is an example of useEffect for listening to prop changes
-  const [isPosting, setStatePosting] = useState(activityState.postingActivity);
-  useEffect(() => {
-    if (isPosting && !activityState.postingActivity) {
-      setSelectedActivityType('');
-      setSelectedTag('');
-      setSelectedDate(null);
-      setSelectedDuration('');
-      setAdvancePanelExpanded(false);
-    }
-    setStatePosting(activityState.postingActivity);
-  }, [
-    activityState.postingActivity,
-    isPosting,
-    setSelectedActivityType,
-    setSelectedTag,
-    setStatePosting,
-    setSelectedDate,
-    setSelectedDuration,
-  ]);
-
-  const dispatch = useDispatch();
-  if (activityState.postingActivity) {
-    return <CircularProgress size={50} />;
-  }
 
   // Get all activity that matches the selected activity type, cast it to a set to
   // get unique values
@@ -108,14 +91,15 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
     .concat(otherTags);
 
   return (
-    <Grid container justify={'space-around'}>
+    <Grid container className={classes.root}>
       <Grid item xs={10}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
           options={activityTypes}
           getOptionLabel={(option: string) => option}
-          onInputChange={(event: any, newValue: string | undefined) => {
+          value={selectedActivityType}
+          onChange={(event: any, newValue: string | undefined) => {
             if (!newValue) {
               newValue = '';
             }
@@ -142,7 +126,8 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
             uniqueMatchingTags.has(option) ? 'Common' : 'Other'
           }
           disabled={!selectedActivityType}
-          onInputChange={(event: any, newValue: string | undefined) => {
+          value={selectedTag}
+          onChange={(event: any, newValue: string | undefined) => {
             if (newValue === undefined) {
               newValue = '';
             }
@@ -159,10 +144,7 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           expanded={isAdvancedPanelExpanded}
           onChange={() => setAdvancePanelExpanded(!isAdvancedPanelExpanded)}
         >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            className={classes.advancedOptionsSummaryPanel}
-          >
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Advanced</Typography>
             <Divider />
           </ExpansionPanelSummary>
@@ -173,8 +155,10 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
               <Grid item xs={12}>
                 <DateTimePicker
                   fullWidth
-                  value={selectedDate}
-                  onChange={date => setSelectedDate(date)}
+                  value={selectedDate ? selectedDate : null}
+                  onChange={date =>
+                    setSelectedDate(date ? date.toString() : '')
+                  }
                   label={'Timestamp'}
                 />
               </Grid>
@@ -195,28 +179,26 @@ const NewActivityForm: React.FunctionComponent<NewActivityFormProps> = () => {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Grid>
-      <Grid item xs={12}>
+      <Box justifyContent={'center'}>
         <Button
           variant="contained"
           color="primary"
           className={classes.button}
           onClick={() => {
-            dispatch(
-              postActivity(
-                selectedActivityType as string,
-                selectedTag as string,
-                selectedDate ? selectedDate.toString() : '',
-                parseInt(selectedDuration)
-              )
-            );
+            submitActivity({
+              activityTypeName: selectedActivityType as string,
+              tagName: selectedTag as string,
+              createdAt: selectedDate ? selectedDate.toString() : '',
+              duration: selectedDuration ? parseInt(selectedDuration) : 0,
+            });
           }}
           disabled={!selectedActivityType}
         >
           Submit
         </Button>
-      </Grid>
+      </Box>
     </Grid>
   );
 };
 
-export default NewActivityForm;
+export default ActivityForm;
