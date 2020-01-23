@@ -119,6 +119,24 @@ describe('Test activity endpoints', () => {
         .send({ tagName: 'abc' })
         .expect(400, done);
     });
+    test('Also sets timestamp', async done => {
+      await testSession
+        .post('/api/activity')
+        .send({
+          tagName: 'test',
+          activityTypeName: 'test',
+        })
+        .expect(201);
+
+      const activity = await models.Activity.findAll({
+        where: {
+          UserId: user.id,
+        },
+      });
+      expect(activity.length).toEqual(1);
+      expect(activity[0].createdAt).toEqual(activity[0].timestamp);
+      done();
+    });
     test('Can pass in a timestamp to use as the createdAt', async done => {
       const futureTime = new Date(2020, 5, 3);
 
@@ -138,6 +156,7 @@ describe('Test activity endpoints', () => {
       });
       expect(activity.length).toEqual(1);
       expect(activity[0].createdAt).toEqual(futureTime);
+      expect(activity[0].timestamp).toEqual(futureTime);
       done();
     });
     test('Can persist a duration on an activity if passed', async done => {
@@ -218,6 +237,79 @@ describe('Test activity endpoints', () => {
     });
   });
 
+  describe('PUT /', () => {
+    test('no session 401', done => {
+      return request(app)
+        .put('/api/activity/234')
+        .expect(401, done);
+    });
+
+    test('activity id not found', done => {
+      return testSession.put('/api/activity/23432').expect(404, done);
+    });
+
+    test('activity owned by other user is protected', async done => {
+      const otherUser = await testUtils.createUser('otheruser', 'password');
+      const eatOutType = await testUtils.createActivityType(
+        otherUser.id,
+        'eat out'
+      );
+      const noodlesTag = await testUtils.createTag(
+        otherUser.id,
+        'noodles',
+        'activity'
+      );
+      const activity = await testUtils.createActivity(
+        otherUser.id,
+        eatOutType.id,
+        noodlesTag.id
+      );
+      await testSession.put(`/api/activity/${activity.id}`).expect(404);
+      done();
+    });
+
+    test('Updates each param of the activity', async done => {
+      const eatOutType = await testUtils.createActivityType(user.id, 'eat out');
+      const noodlesTag = await testUtils.createTag(
+        user.id,
+        'noodles',
+        'activity'
+      );
+      const differentTime = new Date(2017, 5, 3);
+
+      let activity = await testUtils.createActivity(
+        user.id,
+        eatOutType.id,
+        noodlesTag.id,
+        34
+      );
+
+      await testSession
+        .put(`/api/activity/${activity.id}`)
+        .send({
+          activityTypeName: 'laundry',
+          tagName: 'colds',
+          duration: 55,
+          timestamp: differentTime,
+        })
+        .expect(202);
+
+      activity = await models.Activity.findOne({
+        where: {
+          id: activity.id,
+        },
+        include: [models.Tags, models.ActivityTypes],
+      });
+
+      // Assert changes
+      expect(activity.ActivityType.name).toEqual('laundry');
+      expect(activity.Tag.name).toEqual('colds');
+      expect(activity.duration).toEqual(55);
+      expect(activity.timestamp).toEqual(differentTime);
+      done();
+    });
+  });
+
   describe('GET /', () => {
     test('no session 401', done => {
       return request(app)
@@ -243,7 +335,9 @@ describe('Test activity endpoints', () => {
       const a1 = await testUtils.createActivity(
         user.id,
         choreType.id,
-        dishwasherTag.id
+        dishwasherTag.id,
+        3,
+        new Date().toString()
       );
       const a2 = await testUtils.createActivity(
         user.id,
@@ -270,7 +364,8 @@ describe('Test activity endpoints', () => {
       expect(res.body.activity[0].ActivityType.name).toEqual('eat out');
       expect(res.body.activity[1].Tag.name).toEqual('dishwasher');
       expect(res.body.activity[1].ActivityType.name).toEqual('chore');
-
+      expect(res.body.activity[1].duration).toBeTruthy();
+      expect(res.body.activity[1].timestamp).toBeTruthy();
       done();
     });
 

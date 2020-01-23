@@ -108,12 +108,16 @@ const createTag = async (UserId: number, name: string, forTable: string) =>
 const createActivity = async (
   UserId: number,
   ActivityTypeId: number,
-  TagId: number
+  TagId: number,
+  duration: number = 0,
+  timestamp: string = ''
 ) =>
   await models.Activity.create({
     UserId,
     ActivityTypeId,
     TagId,
+    duration,
+    timestamp: timestamp ? timestamp : new Date().toString(),
   });
 
 export default {

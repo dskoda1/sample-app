@@ -34,12 +34,18 @@ router.post('/', async (req, res) => {
   if (req.body.duration) {
     duration = req.body.duration;
   }
+  let timestamp = Date.now();
+  if (req.body.timestamp) {
+    timestamp = req.body.timestamp;
+  }
+
   // We have a tag and activity type, now create our activity
   const activity = await models.Activity.create({
     TagId: tag.id,
     ActivityTypeId: activityType.id,
     UserId: req.session.UserId,
-    createdAt: req.body.timestamp,
+    createdAt: timestamp,
+    timestamp,
     duration,
   });
   return res
@@ -95,6 +101,59 @@ router.delete('/:activityId', async (req, res) => {
   }
 
   await activity.destroy();
+
+  return res.status(202).end();
+});
+
+router.put('/:activityId', async (req, res) => {
+  if (!req.session.UserId) {
+    return res.status(401).end();
+  }
+  const activity = await models.Activity.findOne({
+    where: {
+      id: req.params.activityId,
+      UserId: req.session.UserId,
+    },
+    include: [models.Tags, models.ActivityTypes],
+  });
+  if (!activity) {
+    return res.status(404).end();
+  }
+
+  // We've found the activity in question, attempt to update its params
+  if (
+    req.body.activityTypeName &&
+    req.body.activityTypeName.toLowerCase() != activity.ActivityType.name
+  ) {
+    const [activityType, __] = await models.ActivityTypes.findOrCreate({
+      where: {
+        name: req.body.activityTypeName.toLowerCase(),
+        UserId: req.session.UserId,
+      },
+    });
+    activity.ActivityTypeId = activityType.id;
+  }
+
+  if (req.body.tagName.toLowerCase() != activity.Tag.name) {
+    const [tag, _] = await models.Tags.findOrCreate({
+      where: {
+        name: req.body.tagName.toLowerCase(),
+        forTable: 'activity',
+        UserId: req.session.UserId,
+      },
+    });
+    activity.TagId = tag.id;
+  }
+
+  if (req.body.duration != activity.duration) {
+    activity.duration = req.body.duration;
+  }
+
+  if (req.body.timestamp != activity.timestamp) {
+    activity.timestamp = req.body.timestamp;
+  }
+
+  await activity.save();
 
   return res.status(202).end();
 });

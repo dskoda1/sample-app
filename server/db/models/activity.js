@@ -4,6 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     'Activity',
     {
       duration: DataTypes.NUMBER,
+      timestamp: DataTypes.DATE,
+      note: DataTypes.STRING,
     },
     {
       freezeTableName: true,
