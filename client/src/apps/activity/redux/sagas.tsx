@@ -11,6 +11,10 @@ import {
   deleteActivityAction,
   deleteActivitySuccess,
   deleteActivityError,
+  updateActivityAction,
+  updateActivitySuccess,
+  updateActivityError,
+  UPDATE_ACTIVITY,
 } from './index';
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { showNotification } from 'redux/actions';
@@ -19,6 +23,7 @@ export default function*() {
   yield takeLatest(FETCH_ACTIVITY, fetchActivitySaga);
   yield takeLatest(POST_ACTIVITY, postActivitySaga);
   yield takeLatest(DELETE_ACTIVITY, deleteActivitySaga);
+  yield takeLatest(UPDATE_ACTIVITY, updateActivitySaga);
 }
 
 const fetchActivitySaga = function*() {
@@ -66,5 +71,28 @@ const deleteActivitySaga = function*({ activityId }: deleteActivityAction) {
     yield put(fetchActivity());
   } catch (error) {
     yield put(deleteActivityError(error));
+  }
+};
+
+const updateActivitySaga = function*({
+  id,
+  activityTypeName,
+  tagName,
+  timestamp,
+  duration,
+}: updateActivityAction) {
+  try {
+    yield call(axios.put, `/api/activity/${id}`, {
+      activityTypeName,
+      tagName,
+      timestamp,
+      duration,
+    });
+    yield put(updateActivitySuccess());
+    yield put(showNotification('Activity updated successfully', 'success'));
+    // reload
+    yield put(fetchActivity());
+  } catch (error) {
+    yield put(updateActivityError(error));
   }
 };

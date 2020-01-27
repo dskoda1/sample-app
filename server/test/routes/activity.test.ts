@@ -358,14 +358,14 @@ describe('Test activity endpoints', () => {
       expect(res.body.tags[0].name).toEqual('dishwasher');
       expect(res.body.tags[1].name).toEqual('noodles');
 
-      // Activity, ordered by createdAt
+      // Activity, ordered by timestamp
       expect(res.body.activity.length).toBe(2);
-      expect(res.body.activity[0].Tag.name).toEqual('noodles');
-      expect(res.body.activity[0].ActivityType.name).toEqual('eat out');
-      expect(res.body.activity[1].Tag.name).toEqual('dishwasher');
-      expect(res.body.activity[1].ActivityType.name).toEqual('chore');
-      expect(res.body.activity[1].duration).toBeTruthy();
-      expect(res.body.activity[1].timestamp).toBeTruthy();
+      expect(res.body.activity[0].Tag.name).toEqual('dishwasher');
+      expect(res.body.activity[0].ActivityType.name).toEqual('chore');
+      expect(res.body.activity[0].duration).toBeTruthy();
+      expect(res.body.activity[0].timestamp).toBeTruthy();
+      expect(res.body.activity[1].Tag.name).toEqual('noodles');
+      expect(res.body.activity[1].ActivityType.name).toEqual('eat out');
       done();
     });
 

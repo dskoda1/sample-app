@@ -75,7 +75,7 @@ router.get('/', async (req, res) => {
     where: {
       UserId: req.session.UserId,
     },
-    order: [['createdAt', 'DESC']],
+    order: [['timestamp', 'DESC']],
     include: [models.Tags, models.ActivityTypes],
   });
 

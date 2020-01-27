@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createStyles } from '@material-ui/core';
 
-import { Activity, FlatActivity } from './redux';
+import { Activity, FlatActivity, updateActivity } from './redux';
 import EditIcon from '@material-ui/icons/Edit';
 import { useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,9 +10,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-// import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ActivityForm from './ActivityForm';
 import Grid from '@material-ui/core/Grid';
+import { AppState } from '../../redux/reducers/types';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -31,11 +32,20 @@ const EditActivityDialog: React.FunctionComponent<ActivityItemProps> = ({
 }) => {
   const [open, setDialogOpen] = useState<boolean>(false);
   const classes = useStyles();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const activityState = useSelector((state: AppState) => state.activityState);
 
   const submitActivityUpdate = (activity: FlatActivity) => {
     setDialogOpen(false);
-    console.log(activity);
+    dispatch(
+      updateActivity(
+        activity.id as number,
+        activity.activityTypeName,
+        activity.tagName,
+        activity.timestamp,
+        activity.duration
+      )
+    );
   };
 
   return (
@@ -43,7 +53,7 @@ const EditActivityDialog: React.FunctionComponent<ActivityItemProps> = ({
       <IconButton
         className={classes.button}
         onClick={() => setDialogOpen(!open)}
-        // disabled={isDeleting}
+        disabled={activityState.updatingActivity}
       >
         <EditIcon />
       </IconButton>
@@ -55,9 +65,10 @@ const EditActivityDialog: React.FunctionComponent<ActivityItemProps> = ({
               <ActivityForm
                 submitActivity={submitActivityUpdate}
                 item={{
+                  id: activityItem.id,
                   activityTypeName: activityItem.ActivityType.name,
                   tagName: activityItem.Tag.name,
-                  createdAt: activityItem.createdAt,
+                  timestamp: activityItem.timestamp,
                   duration: activityItem.duration,
                 }}
               />

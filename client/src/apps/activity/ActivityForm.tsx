@@ -62,15 +62,17 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
   const [selectedActivityType, setSelectedActivityType] = useState<string>(
     item.activityTypeName
   );
+
   const [selectedTag, setSelectedTag] = useState<string>(item.tagName);
-  const [selectedDate, setSelectedDate] = useState<string>(item.createdAt);
+  const [selectedDate, setSelectedDate] = useState<string>(item.timestamp);
   const [selectedDuration, setSelectedDuration] = useState<string | null>(
     item.duration ? `${item.duration}` : null
   );
   const [isAdvancedPanelExpanded, setAdvancePanelExpanded] = useState<boolean>(
     false
   );
-
+  console.log(selectedActivityType);
+  console.log(selectedTag);
   const tags = activityState.tags.map((tag: Tag) => tag.name);
   const activityTypes = activityState.activityTypes.map(
     (type: ActivityType) => type.name
@@ -81,6 +83,7 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
   const uniqueMatchingTags = new Set(
     activityState.activity
       .filter(activity => activity.ActivityType.name === selectedActivityType)
+      .filter(activity => activity.Tag.name !== 'none')
       .map(activity => activity.Tag.name)
   );
   // Get the remaining tags that have not been used for this and sort them
@@ -186,9 +189,10 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
           className={classes.button}
           onClick={() => {
             submitActivity({
+              id: item.id,
               activityTypeName: selectedActivityType as string,
               tagName: selectedTag as string,
-              createdAt: selectedDate ? selectedDate.toString() : '',
+              timestamp: selectedDate ? selectedDate.toString() : '',
               duration: selectedDuration ? parseInt(selectedDuration) : 0,
             });
           }}

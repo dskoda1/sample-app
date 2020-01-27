@@ -11,6 +11,10 @@ export const DELETE_ACTIVITY = 'DELETE_ACTIVITY';
 export const DELETE_ACTIVITY_SUCCESS = 'DELETE_ACTIVITY_SUCCESS';
 export const DELETE_ACTIVITY_ERROR = 'DELETE_ACTIVITY_ERROR';
 
+export const UPDATE_ACTIVITY = 'UPDATE_ACTIVITY';
+export const UPDATE_ACTIVITY_SUCCESS = 'UPDATE_ACTIVITY_SUCCESS';
+export const UPDATE_ACTIVITY_ERROR = 'UPDATE_ACTIVITY_ERROR';
+
 interface fetchActivityAction {
   type: typeof FETCH_ACTIVITY;
 }
@@ -31,6 +35,7 @@ export interface postActivityAction {
   tagName: string;
   timestamp?: string;
   duration?: number;
+  // TODO: Add note
 }
 
 interface postActivitySuccessAction {
@@ -56,6 +61,25 @@ interface deleteActivityError {
   error: string;
 }
 
+export interface updateActivityAction {
+  type: typeof UPDATE_ACTIVITY;
+  id: number;
+  activityTypeName: string;
+  tagName: string;
+  timestamp?: string;
+  duration?: number;
+  // TODO: Add note
+}
+
+interface updateActivitySuccessAction {
+  type: typeof UPDATE_ACTIVITY_SUCCESS;
+}
+
+interface updateActivityErrorAction {
+  type: typeof UPDATE_ACTIVITY_ERROR;
+  error: string;
+}
+
 export type ActivityActionTypes =
   | fetchActivityAction
   | fetchActivitySuccessAction
@@ -65,7 +89,10 @@ export type ActivityActionTypes =
   | postActivityErrorAction
   | deleteActivityAction
   | deleteActivitySuccess
-  | deleteActivityError;
+  | deleteActivityError
+  | updateActivityAction
+  | updateActivitySuccessAction
+  | updateActivityErrorAction;
 
 // Actions
 export const fetchActivity = (): fetchActivityAction => {
@@ -137,6 +164,36 @@ export const deleteActivityError = (error: string): deleteActivityError => {
   };
 };
 
+export const updateActivity = (
+  id: number,
+  activityTypeName: string,
+  tagName: string,
+  timestamp: string,
+  duration: number
+): updateActivityAction => {
+  return {
+    type: UPDATE_ACTIVITY,
+    id,
+    activityTypeName,
+    tagName,
+    timestamp,
+    duration,
+  };
+};
+export const updateActivitySuccess = (): updateActivitySuccessAction => {
+  return {
+    type: UPDATE_ACTIVITY_SUCCESS,
+  };
+};
+export const updateActivityError = (
+  error: string
+): updateActivityErrorAction => {
+  return {
+    type: UPDATE_ACTIVITY_ERROR,
+    error,
+  };
+};
+
 // Models
 export interface ActivityType {
   id: number;
@@ -155,6 +212,7 @@ export interface Activity {
   ActivityType: ActivityType;
   Tag: Tag;
   createdAt: string;
+  timestamp: string;
   duration: number;
 }
 
@@ -163,7 +221,7 @@ export interface FlatActivity {
   activityTypeName: string;
   tagName: string;
   duration: number;
-  createdAt: string;
+  timestamp: string;
 }
 
 // Reducer
@@ -174,6 +232,8 @@ export interface ActivityReducerState {
   postingActivityError?: string;
   deletingActivity?: boolean;
   deletingActivityError?: string;
+  updatingActivity?: boolean;
+  updatingActivityError?: string;
   activity: Array<Activity>;
   tags: Array<Tag>;
   activityTypes: Array<ActivityType>;
@@ -245,6 +305,24 @@ export const ActivityReducer = (
         ...state,
         deletingActivity: false,
         deletingActivityError: action.error,
+      };
+    case UPDATE_ACTIVITY:
+      return {
+        ...state,
+        updatingActivity: true,
+        updatingActivityError: undefined,
+      };
+    case UPDATE_ACTIVITY_SUCCESS:
+      return {
+        ...state,
+        updatingActivity: false,
+        updatingActivityError: undefined,
+      };
+    case UPDATE_ACTIVITY_ERROR:
+      return {
+        ...state,
+        updatingActivity: false,
+        updatingActivityError: action.error,
       };
     default:
       return state;

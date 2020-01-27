@@ -20,7 +20,7 @@ const CreateActivityWrapper: React.FunctionComponent<
     activityTypeName: '',
     tagName: '',
     duration: 0,
-    createdAt: '',
+    timestamp: '',
   };
 
   return (
@@ -31,7 +31,7 @@ const CreateActivityWrapper: React.FunctionComponent<
           postActivity(
             item.activityTypeName,
             item.tagName,
-            item.createdAt,
+            item.timestamp,
             item.duration
           )
         )
