@@ -102,7 +102,7 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
           options={activityTypes}
           getOptionLabel={(option: string) => option}
           value={selectedActivityType}
-          onChange={(event: any, newValue: string | undefined) => {
+          onChange={(event: any, newValue: string | null) => {
             if (!newValue) {
               newValue = '';
             }
@@ -130,8 +130,8 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
           }
           disabled={!selectedActivityType}
           value={selectedTag}
-          onChange={(event: any, newValue: string | undefined) => {
-            if (newValue === undefined) {
+          onChange={(event: any, newValue: string | null) => {
+            if (!newValue) {
               newValue = '';
             }
             setSelectedTag(newValue);
