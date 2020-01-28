@@ -12,6 +12,7 @@ import CreateActivityWrapper from './CreateActivityWrapper';
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
+      display: 'flex',
       flexGrow: 1,
     },
     header: {
@@ -43,13 +44,15 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Activity</Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={6}>
           <Paper className={classes.paper}>
-            <Grid item className={classes.section}>
-              <Typography variant="h4">Record Activity</Typography>
-            </Grid>
-            <Grid item className={classes.section}>
-              <CreateActivityWrapper />
+            <Grid container>
+              <Grid item xs={12} className={classes.section}>
+                <Typography variant="h4">Record Activity</Typography>
+              </Grid>
+              <Grid item xs={12} className={classes.section}>
+                <CreateActivityWrapper />
+              </Grid>
             </Grid>
           </Paper>
         </Grid>

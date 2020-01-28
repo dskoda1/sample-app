@@ -18,7 +18,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { DateTimePicker } from '@material-ui/pickers';
 import { ExpansionPanel } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -26,8 +26,10 @@ const useStyles = makeStyles(theme =>
       style: 'flex',
       justifyContent: 'center',
     },
-    button: {
-      marginTop: theme.spacing(4),
+    buttonGrid: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: theme.spacing(2),
     },
     advancedOptionsGrid: {
       marginTop: theme.spacing(4),
@@ -41,21 +43,19 @@ const useStyles = makeStyles(theme =>
     title: {
       marginTop: theme.spacing(3),
     },
-    buttonArea: {
-      style: 'flex',
-      justifyContent: 'center',
-    },
   })
 );
 
 interface NewActivityFormProps {
   submitActivity: (activity: FlatActivity) => void;
   item: FlatActivity;
+  disableSubmit?: boolean;
 }
 
 const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
   submitActivity,
   item,
+  disableSubmit = false,
 }) => {
   const classes = useStyles();
   const activityState = useSelector((state: AppState) => state.activityState);
@@ -94,8 +94,8 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
     .concat(otherTags);
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={10}>
+    <>
+      <Grid item xs={12}>
         <Autocomplete
           id="activity-types-autocomplete"
           freeSolo
@@ -119,7 +119,7 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
           )}
         />
       </Grid>
-      <Grid item xs={10}>
+      <Grid item xs={12}>
         <Autocomplete
           id="activity-tag-autocomplete"
           freeSolo
@@ -142,7 +142,7 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
         />
       </Grid>
 
-      <Grid item xs={11} className={classes.advancedOptionsGrid}>
+      <Grid item xs={12} className={classes.advancedOptionsGrid}>
         <ExpansionPanel
           expanded={isAdvancedPanelExpanded}
           onChange={() => setAdvancePanelExpanded(!isAdvancedPanelExpanded)}
@@ -171,9 +171,7 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
                   fullWidth
                   label={'Duration'}
                   value={selectedDuration ? parseInt(selectedDuration) : ''}
-                  onChange={e =>
-                    e.target.value && setSelectedDuration(e.target.value)
-                  }
+                  onChange={e => setSelectedDuration(e.target.value)}
                   inputProps={{ pattern: '[0-9]*' }}
                   type={'number'}
                 />
@@ -182,26 +180,29 @@ const ActivityForm: React.FunctionComponent<NewActivityFormProps> = ({
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </Grid>
-      <Box justifyContent={'center'}>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={() => {
-            submitActivity({
-              id: item.id,
-              activityTypeName: selectedActivityType as string,
-              tagName: selectedTag as string,
-              timestamp: selectedDate ? selectedDate.toString() : '',
-              duration: selectedDuration ? parseInt(selectedDuration) : 0,
-            });
-          }}
-          disabled={!selectedActivityType}
-        >
-          Submit
-        </Button>
-      </Box>
-    </Grid>
+      <Grid item xs={12} className={classes.buttonGrid}>
+        {disableSubmit ? (
+          <CircularProgress size={35} />
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              submitActivity({
+                id: item.id,
+                activityTypeName: selectedActivityType as string,
+                tagName: selectedTag as string,
+                timestamp: selectedDate ? selectedDate.toString() : '',
+                duration: selectedDuration ? parseInt(selectedDuration) : 0,
+              });
+            }}
+            disabled={!selectedActivityType || disableSubmit}
+          >
+            Submit
+          </Button>
+        )}
+      </Grid>
+    </>
   );
 };
 

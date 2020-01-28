@@ -3,16 +3,14 @@ import { createStyles } from '@material-ui/core';
 
 import { Activity, FlatActivity, updateActivity } from './redux';
 import EditIcon from '@material-ui/icons/Edit';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import ActivityForm from './ActivityForm';
-import Grid from '@material-ui/core/Grid';
 import { AppState } from '../../redux/reducers/types';
 
 const useStyles = makeStyles(theme =>
@@ -30,13 +28,24 @@ interface ActivityItemProps {
 const EditActivityDialog: React.FunctionComponent<ActivityItemProps> = ({
   activityItem,
 }) => {
-  const [open, setDialogOpen] = useState<boolean>(false);
+  const { updatingActivity } = useSelector(
+    (state: AppState) => state.activityState
+  );
   const classes = useStyles();
   const dispatch = useDispatch();
-  const activityState = useSelector((state: AppState) => state.activityState);
+  const [open, setDialogOpen] = useState<boolean>(false);
+  const [isUpdating, setStateUpdating] = useState<boolean | undefined>(
+    updatingActivity
+  );
+
+  useEffect(() => {
+    if (isUpdating && !updatingActivity) {
+      setDialogOpen(false);
+    }
+    setStateUpdating(updatingActivity);
+  }, [isUpdating, setStateUpdating, updatingActivity, setDialogOpen]);
 
   const submitActivityUpdate = (activity: FlatActivity) => {
-    setDialogOpen(false);
     dispatch(
       updateActivity(
         activity.id as number,
@@ -49,34 +58,31 @@ const EditActivityDialog: React.FunctionComponent<ActivityItemProps> = ({
   };
 
   return (
-    <>
+    <div>
       <IconButton
         className={classes.button}
-        onClick={() => setDialogOpen(!open)}
-        disabled={activityState.updatingActivity}
+        onClick={() => setDialogOpen(true)}
+        disabled={updatingActivity}
       >
         <EditIcon />
       </IconButton>
-      <Grid container justify={'space-around'}>
-        <Dialog open={open} onClose={() => setDialogOpen(false)}>
-          <DialogTitle id="alert-dialog-title">{`Edit Activity`}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <ActivityForm
-                submitActivity={submitActivityUpdate}
-                item={{
-                  id: activityItem.id,
-                  activityTypeName: activityItem.ActivityType.name,
-                  tagName: activityItem.Tag.name,
-                  timestamp: activityItem.timestamp,
-                  duration: activityItem.duration,
-                }}
-              />
-            </DialogContentText>
-          </DialogContent>
-        </Dialog>
-      </Grid>
-    </>
+      <Dialog open={open} onClose={() => setDialogOpen(false)}>
+        <DialogTitle id="alert-dialog-title">Edit Activity</DialogTitle>
+        <DialogContent>
+          <ActivityForm
+            submitActivity={submitActivityUpdate}
+            item={{
+              id: activityItem.id,
+              activityTypeName: activityItem.ActivityType.name,
+              tagName: activityItem.Tag.name,
+              timestamp: activityItem.timestamp,
+              duration: activityItem.duration,
+            }}
+            disableSubmit={updatingActivity}
+          />
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 

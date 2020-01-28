@@ -268,6 +268,40 @@ describe('Test activity endpoints', () => {
       done();
     });
 
+    test('Sets tag to none if empty passed', async done => {
+      const eatOutType = await testUtils.createActivityType(user.id, 'eat out');
+      const noodlesTag = await testUtils.createTag(
+        user.id,
+        'noodles',
+        'activity'
+      );
+      let activity = await testUtils.createActivity(
+        user.id,
+        eatOutType.id,
+        noodlesTag.id
+      );
+
+      await testSession
+        .put(`/api/activity/${activity.id}`)
+        .send({
+          activityTypeName: 'laundry',
+          tagName: '',
+        })
+        .expect(202);
+
+      activity = await models.Activity.findOne({
+        where: {
+          id: activity.id,
+        },
+        include: [models.Tags, models.ActivityTypes],
+      });
+
+      // Assert changes
+      expect(activity.ActivityType.name).toEqual('laundry');
+      expect(activity.Tag.name).toEqual('none');
+      done();
+    });
+
     test('Updates each param of the activity', async done => {
       const eatOutType = await testUtils.createActivityType(user.id, 'eat out');
       const noodlesTag = await testUtils.createTag(

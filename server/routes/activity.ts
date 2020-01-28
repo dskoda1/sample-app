@@ -133,11 +133,14 @@ router.put('/:activityId', async (req, res) => {
     });
     activity.ActivityTypeId = activityType.id;
   }
-
-  if (req.body.tagName.toLowerCase() != activity.Tag.name) {
+  let tagName = 'none';
+  if (req.body.tagName) {
+    tagName = req.body.tagName.toLowerCase();
+  }
+  if (tagName != activity.Tag.name) {
     const [tag, _] = await models.Tags.findOrCreate({
       where: {
-        name: req.body.tagName.toLowerCase(),
+        name: tagName,
         forTable: 'activity',
         UserId: req.session.UserId,
       },
