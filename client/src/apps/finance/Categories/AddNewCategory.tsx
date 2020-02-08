@@ -134,9 +134,7 @@ interface NewCategoryFormProps {
   setText: (text: string) => void;
 }
 
-const NewCategoryForm: React.FunctionComponent<
-  NewCategoryFormProps
-> = props => {
+const NewCategoryForm: React.FunctionComponent<NewCategoryFormProps> = props => {
   if (props.loading) {
     return <>Saving</>;
   }

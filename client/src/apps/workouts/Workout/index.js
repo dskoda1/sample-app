@@ -128,7 +128,4 @@ const mapDispatchToProps = {
   deleteExercise,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WorkoutPage);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutPage);

@@ -80,8 +80,5 @@ const mapDispatchToProps = {
 };
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AppSnackbar)
+  connect(mapStateToProps, mapDispatchToProps)(AppSnackbar)
 );

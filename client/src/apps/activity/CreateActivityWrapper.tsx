@@ -7,9 +7,7 @@ import ActivityForm from './ActivityForm';
 
 interface CreateActivityWrapperProps {}
 
-const CreateActivityWrapper: React.FunctionComponent<
-  CreateActivityWrapperProps
-> = () => {
+const CreateActivityWrapper: React.FunctionComponent<CreateActivityWrapperProps> = () => {
   const activityState = useSelector((state: AppState) => state.activityState);
   const dispatch = useDispatch();
   if (activityState.postingActivity) {

@@ -23,7 +23,4 @@ const mapStateToProps = ({ auth: { user } }) => {
 const mapDispatchToProps = {
   logout,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

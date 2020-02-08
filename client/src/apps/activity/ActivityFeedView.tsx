@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme =>
     loadingIndicator: {
       marginTop: theme.spacing(3),
     },
+    activityTypeFilter: {
+      width: '200px',
+    },
   })
 );
 
@@ -52,7 +55,7 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
       <Grid item xs={12} className={classes.title}>
         <Typography variant="h4">Your Recent Activity</Typography>
       </Grid>
-      <Grid item xs={9} sm={6} md={4}>
+      <Grid item xs={9}>
         <Autocomplete
           id="activity-type-filter-autocomplete"
           options={activityTypes}
@@ -64,9 +67,19 @@ const ActivityFeedView: React.FunctionComponent<ActivityFeedViewProps> = () => {
             setActivityFilter(newValue);
           }}
           renderInput={params => (
-            <TextField {...params} label="Filter" margin="normal" fullWidth />
+            <TextField
+              {...params}
+              label="Filter"
+              margin="normal"
+              className={classes.activityTypeFilter}
+            />
           )}
         />
+      </Grid>
+      <Grid item xs={9}>
+        <Typography variant="body1">
+          {filteredActivity.length} out of {activityState.activity.length}
+        </Typography>
       </Grid>
       <Grid item xs={12}>
         <List className={classes.list}>

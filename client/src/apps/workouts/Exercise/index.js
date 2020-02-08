@@ -137,7 +137,4 @@ const mapDispatchToProps = {
   deleteSet,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExercisePage);
+export default connect(mapStateToProps, mapDispatchToProps)(ExercisePage);

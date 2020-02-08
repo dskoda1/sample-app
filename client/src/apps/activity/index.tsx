@@ -40,7 +40,7 @@ const ActivityPage: React.FunctionComponent<ActivityPageProps> = () => {
 
   return (
     <div className={classes.root}>
-      <Grid container justify={'center'} direction={'row'} spacing={1}>
+      <Grid container justify={'center'} direction={'row'} spacing={3}>
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Activity</Typography>
         </Grid>
