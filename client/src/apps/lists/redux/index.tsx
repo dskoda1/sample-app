@@ -3,6 +3,10 @@ export const FETCH_LISTS = 'FETCH_LISTS';
 export const FETCH_LISTS_SUCCESS = 'FETCH_LISTS_SUCCESS';
 export const FETCH_LISTS_ERROR = 'FETCH_LISTS_ERROR';
 
+export const CREATE_LIST_ITEM = 'CREATE_LIST_ITEM';
+export const CREATE_LIST_ITEM_SUCCESS = 'CREATE_LIST_ITEM_SUCCESS';
+export const CREATE_LIST_ITEM_ERROR = 'CREATE_LIST_ITEM_ERROR';
+
 interface fetchListsAction {
   type: typeof FETCH_LISTS;
 }
@@ -15,44 +19,86 @@ interface fetchListsError {
   error: string;
 }
 
+export interface createListItemAction {
+  type: typeof CREATE_LIST_ITEM;
+  text: string;
+  order?: string;
+}
+
+interface createListItemSuccessAction {
+  type: typeof CREATE_LIST_ITEM_SUCCESS;
+}
+
+interface createListItemErrorAction {
+  type: typeof CREATE_LIST_ITEM_ERROR;
+  error: string;
+}
+
 export type ListActionTypes =
   | fetchListsAction
   | fetchListsSuccess
-  | fetchListsError;
+  | fetchListsError
+  | createListItemAction
+  | createListItemSuccessAction
+  | createListItemErrorAction;
 
 // Actions
-export const fetchLists = (): ListActionTypes => {
+export const fetchLists = (): fetchListsAction => {
   return {
     type: FETCH_LISTS,
   };
 };
-export const fetchListsSuccess = (lists: Array<ListType>): ListActionTypes => {
+export const fetchListsSuccess = (
+  lists: Array<ListType>
+): fetchListsSuccess => {
   return {
     type: FETCH_LISTS_SUCCESS,
     lists,
   };
 };
-export const fetchListsError = (error: string): ListActionTypes => {
+export const fetchListsError = (error: string): fetchListsError => {
   return {
     type: FETCH_LISTS_ERROR,
     error,
   };
 };
 
-// Models
-export interface ListItemType {
-  id?: string;
-  text: string;
-  createdAt?: Date;
-  isDeleted?: boolean;
-  rank?: number;
-}
+export const createListItem = (text: string): createListItemAction => {
+  return {
+    type: CREATE_LIST_ITEM,
+    text,
+  };
+};
 
+export const createListItemSuccess = (): createListItemSuccessAction => {
+  return {
+    type: CREATE_LIST_ITEM_SUCCESS,
+  };
+};
+
+export const createListItemError = (
+  error: string
+): createListItemErrorAction => {
+  return {
+    type: CREATE_LIST_ITEM_ERROR,
+    error,
+  };
+};
+
+// Models
 export interface ListType {
   items: Array<ListItemType>;
   name: string;
   order: number;
   id: number;
+}
+
+export interface ListItemType {
+  id: number;
+  text: string;
+  createdAt?: Date;
+  completed?: boolean;
+  order?: number;
 }
 
 // Reducer
@@ -95,6 +141,24 @@ export const ListReducer = (
         fetching: false,
         fetchingError: action.error,
         lists: [],
+      };
+    case CREATE_LIST_ITEM:
+      return {
+        ...state,
+        creatingItem: true,
+        creatingItemError: undefined,
+      };
+    case CREATE_LIST_ITEM_SUCCESS:
+      return {
+        ...state,
+        creatingItem: false,
+        creatingItemError: undefined,
+      };
+    case CREATE_LIST_ITEM_ERROR:
+      return {
+        ...state,
+        creatingItem: false,
+        creatingItemError: action.error,
       };
     default:
       return state;

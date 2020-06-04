@@ -8,7 +8,8 @@ interface ListPageProps {}
 
 const ListsView: React.FunctionComponent<ListPageProps> = () => {
   const state = useSelector((state: AppState) => state.listState);
-  if (!state.lists) {
+  if (!state.lists.length) {
+    return null;
   }
   return (
     <Grid container alignItems={'center'}>

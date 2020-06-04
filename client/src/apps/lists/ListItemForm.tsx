@@ -5,6 +5,8 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createListItem } from './redux';
 
 const useStyles = makeStyles(theme =>
   createStyles({
@@ -24,7 +26,10 @@ interface ListViewProps {
 
 const ListItemForm: React.FunctionComponent<ListViewProps> = ({ name }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
   const [newListItemText, onChange] = useState('');
+
   return (
     <Grid container>
       <Grid item xs={9}>
@@ -43,8 +48,7 @@ const ListItemForm: React.FunctionComponent<ListViewProps> = ({ name }) => {
           variant="contained"
           color="primary"
           className={classes.button}
-          // onClick={this.submitCreate}
-          // disabled={creating || !canCreate}
+          onClick={() => dispatch(createListItem(newListItemText))}
         >
           Submit
         </Button>

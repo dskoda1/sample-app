@@ -82,4 +82,7 @@ WorkoutsHomePage.propTypes = {
   createWorkout: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkoutsHomePage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WorkoutsHomePage);

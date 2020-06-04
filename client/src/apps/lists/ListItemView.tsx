@@ -29,10 +29,10 @@ const ListItemView: React.FunctionComponent<ListItemProps> = ({ listItem }) => {
   return (
     <>
       <ListItem>
-        <Grid container xs={5} justify={'flex-start'}>
+        <Grid container justify={'flex-start'}>
           <Typography variant="subtitle1">{listItem.text}</Typography>
         </Grid>
-        <Grid container xs={7} justify={'flex-end'}>
+        <Grid container justify={'flex-end'}>
           <IconButton className={classes.icon}>
             <CheckIcon />
           </IconButton>

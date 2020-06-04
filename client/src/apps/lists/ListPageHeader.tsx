@@ -54,7 +54,7 @@ const ListPageHeader: React.FunctionComponent<ListPageHeader> = () => {
 
   return (
     <Grid container alignItems={'center'}>
-      <Grid container xs={12}>
+      <Grid container>
         <Grid item xs={10}>
           <FormControl className={classes.formControl}>
             <Select

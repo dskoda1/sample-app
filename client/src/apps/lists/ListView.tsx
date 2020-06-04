@@ -36,7 +36,7 @@ const ListView: React.FunctionComponent<ListViewProps> = ({ list }) => {
         <Divider />
 
         {list.items.map(listItem => (
-          <ListItemView listItem={listItem} />
+          <ListItemView key={listItem.id} listItem={listItem} />
         ))}
       </List>
     </Grid>
