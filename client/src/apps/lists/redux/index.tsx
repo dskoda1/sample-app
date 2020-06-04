@@ -7,14 +7,18 @@ export const CREATE_LIST_ITEM = 'CREATE_LIST_ITEM';
 export const CREATE_LIST_ITEM_SUCCESS = 'CREATE_LIST_ITEM_SUCCESS';
 export const CREATE_LIST_ITEM_ERROR = 'CREATE_LIST_ITEM_ERROR';
 
+export const COMPLETE_LIST_ITEM = 'COMPLETE_LIST_ITEM';
+export const COMPLETE_LIST_ITEM_SUCCESS = 'COMPLETE_LIST_ITEM_SUCCESS';
+export const COMPLETE_LIST_ITEM_ERROR = 'COMPLETE_LIST_ITEM_ERROR';
+
 interface fetchListsAction {
   type: typeof FETCH_LISTS;
 }
-interface fetchListsSuccess {
+interface fetchListsSuccessAction {
   type: typeof FETCH_LISTS_SUCCESS;
   lists: Array<ListType>;
 }
-interface fetchListsError {
+interface fetchListsErrorAction {
   type: typeof FETCH_LISTS_ERROR;
   error: string;
 }
@@ -34,13 +38,30 @@ interface createListItemErrorAction {
   error: string;
 }
 
+export interface completeListItemAction {
+  type: typeof COMPLETE_LIST_ITEM;
+  id: number;
+}
+
+interface completeListItemSuccessAction {
+  type: typeof COMPLETE_LIST_ITEM_SUCCESS;
+}
+
+interface completeListItemErrorAction {
+  type: typeof COMPLETE_LIST_ITEM_ERROR;
+  error: string;
+}
+
 export type ListActionTypes =
   | fetchListsAction
-  | fetchListsSuccess
-  | fetchListsError
+  | fetchListsSuccessAction
+  | fetchListsErrorAction
   | createListItemAction
   | createListItemSuccessAction
-  | createListItemErrorAction;
+  | createListItemErrorAction
+  | completeListItemAction
+  | completeListItemSuccessAction
+  | completeListItemErrorAction;
 
 // Actions
 export const fetchLists = (): fetchListsAction => {
@@ -50,13 +71,13 @@ export const fetchLists = (): fetchListsAction => {
 };
 export const fetchListsSuccess = (
   lists: Array<ListType>
-): fetchListsSuccess => {
+): fetchListsSuccessAction => {
   return {
     type: FETCH_LISTS_SUCCESS,
     lists,
   };
 };
-export const fetchListsError = (error: string): fetchListsError => {
+export const fetchListsError = (error: string): fetchListsErrorAction => {
   return {
     type: FETCH_LISTS_ERROR,
     error,
@@ -81,6 +102,28 @@ export const createListItemError = (
 ): createListItemErrorAction => {
   return {
     type: CREATE_LIST_ITEM_ERROR,
+    error,
+  };
+};
+
+export const completeListItem = (id: number): completeListItemAction => {
+  return {
+    type: COMPLETE_LIST_ITEM,
+    id,
+  };
+};
+
+export const completeListItemSuccess = (): completeListItemSuccessAction => {
+  return {
+    type: COMPLETE_LIST_ITEM_SUCCESS,
+  };
+};
+
+export const completeListItemError = (
+  error: string
+): completeListItemErrorAction => {
+  return {
+    type: COMPLETE_LIST_ITEM_ERROR,
     error,
   };
 };
@@ -110,6 +153,8 @@ export interface ListReducerState {
   creatingListError?: string;
   creatingItem?: boolean;
   creatingItemError?: string;
+  completingItem?: boolean;
+  completingItemError?: string;
   deletingItem?: boolean;
   deletingItemError?: string;
 }
@@ -159,6 +204,24 @@ export const ListReducer = (
         ...state,
         creatingItem: false,
         creatingItemError: action.error,
+      };
+    case COMPLETE_LIST_ITEM:
+      return {
+        ...state,
+        completingItem: true,
+        completingItemError: undefined,
+      };
+    case COMPLETE_LIST_ITEM_SUCCESS:
+      return {
+        ...state,
+        completingItem: false,
+        completingItemError: undefined,
+      };
+    case COMPLETE_LIST_ITEM_ERROR:
+      return {
+        ...state,
+        completingItem: false,
+        completingItemError: action.error,
       };
     default:
       return state;

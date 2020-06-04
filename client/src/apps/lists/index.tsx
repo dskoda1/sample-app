@@ -42,11 +42,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = () => {
   }
   return (
     <div className={classes.root}>
-      <Grid container alignItems={'center'} spacing={3}>
+      <Grid container justify={'space-around'} spacing={3}>
         <Grid item xs={12} className={classes.header}>
           <Typography variant="h2">Lists</Typography>
         </Grid>
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} md={9}>
           <Paper className={classes.paper}>
             {state.fetching ? (
               <CircularProgress />
